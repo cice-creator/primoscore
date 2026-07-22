@@ -12,6 +12,7 @@
 /* Accesso all'area clienti dalla pagina principale */
 .header-actions{display:flex;align-items:center;gap:20px}.client-area-link{display:inline-flex;align-items:center;gap:8px;border:1px solid #cbd8ff;border-radius:10px;padding:10px 14px;color:var(--navy);background:#f6f8ff;font-size:12px;font-weight:800;text-decoration:none;transition:.2s}.client-area-link:hover{background:#e9efff;border-color:#9db7ff;transform:translateY(-1px)}
 @media(max-width:600px){.header-actions{gap:10px}.client-area-link{padding:8px 10px;font-size:10px}}
+@media(max-width:600px){.site-header{padding-inline:16px}.brand img{width:142px}.header-actions{margin-left:auto}.header-actions .header-trust{display:none}.client-area-link{min-height:38px;padding:9px 11px;font-size:11px;white-space:nowrap}}
 
 /* Micro-animazioni di Primo: presenza viva, mai effetto cartoon */
 @keyframes primo-entrance{
