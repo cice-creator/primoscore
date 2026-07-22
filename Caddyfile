@@ -1,6 +1,7 @@
 {$PRIMOSCORE_DOMAIN} {
-  encode zstd gzip
-  reverse_proxy app:4173
+  # Sito oscurato: ogni richiesta al dominio, incluse le aree private e le API,
+  # riceve una risposta definitiva e non viene inoltrata all'applicazione.
+  respond "Primoscore non e al momento disponibile." 410
   header {
     Strict-Transport-Security "max-age=31536000; includeSubDomains"
     -Server

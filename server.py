@@ -32,6 +32,7 @@ DB_PATH = DATA / "primoscore.sqlite3"
 PASSWORD_FILE = DATA / "admin_password.txt"
 HOST = os.getenv("PRIMOSCORE_HOST", "127.0.0.1")
 PORT = int(os.getenv("PRIMOSCORE_PORT", "4173"))
+PUBLIC_ENABLED = os.getenv("PRIMOSCORE_PUBLIC_ENABLED", "0") == "1"
 ADMIN_USER = os.getenv("PRIMOSCORE_ADMIN_USER", "Primoscore2026")
 SESSION_TTL = 8 * 60 * 60
 MAX_BODY = 64 * 1024
@@ -199,6 +200,22 @@ def cleanup_expired() -> int:
 class Handler(SimpleHTTPRequestHandler):
     server_version = "Primoscore/1.0"
 
+    def unavailable(self, include_body=True):
+        """Disable every public route while retaining the deployment intact."""
+        body = b"Primoscore non e al momento disponibile."
+        self.send_response(410)
+        self.send_header("Content-Type", "text/plain; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        if include_body:
+            self.wfile.write(body)
+
+    def do_HEAD(self):
+        if not PUBLIC_ENABLED:
+            return self.unavailable(include_body=False)
+        return super().do_HEAD()
+
     def translate_path(self, path):
         parsed = urlparse(path).path
         if parsed == "/": parsed = "/index.html"
@@ -264,6 +281,8 @@ class Handler(SimpleHTTPRequestHandler):
         return session
 
     def do_GET(self):
+        if not PUBLIC_ENABLED:
+            return self.unavailable()
         parsed = urlparse(self.path)
         if parsed.path == "/api/health": return self.send_json(200, {"ok": True, "time": now_iso()})
         if parsed.path == "/api/public/config": return self.send_json(200,{"privacy_version":"2026-07-20","retention_days":RETENTION_DAYS,"brevo_enabled":bool(os.getenv("BREVO_API_KEY"))})
@@ -275,6 +294,8 @@ class Handler(SimpleHTTPRequestHandler):
         return super().do_GET()
 
     def do_POST(self):
+        if not PUBLIC_ENABLED:
+            return self.unavailable()
         path = urlparse(self.path).path
         try:
             if path == "/api/leads": return self.create_lead()
@@ -288,6 +309,8 @@ class Handler(SimpleHTTPRequestHandler):
         return self.send_json(404, {"error": "Risorsa non trovata"})
 
     def do_PATCH(self):
+        if not PUBLIC_ENABLED:
+            return self.unavailable()
         path = urlparse(self.path).path
         if re.fullmatch(r"/api/admin/leads/[0-9a-f-]+", path):
             try: return self.update_lead(path.rsplit("/", 1)[1])
@@ -295,6 +318,8 @@ class Handler(SimpleHTTPRequestHandler):
         return self.send_json(404, {"error": "Risorsa non trovata"})
 
     def do_DELETE(self):
+        if not PUBLIC_ENABLED:
+            return self.unavailable()
         path=urlparse(self.path).path
         if re.fullmatch(r"/api/admin/leads/[0-9a-f-]+",path):
             if not self.require_admin(csrf=True): return

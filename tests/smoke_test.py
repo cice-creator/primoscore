@@ -4,7 +4,7 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]; port="42991"; data=Path(tempfile.gettempdir())/"primoscore-smoke-data"
 shutil.rmtree(data,ignore_errors=True)
-env={**os.environ,"PRIMOSCORE_PORT":port,"PRIMOSCORE_ADMIN_PASSWORD":"Test-Sicuro-2026","PRIMOSCORE_DATA_DIR":str(data)}
+env={**os.environ,"PRIMOSCORE_PORT":port,"PRIMOSCORE_ADMIN_USER":"admin","PRIMOSCORE_ADMIN_PASSWORD":"Test-Sicuro-2026","PRIMOSCORE_DATA_DIR":str(data),"PRIMOSCORE_PUBLIC_ENABLED":"1"}
 process=subprocess.Popen([sys.executable,str(ROOT/"server.py")],cwd=ROOT,env=env,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
 jar=http.cookiejar.CookieJar(); opener=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar)); base=f"http://127.0.0.1:{port}"
 
