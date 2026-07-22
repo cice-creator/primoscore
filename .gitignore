@@ -1,0 +1,10 @@
+data/
+__pycache__/
+*.pyc
+.env
+backups/
+output/
+outputs/
+tmp/
+.tmp_docs/
+.tmp_sheet_analysis/

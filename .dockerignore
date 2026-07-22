@@ -1,0 +1,9 @@
+data
+.env
+.git
+outputs
+output
+tmp
+.tmp_*
+tests
+*.command

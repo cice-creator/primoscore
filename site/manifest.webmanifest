@@ -1,0 +1,15 @@
+{
+  "name": "Primoscore",
+  "short_name": "Primoscore",
+  "description": "Indicatore informativo sui punti di forza del tuo progetto casa.",
+  "lang": "it-IT",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F6F1",
+  "theme_color": "#0A1B3D",
+  "icons": [
+    {"src":"assets/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"},
+    {"src":"assets/favicon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"assets/favicon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}

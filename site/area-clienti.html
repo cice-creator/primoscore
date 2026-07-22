@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Area clienti riservata Primoscore.">
+  <meta name="theme-color" content="#0A1B3D">
+  <title>Area clienti | Primoscore</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="area-clienti.css">
+  <style>
+    :root { --navy:#0A1B3D; --blue:#4C7BFF; --gold:#F2C15D; --mint:#2ECCB3; --ivory:#F7F6F1; --line:#E3E9F2; --muted:#6B7B92; --danger:#B84B55; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; color:var(--navy); background:var(--ivory); font:15px/1.55 Inter,Arial,sans-serif; }
+    .site-header { height:76px; padding:0 max(24px,calc((100vw - 1180px)/2)); display:flex; align-items:center; justify-content:space-between; background:#fff; border-bottom:1px solid var(--line); }
+    .brand img { width:153px; display:block; } .secure { color:var(--muted); font-size:13px; font-weight:600; display:flex; gap:8px; align-items:center; } .secure b { color:var(--mint); font-size:16px; }
+    main { width:min(1120px,calc(100% - 40px)); min-height:calc(100vh - 76px); margin:auto; display:grid; grid-template-columns:1.04fr .96fr; align-items:center; gap:76px; padding:56px 0; }
+    .intro { padding:28px 0; } .eyebrow { color:var(--blue); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase; display:flex; align-items:center; gap:9px; } .eyebrow i { width:10px; height:10px; background:var(--gold); border-radius:50%; }
+    h1,h2 { font-family:Sora,Arial,sans-serif; letter-spacing:-.045em; line-height:1.12; margin:0; } h1 { font-size:clamp(37px,4.5vw,58px); max-width:570px; } h1 span { color:var(--blue); } .intro>p { max-width:500px; color:var(--muted); font-size:17px; margin:24px 0 32px; }
+    .benefits { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; max-width:520px; } .benefit { background:rgba(255,255,255,.68); border:1px solid var(--line); border-radius:14px; padding:15px; } .benefit b { display:block; color:var(--mint); font-size:18px; } .benefit span { display:block; margin-top:5px; color:var(--muted); font-size:12px; line-height:1.35; }
+    .card { overflow:hidden; background:#fff; border:1px solid var(--line); border-radius:22px; box-shadow:0 20px 60px rgba(10,27,61,.12); } .card-tabs { display:flex; border-bottom:1px solid var(--line); } .tab { flex:1; border:0; background:#fff; color:var(--muted); padding:18px 12px 15px; font:700 14px Inter; cursor:pointer; border-bottom:3px solid transparent; } .tab.active { color:var(--navy); border-bottom-color:var(--blue); }
+    .panel { padding:31px 34px 34px; } .panel[hidden] { display:none; } h2 { font-size:24px; } .panel-head { color:var(--muted); margin:8px 0 24px; font-size:14px; }
+    .field-grid { display:grid; grid-template-columns:1fr 1fr; gap:15px; } label { color:var(--navy); display:block; margin:0 0 7px; font-size:13px; font-weight:700; } input { width:100%; padding:13px 14px; color:var(--navy); background:#fff; border:1px solid #CBD5E3; border-radius:10px; font:15px Inter; outline:none; } input:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(76,123,255,.15); } .field { margin:0 0 15px; }
+    .voucher { position:relative; margin-top:3px; padding:16px; background:#F1F5FF; border:1px solid #D9E3FF; border-radius:13px; } .voucher label { color:var(--blue); } .voucher input { border-color:#B9C9FF; padding-right:44px; text-transform:uppercase; letter-spacing:.05em; font-weight:600; } .voucher:after { content:'✦'; position:absolute; right:31px; bottom:25px; color:var(--gold); font-size:20px; }
+    .privacy { color:var(--muted); font-size:12px; margin:17px 0; } .privacy a { color:var(--blue); } .button { width:100%; padding:15px 18px; color:#fff; background:var(--blue); border:0; border-radius:10px; font:700 15px Inter; cursor:pointer; transition:.2s; } .button:hover { background:#3868ed; transform:translateY(-1px); } .button:focus-visible,.tab:focus-visible { outline:3px solid rgba(76,123,255,.35); outline-offset:2px; } .error { display:none; margin:0 0 14px; padding:10px 12px; color:#8e2634; background:#FFF0F2; border-radius:8px; font-size:13px; } .error.show { display:block; }
+    .login-note { display:flex; gap:9px; padding:12px 0 0; color:var(--muted); font-size:12px; } .login-note b { color:var(--mint); }
+    .welcome { text-align:center; padding:50px 34px; } .welcome-mark { width:60px; height:60px; margin:0 auto 20px; display:grid; place-items:center; color:#fff; background:var(--mint); border-radius:18px; font-size:28px; } .welcome p { color:var(--muted); max-width:360px; margin:13px auto 28px; } .coming { padding:16px; text-align:left; background:var(--ivory); border:1px solid var(--line); border-radius:12px; } .coming b { display:block; margin-bottom:3px; } .coming span { color:var(--muted); font-size:13px; }
+    .modal-backdrop { position:fixed; inset:0; z-index:20; display:grid; place-items:center; padding:20px; background:rgba(10,27,61,.55); } .modal { width:min(475px,100%); padding:29px; background:#fff; border-radius:20px; box-shadow:0 25px 70px rgba(0,0,0,.24); } .modal-mark { color:var(--blue); font-size:24px; } .modal h2 { margin-top:9px; } .modal p { color:var(--muted); margin:12px 0 19px; } .consent-box { display:flex; gap:11px; align-items:flex-start; padding:14px; margin-bottom:18px; background:#F1F5FF; border:1px solid #D9E3FF; border-radius:11px; color:var(--navy); font-size:13px; line-height:1.45; cursor:pointer; } .consent-box input { width:18px; height:18px; margin:1px 0 0; accent-color:var(--blue); flex:0 0 auto; } .modal-actions { display:grid; grid-template-columns:1fr 1.35fr; gap:10px; } .button-secondary { padding:15px 12px; color:var(--navy); background:#EEF2F8; border:0; border-radius:10px; font:700 14px Inter; cursor:pointer; }
+    @media (max-width:800px) { .site-header { height:66px; padding:0 20px; } .brand img { width:128px; } .secure span { display:none; } main { grid-template-columns:1fr; gap:16px; padding:25px 0 42px; } .intro { padding:6px 0 10px; } .intro>p { margin:16px 0 22px; font-size:15px; } .benefits { max-width:none; } .panel { padding:25px 21px; } }
+    @media (max-width:420px) { .field-grid { grid-template-columns:1fr; gap:0; } .benefits { grid-template-columns:1fr 1fr 1fr; } .benefit { padding:11px; } .benefit span { font-size:11px; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Primoscore, torna alla home"><img src="assets/logo-primoscore.svg" alt="Primoscore"></a>
+    <div class="secure"><b>●</b><span>Area riservata e protetta</span></div>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow"><i></i> Area clienti Primoscore</p>
+      <h1 id="page-title">Il tuo progetto,<br><span>in un unico posto.</span></h1>
+      <p>Registrati con il voucher ricevuto per accedere alla tua area personale. Potrai completare il questionario e seguire il tuo percorso.</p>
+      <div class="benefits" aria-label="Cosa troverai nell'area clienti">
+        <div class="benefit"><b>01</b><span>Questionario guidato</span></div>
+        <div class="benefit"><b>02</b><span>Dati sempre disponibili</span></div>
+        <div class="benefit"><b>03</b><span>Percorso personale</span></div>
+      </div>
+    </section>
+    <section class="card" aria-label="Accesso all'area clienti">
+      <div class="card-tabs" role="tablist" aria-label="Scegli registrazione o accesso">
+        <button class="tab active" id="registration-tab" type="button" role="tab" aria-selected="true" aria-controls="registration">Registrati</button>
+        <button class="tab" id="login-tab" type="button" role="tab" aria-selected="false" aria-controls="login">Accedi</button>
+      </div>
+      <form id="registration" class="panel" novalidate>
+        <h2>Crea il tuo accesso</h2><p class="panel-head">Il voucher è necessario per attivare l’area clienti.</p>
+        <div class="field-grid"><div class="field"><label for="first-name">Nome</label><input id="first-name" autocomplete="given-name" required></div><div class="field"><label for="last-name">Cognome</label><input id="last-name" autocomplete="family-name" required></div></div>
+        <div class="field-grid"><div class="field"><label for="phone">Cellulare</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="333 123 4567" required></div><div class="field"><label for="city">Città</label><input id="city" autocomplete="address-level2" required></div></div>
+        <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" placeholder="nome@email.it" required></div>
+        <div class="field voucher"><label for="voucher">Voucher di accesso</label><input id="voucher" autocomplete="off" placeholder="Inserisci il tuo codice" required></div>
+        <p class="error" id="registration-error" role="alert"></p>
+        <p class="privacy">Proseguendo dichiari di aver letto l’<a href="privacy.html" target="_blank" rel="noopener">informativa privacy</a>.</p>
+        <button class="button" type="submit">Attiva la mia area clienti →</button>
+      </form>
+      <form id="login" class="panel" novalidate hidden>
+        <h2>Bentornato</h2><p class="panel-head">Inserisci l’email e il voucher usati in fase di registrazione.</p>
+        <div class="field"><label for="login-email">Email</label><input id="login-email" type="email" autocomplete="email" required></div>
+        <div class="field voucher"><label for="login-voucher">Voucher di accesso</label><input id="login-voucher" autocomplete="off" placeholder="Inserisci il tuo codice" required></div>
+        <p class="error" id="login-error" role="alert"></p>
+        <button class="button" type="submit">Accedi all’area clienti →</button>
+        <p class="login-note"><b>●</b> Il voucher rimane sempre necessario per accedere.</p>
+      </form>
+      <section id="welcome" class="welcome" hidden aria-live="polite">
+        <div class="welcome-mark">✓</div><h2 id="welcome-title">Accesso attivato</h2><p id="welcome-text">La tua area clienti è pronta.</p>
+        <div class="coming"><b>Questionario dettagliato</b><span>Sarà disponibile qui a breve. Per ora il tuo accesso è stato creato correttamente.</span></div>
+      </section>
+    </section>
+  </main>
+  <div id="consent-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="consent-title" hidden>
+    <section class="modal"><div class="modal-mark">✦</div><h2 id="consent-title">Prima di attivare l’area</h2><p>Un consulente autorizzato Euroansa può contattarti per una consulenza completamente gratuita, senza impegno.</p>
+      <label class="consent-box" for="contact-consent"><input id="contact-consent" type="checkbox"><span>Dichiaro di voler essere contattato da un consulente autorizzato Euroansa per ricevere una consulenza gratuita.</span></label>
+      <p class="error" id="consent-error" role="alert"></p><div class="modal-actions"><button id="cancel-consent" class="button-secondary" type="button">Annulla</button><button id="confirm-consent" class="button" type="button">Accetto e continuo</button></div>
+    </section>
+  </div>
+  <script>
+    // La chiave Brevo rimane esclusivamente lato server.
+    const tabs = document.querySelectorAll('.tab');
+    const panels = { registration: document.getElementById('registration'), login: document.getElementById('login') };
+    const showError = (id, message) => { const e=document.getElementById(id); e.textContent=message; e.classList.add('show'); };
+    const hideErrors = () => document.querySelectorAll('.error').forEach(e => e.classList.remove('show'));
+    tabs.forEach(tab => tab.addEventListener('click', () => { hideErrors(); tabs.forEach(t => { const active=t===tab; t.classList.toggle('active',active); t.setAttribute('aria-selected',active); }); Object.entries(panels).forEach(([key,p]) => p.hidden = tab.id !== key+'-tab'); }));
+    function showWelcome(name, newAccount) { panels.registration.hidden=true; panels.login.hidden=true; document.querySelector('.card-tabs').hidden=true; document.getElementById('welcome-title').textContent=newAccount ? 'Accesso attivato' : 'Bentornato, '+name; document.getElementById('welcome-text').textContent=newAccount ? 'Grazie '+name+', la tua area clienti è pronta.' : 'Hai effettuato l’accesso alla tua area personale.'; document.getElementById('welcome').hidden=false; setTimeout(()=>location.href='questionario-dettagliato.html',650); }
+    let pendingRegistration=null;
+    document.getElementById('registration').addEventListener('submit', event => { event.preventDefault(); hideErrors(); const data={ name:document.getElementById('first-name').value.trim(), surname:document.getElementById('last-name').value.trim(), phone:document.getElementById('phone').value.replace(/\D/g,''), city:document.getElementById('city').value.trim(), email:document.getElementById('email').value.trim(), voucher:document.getElementById('voucher').value.trim().toUpperCase() }; if (!data.name || !data.surname || !data.city || !data.email || data.phone.length<9) return showError('registration-error','Completa tutti i campi con dati validi.'); if (!data.voucher) return showError('registration-error','Per creare l’accesso è necessario inserire un voucher valido.'); pendingRegistration=data; document.getElementById('contact-consent').checked=false; document.getElementById('consent-error').classList.remove('show'); document.getElementById('consent-modal').hidden=false; });
+    document.getElementById('cancel-consent').addEventListener('click',()=>{document.getElementById('consent-modal').hidden=true; pendingRegistration=null;});
+    document.getElementById('confirm-consent').addEventListener('click',async()=>{ if (!document.getElementById('contact-consent').checked) { showError('consent-error','Per proseguire è necessario accettare il contatto con il consulente.'); return; } if (!pendingRegistration) { showError('consent-error','I dati della registrazione non sono più disponibili. Chiudi la finestra e completa di nuovo il modulo.'); return; } const registration={...pendingRegistration}; const button=document.getElementById('confirm-consent'); button.disabled=true; button.textContent='Attivazione in corso…'; try { const response=await fetch('/api/client-access',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({first_name:registration.name,last_name:registration.surname,phone:registration.phone,city:registration.city,email:registration.email,privacy_consent:true,contact_consent:true})}); const result=await response.json().catch(()=>({})); if (!response.ok) throw new Error(result.error||'Non è stato possibile attivare l’area. Riprova.'); localStorage.setItem('primoscore_client_demo',JSON.stringify({...registration,lead_id:result.id,token:result.token})); document.getElementById('consent-modal').hidden=true; showWelcome(registration.name,true); } catch (error) { showError('consent-error',error.message); } finally { button.disabled=false; button.textContent='Accetto e continuo'; } });
+    document.getElementById('login').addEventListener('submit', event => { event.preventDefault(); hideErrors(); const account=JSON.parse(localStorage.getItem('primoscore_client_demo')||'null'); const email=document.getElementById('login-email').value.trim().toLowerCase(); const voucher=document.getElementById('login-voucher').value.trim().toUpperCase(); if (!voucher) return showError('login-error','Per accedere è necessario inserire il voucher.'); if (!account || account.email.toLowerCase()!==email || account.voucher!==voucher) return showError('login-error','Email o voucher non corrispondono. Verifica i dati oppure registrati.'); showWelcome(account.name,false); });
+  </script>
+</body>
+</html>

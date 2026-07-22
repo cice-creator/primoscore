@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://primoscore.it/sitemap.xml

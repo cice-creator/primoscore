@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="it"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Area lead | Primoscore</title><link rel="icon" href="../assets/favicon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="admin.css"><link rel="stylesheet" href="admin-extra.css"></head><body>
+  <main>
+    <section id="login-view" class="login-view">
+      <form id="login-form" class="login-card">
+        <img src="../assets/logo-primoscore.svg" alt="Primoscore">
+        <span>Area riservata</span><h1>Clienti Primoscore</h1><p>Accedi per consultare i clienti registrati e i questionari compilati.</p>
+        <label>Utente<input id="username" autocomplete="username" value="Primoscore2026" required></label>
+        <label>Password<input id="password" type="password" autocomplete="current-password" required></label>
+        <button type="submit">Accedi</button><p id="login-error" class="error" role="alert"></p>
+      </form>
+    </section>
+
+    <section id="dashboard" class="dashboard" hidden>
+      <header class="admin-header"><img src="../assets/logo-primoscore.svg" alt="Primoscore"><div><span id="admin-user"></span><button id="logout-btn">Esci</button></div></header>
+      <div class="admin-shell">
+        <div class="page-heading"><div><span>Area riservata</span><h1>Clienti Primoscore</h1><p>Clienti registrati, questionari compilati e avanzamento commerciale.</p></div><a id="export-btn" class="export-btn" href="/api/admin/export.csv">Esporta CSV</a></div>
+        <div class="stats" id="stats"></div>
+        <form id="filters" class="filters">
+          <input id="search" type="search" placeholder="Cerca nome, telefono o email">
+          <select id="status-filter"><option value="">Tutti gli stati</option><option value="new">Nuovi</option><option value="to_contact">Da contattare</option><option value="contacted">Contattati</option><option value="appointment">Appuntamento</option><option value="closed">Chiusi</option><option value="discarded">Scartati</option></select>
+          <select id="province-filter"><option value="">Tutte le province</option></select>
+          <label class="check-filter"><input id="consultation-filter" type="checkbox"> Solo consulenza richiesta</label>
+          <button type="submit">Filtra</button>
+        </form>
+        <div class="table-wrap"><table><thead><tr><th>Lead</th><th>Provincia</th><th>Score</th><th>Consulenza</th><th>Stato</th><th>Ricevuto</th></tr></thead><tbody id="lead-rows"></tbody></table><div id="empty" class="empty" hidden>Nessun lead corrisponde ai filtri.</div></div>
+      </div>
+      <div id="drawer-backdrop" class="drawer-backdrop" hidden></div>
+      <aside id="lead-drawer" class="lead-drawer" aria-labelledby="drawer-title" hidden>
+        <button id="drawer-close" class="drawer-close" aria-label="Chiudi">×</button><div id="drawer-content"></div>
+      </aside>
+    </section>
+  </main>
+  <script src="admin.js" defer></script>
+</body></html>

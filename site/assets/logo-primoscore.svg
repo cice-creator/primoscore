@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="220" viewBox="0 0 920 220" role="img" aria-labelledby="title">
+  <title id="title">Logo ufficiale Primoscore</title>
+  <rect width="920" height="220" fill="none"/>
+  <g transform="translate(18 30)">
+    <path d="M18 136H58V104H98V72H138" fill="none" stroke="#4C7BFF" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M18 136H58" fill="none" stroke="#0A1B3D" stroke-width="22" stroke-linecap="round"/>
+    <path d="M98 72H138Q152 72 152 58V44" fill="none" stroke="#2ECCB3" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="138" cy="18" r="15" fill="#F2C15D"/>
+  </g>
+  <text x="220" y="141" font-family="Arial, Helvetica, sans-serif" font-size="92" font-weight="800" letter-spacing="-3" fill="#0A1B3D">PRIMO</text>
+  <text x="497" y="141" font-family="Arial, Helvetica, sans-serif" font-size="92" font-weight="800" letter-spacing="-3" fill="#4C7BFF">SCORE</text>
+</svg>
