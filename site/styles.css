@@ -269,3 +269,11 @@ body:not([data-view="landing"]) .seo-content{display:none}
   .seo-final-cta .btn{width:100%}
   .site-footer nav{flex-wrap:wrap;justify-content:center}
 }
+
+/* Pose di Primo nei momenti chiave del percorso */
+.seo-intro{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:32px;align-items:end}
+.seo-primo{margin:0;align-self:end;text-align:center;pointer-events:none}
+.seo-primo img{display:block;width:min(100%,230px);height:auto;margin:0 auto;filter:drop-shadow(0 22px 22px rgba(10,27,61,.14))}
+.primo-crop img{height:438px;max-width:none;transform:translateY(-4px)}
+.result-primo{display:block;height:108px;width:auto;margin:0 auto -18px;object-fit:contain;filter:drop-shadow(0 12px 12px rgba(10,27,61,.14))}
+@media(max-width:900px){.seo-intro{grid-template-columns:1fr}.seo-primo{display:none}}
