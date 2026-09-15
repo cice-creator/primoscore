@@ -233,7 +233,8 @@ class Workspace:
             lot=self._get(c,t,'voucher_lots',ident)
             row=c.execute('SELECT name FROM cities WHERE tenant_id=? AND id=?',(t,lot['city_id'])).fetchone() if lot['city_id'] else c.execute('SELECT name FROM campaigns WHERE tenant_id=? AND lot_id=?',(t,ident)).fetchone()
             self._audit(c,actor,t,reason,'export_voucher',ident)
-            return {**lot,'label':row['name'] if row else 'Voucher','url':self.auth.origin+'/v/'+lot['code']}
+            profile=c.execute('SELECT first_name,last_name,mobile,landline,email FROM consultant_profiles WHERE tenant_id=?',(t,)).fetchone()
+            return {**lot,'label':row['name'] if row else 'Voucher','url':self.auth.origin+'/v/'+lot['code'],'consultant':dict(profile) if profile else {}}
 
     def public_voucher(self,code):
         with self.db.transaction() as c:

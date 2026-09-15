@@ -41,7 +41,7 @@ def register_workspace(app,auth,session_token,local):
         if kind not in ('qr.svg','voucher.pdf'):return '',404
         lot=workspace.voucher(session_token(),ident,**scope())
         if kind=='voucher.pdf':
-            result=card(lot['label'],lot['url'],local=local)
+            result=card(lot['label'],lot['url'],consultant=lot['consultant'],local=local)
             return send_file(io.BytesIO(result),mimetype='application/pdf',download_name='primoscore-voucher.pdf',as_attachment=True)
         output=io.BytesIO();qrcode.make(lot['url'],image_factory=SvgPathImage).save(output)
         return Response(output.getvalue(),mimetype='image/svg+xml',headers={'Content-Disposition':'attachment; filename="primoscore-qr.svg"'})

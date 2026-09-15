@@ -21,7 +21,7 @@ pdfmetrics.registerFont(TTFont('PS-Bold',str(BRAND/'Manrope-Bold.ttf')))
 NAVY=HexColor('#142D4E');TEAL=HexColor('#087F8C');AQUA=HexColor('#DDF4F1');PAPER=HexColor('#F6F8FB')
 
 
-def card(label,url,*,local=False):
+def card(label,url,*,consultant=None,local=False):
     output=BytesIO();size=61*mm;c=canvas.Canvas(output,pagesize=(size,size))
     c.setTitle('Primoscore · Voucher');c.setAuthor('Primoscore')
     def background():
@@ -32,8 +32,22 @@ def card(label,url,*,local=False):
     c.setFillColor(AQUA);c.roundRect(38*mm,-8*mm,32*mm,40*mm,8*mm,fill=1,stroke=0)
     c.setFillColor(TEAL);c.roundRect(47*mm,-14*mm,30*mm,37*mm,8*mm,fill=1,stroke=0)
     text('Il primo',7,37,'PS-Bold',17);text('passo, insieme.',7,29,'PS-Bold',15,TEAL)
-    text('Le opportunità iniziano',7,20,points=7);text('dalle persone.',7,16,points=7)
-    text('CONSULENTI, PIÙ OPPORTUNITÀ.',7,8,points=4.9)
+    if consultant:
+        # A solid panel keeps contact details legible over the brand shapes.
+        c.setFillColor(PAPER);c.roundRect(6*mm,6*mm,49*mm,19*mm,2*mm,fill=1,stroke=0)
+        text('IL TUO CONSULENTE',8,22,points=4.5,color=TEAL)
+        name=' '.join(consultant.get(k,'').strip() for k in ('first_name','last_name')).strip()
+        def fitted(value,y,font='PS',points=6.5):
+            width=45*mm
+            actual=min(points,points*width/max(pdfmetrics.stringWidth(value,font,points),1))
+            text(value,8,y,font,actual)
+        fitted(name,18,'PS-Bold',7.5)
+        phone=consultant.get('mobile') or consultant.get('landline') or ''
+        fitted('Tel. '+phone,13.5)
+        fitted(consultant.get('email',''),9)
+    else:
+        text('Le opportunità iniziano',7,20,points=7);text('dalle persone.',7,16,points=7)
+        text('CONSULENTI, PIÙ OPPORTUNITÀ.',7,8,points=4.9)
     if local:text('ANTEPRIMA LOCALE · NON DISTRIBUIRE',7,5,points=4.1)
     c.showPage();background()
     text('Un nuovo inizio.',7,51,'PS-Bold',12)
