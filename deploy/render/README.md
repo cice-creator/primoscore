@@ -34,7 +34,7 @@ Non ripristinare una vecchia versione del codice contro un database migrato.
 Le vecchie variabili PRIMOSCORE_ADMIN_* e BREVO_LIST_ID/CUSTOM_ATTRIBUTES non sono
 usate dalla nuova piattaforma. Non viene effettuata sincronizzazione marketing
 né sincronizzazione dei calendari. Il motore è la versione fissata dal manifest;
-gli aggiornamenti automatici da CiceroEV richiedono ancora la pipeline condivisa.
+Primoscore viene aggiornato autonomamente: la sincronizzazione con CiceroEV è esclusa.
 
 I file storici server.py/site/compose.yaml restano nello storico del progetto e
 non entrano nell'immagine Docker attuale. Nessun database, account demo, file .env
