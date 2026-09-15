@@ -1,0 +1,400 @@
+{
+  "schema_version": 1,
+  "reference_commit": "fa2fc5763cc54249e890e26d770f2e3be8cfdd88",
+  "reference_kind": "local_release_checkout_not_live_deployment_verification",
+  "captured_on": "2026-09-13",
+  "extracted": [
+    {
+      "source": "server/score_engine.py",
+      "destination": "primoscore_core/score_engine.py",
+      "sha256": "7620f724a5d7bae2870dfa3b3e1f7e0cba7ac87885037394ed6772139909fe5d"
+    },
+    {
+      "source": "server/mutuoscore_constitution.json",
+      "destination": "primoscore_core/mutuoscore_constitution.json",
+      "sha256": "36351d1e7db08ce43cdd11218974376029e19443883eee67957f591e28649c0b"
+    },
+    {
+      "source": "server/questionnaire.py",
+      "destination": "primoscore_core/questionnaire.py",
+      "sha256": "e06b3d3101b9e256fb12b765c3b375af30356cead6c7e41c7eca29a7d31db8d7"
+    }
+  ],
+  "tracked_sources": [
+    {
+      "source": "server/score_engine.py",
+      "sha256": "7620f724a5d7bae2870dfa3b3e1f7e0cba7ac87885037394ed6772139909fe5d",
+      "functions": [
+        "load_constitution",
+        "get_engine_version",
+        "calculate_score",
+        "calculate_indicative_payment",
+        "calculate_subsistence",
+        "outcome_messages",
+        "evaluate_consap",
+        "consap_result",
+        "mapped_score",
+        "bracket_score",
+        "family_score",
+        "savings_score",
+        "behavior_score",
+        "operation_score",
+        "support_score",
+        "amortized_payment",
+        "classify",
+        "number",
+        "clamp",
+        "unique"
+      ],
+      "routes": []
+    },
+    {
+      "source": "server/mutuoscore_constitution.json",
+      "sha256": "36351d1e7db08ce43cdd11218974376029e19443883eee67957f591e28649c0b"
+    },
+    {
+      "source": "server/questionnaire.py",
+      "sha256": "e06b3d3101b9e256fb12b765c3b375af30356cead6c7e41c7eca29a7d31db8d7",
+      "functions": [
+        "validate_step",
+        "validate_partial_step",
+        "required_question_ids",
+        "validate_complete_answers",
+        "role_for",
+        "decode_answers"
+      ],
+      "routes": []
+    },
+    {
+      "source": "server/voucher_v2.py",
+      "sha256": "2a30de9947fa623d868b0f4077741490cfc6544172c628ca0469165912962368",
+      "functions": [
+        "preview",
+        "privacy_version",
+        "bridge_failure",
+        "payload",
+        "clean",
+        "error",
+        "event",
+        "require_admin",
+        "lead_session",
+        "set_lead_cookie",
+        "lead_view",
+        "sync_operational",
+        "available_partners",
+        "ensure_city_lot",
+        "init_experience",
+        "editorial",
+        "create_lead",
+        "seed_preview",
+        "next_slots",
+        "api_guard",
+        "conflict",
+        "context",
+        "visit",
+        "acquire",
+        "customer",
+        "logout",
+        "password_input",
+        "set_customer_password",
+        "customer_login",
+        "recovery",
+        "reset_customer_password",
+        "save_customer",
+        "complete",
+        "slots",
+        "book",
+        "preview_login",
+        "overview",
+        "detail",
+        "update_lead",
+        "open_crm",
+        "edit_crm",
+        "create_partner",
+        "edit_partner",
+        "print_lot",
+        "distribute",
+        "qr",
+        "cards",
+        "appointment_status",
+        "export",
+        "register_experience"
+      ],
+      "routes": [
+        {
+          "function": "editorial",
+          "decorator": "bp.get('/editorial')"
+        },
+        {
+          "function": "context",
+          "decorator": "bp.get('/context')"
+        },
+        {
+          "function": "visit",
+          "decorator": "bp.post('/visits')"
+        },
+        {
+          "function": "acquire",
+          "decorator": "bp.post('/leads')"
+        },
+        {
+          "function": "customer",
+          "decorator": "bp.get('/customer')"
+        },
+        {
+          "function": "logout",
+          "decorator": "bp.post('/logout')"
+        },
+        {
+          "function": "set_customer_password",
+          "decorator": "bp.post('/account/password')"
+        },
+        {
+          "function": "customer_login",
+          "decorator": "bp.post('/login')"
+        },
+        {
+          "function": "recovery",
+          "decorator": "bp.post('/recovery')"
+        },
+        {
+          "function": "reset_customer_password",
+          "decorator": "bp.post('/recovery/verify')"
+        },
+        {
+          "function": "save_customer",
+          "decorator": "bp.patch('/customer')"
+        },
+        {
+          "function": "complete",
+          "decorator": "bp.post('/customer/complete')"
+        },
+        {
+          "function": "slots",
+          "decorator": "bp.get('/slots')"
+        },
+        {
+          "function": "book",
+          "decorator": "bp.post('/appointments')"
+        },
+        {
+          "function": "preview_login",
+          "decorator": "bp.post('/admin/preview-login')"
+        },
+        {
+          "function": "overview",
+          "decorator": "bp.get('/admin/overview')"
+        },
+        {
+          "function": "detail",
+          "decorator": "bp.get('/admin/leads/<ident>')"
+        },
+        {
+          "function": "update_lead",
+          "decorator": "bp.patch('/admin/leads/<ident>')"
+        },
+        {
+          "function": "open_crm",
+          "decorator": "bp.post('/admin/leads/<ident>/crm')"
+        },
+        {
+          "function": "edit_crm",
+          "decorator": "bp.patch('/admin/leads/<ident>/crm')"
+        },
+        {
+          "function": "create_partner",
+          "decorator": "bp.post('/admin/partners')"
+        },
+        {
+          "function": "edit_partner",
+          "decorator": "bp.patch('/admin/partners/<ident>')"
+        },
+        {
+          "function": "print_lot",
+          "decorator": "bp.post('/admin/lots')"
+        },
+        {
+          "function": "distribute",
+          "decorator": "bp.post('/admin/distributions')"
+        },
+        {
+          "function": "qr",
+          "decorator": "bp.get('/admin/city/<city>/qr.png')"
+        },
+        {
+          "function": "cards",
+          "decorator": "bp.get('/admin/city/<city>/cards.pdf')"
+        },
+        {
+          "function": "appointment_status",
+          "decorator": "bp.patch('/admin/appointments/<ident>')"
+        },
+        {
+          "function": "export",
+          "decorator": "bp.get('/admin/export.csv')"
+        }
+      ]
+    },
+    {
+      "source": "server/voucher_v2.sql",
+      "sha256": "78742d13a92b3db9b77241fbed8d6e66d8e6d0819fc5e7fa2d881997a0aa6bef"
+    },
+    {
+      "source": "server/voucher_v2_pdf.py",
+      "sha256": "323edf7b7f1250be7a3e0b833964336c8dcd335eaddc457907141a011ad8492b",
+      "functions": [
+        "city_card"
+      ],
+      "routes": []
+    },
+    {
+      "source": "server/bizay_pdf.py",
+      "sha256": "2b54856648bc45e2b6f814625397ad93d9954b0808f56bc8619b98610a4d38ce",
+      "functions": [
+        "register_fonts",
+        "qr_image",
+        "draw_monogram",
+        "draw_front",
+        "draw_back",
+        "generate_bizay_pdf"
+      ],
+      "routes": []
+    },
+    {
+      "source": "server/sviluppo.py",
+      "sha256": "93a2e6b87cc776f9c4f70b541c4f051ac0df1d7b49bc8017a919323b19b5ddb5",
+      "functions": [
+        "norm",
+        "initialize",
+        "snapshot",
+        "validate_date",
+        "validate_contact",
+        "expand_changes",
+        "save_state",
+        "sviluppo_read",
+        "sviluppo_sync",
+        "register"
+      ],
+      "routes": [
+        {
+          "function": "sviluppo_read",
+          "decorator": "bp.get('/admin/sviluppo')"
+        },
+        {
+          "function": "sviluppo_sync",
+          "decorator": "bp.post('/admin/sviluppo/sync')"
+        }
+      ]
+    },
+    {
+      "source": "server/voucher_campaigns.py",
+      "sha256": "1f898f440429708bbbf24ebb5ce80caceb4197f303ccd5e397da89dea2236ee4",
+      "functions": [
+        "campaigns",
+        "active_campaign",
+        "create_campaign",
+        "partner_lot",
+        "print_stock",
+        "create",
+        "asset"
+      ],
+      "routes": [
+        {
+          "function": "create",
+          "decorator": "bp.post('/admin/campaigns')"
+        },
+        {
+          "function": "asset",
+          "decorator": "bp.get('/admin/campaigns/<ident>/<asset>')"
+        }
+      ]
+    },
+    {
+      "source": "server/security.py",
+      "sha256": "6e3eee2593882340e76ef3e13fdf6f176f8f9562877f7cc48e3d9b791f93080b",
+      "functions": [
+        "utc_now",
+        "isoformat",
+        "normalize_email",
+        "normalize_phone",
+        "normalize_voucher",
+        "secret_key",
+        "secure_hash",
+        "generate_voucher",
+        "generate_session_token",
+        "safe_equal",
+        "hash_password",
+        "verify_password"
+      ],
+      "routes": []
+    },
+    {
+      "source": "server/experience_bridge.py",
+      "sha256": "f93d10a4f98a450addfb7e83fc149db016bc0ef5f89d84296c1a0533a92fad88",
+      "functions": [
+        "call"
+      ],
+      "routes": []
+    },
+    {
+      "source": "ev-engine/control-center/lib/cicero-experience.js",
+      "sha256": "ce8032f2ca103cbcaee2f73e52396aa0f2647068bff242e25d9d3e29983d0fb9"
+    },
+    {
+      "source": "ciceroev-v2/app.js",
+      "sha256": "78a2a87d2ec4ff38975c9ef25827adbb00ee909ac2f0f25c5f79e7e48759fa47"
+    },
+    {
+      "source": "ciceroev-v2/style.css",
+      "sha256": "b73a2796d4c2cdfaaa693553d14a803b4650795dc4405f14071f7446dfd85b62"
+    },
+    {
+      "source": "ciceroev-v2/index.html",
+      "sha256": "80b148c7144e3e8671b16476818c12f9c464b2e0e3ff0a38ac9080340bdc5696"
+    },
+    {
+      "source": "sviluppo/app.js",
+      "sha256": "61fad60541af5f8aabea89b1b9cf096d12cfcfed9cf0b6c0f588a12fd3a710c8"
+    },
+    {
+      "source": "sviluppo/index.html",
+      "sha256": "b4b49fe5c09f90651871feab7f7ed9faa59716ac2d6a301b3dbeaab9a6174e08"
+    },
+    {
+      "source": "sviluppo/styles.css",
+      "sha256": "d549fe7f367be1f0c38d30419d93e56fee83b61236d6cb31058dd74ce2687e64"
+    },
+    {
+      "source": "sviluppo/mobile.css",
+      "sha256": "71b4bf9222d3f768b5af295ab5c740b6b49a80ed580977b1b0b344651a24b221"
+    },
+    {
+      "source": "sviluppo/integration.css",
+      "sha256": "536721ae59507fc44b1a7d2d333ffe64871f6c892de16c6663a4456b368c38b5"
+    },
+    {
+      "source": "sviluppo/ciceroev-voucher.css",
+      "sha256": "e4a57e6971bc1514051bfa318578d104e2f37233c45438eb228ff30f1dcc49d8"
+    }
+  ],
+  "excluded": [
+    "runtime databases",
+    "environment files",
+    "server/sviluppo_seed.json",
+    "preview seed",
+    "configured cities",
+    "legacy migration",
+    "Argo and other office modules"
+  ],
+  "automatic_release_active": false,
+  "adapted_modules": [
+    {
+      "source": "server/voucher_v2.py::complete",
+      "destination": "primoscore_core/intake.py",
+      "reference_commit": "fa2fc5763cc54249e890e26d770f2e3be8cfdd88",
+      "scope": "V2 completion semantics with consultant-neutral messages and strict HTTP input validation",
+      "regression_fixture": "tests/intake-reference.json",
+      "automatic_release_active": false
+    }
+  ]
+}

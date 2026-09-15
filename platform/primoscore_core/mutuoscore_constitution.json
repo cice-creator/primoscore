@@ -1,0 +1,52 @@
+{
+  "document": {"title": "Costituzione del Motore MutuoScore", "status": "authoritative", "editing_rule": "Questo file e la fonte normativa ed eseguibile del motore. Ogni modifica deve aggiornare document.version, essere verificata con i test e approvata prima del rilascio.", "scope": "Valutazione preliminare indicativa; non e una delibera bancaria ne una decisione automatizzata con effetti giuridici."},
+  "version": "cicero-mutuoscore-1.5",
+  "inputs": {
+    "evaluated": ["creditHistory", "applicantAge", "monthlyIncome", "jobType", "householdSize", "children", "householdEarners", "savings", "monthlyDebts", "savingHabit", "propertyPrice", "loanAmount", "loanTerm", "purpose", "otherHome", "supportRole", "supportAge", "supportIncome", "iseeBand", "istatRegion", "istatMunicipalityType", "istatAge0to3", "istatAge4to10", "istatAge11to17", "istatAge18to29", "istatAge30to59", "istatAge60to74", "istatAge75plus"],
+    "collected_not_used_in_v1": {"annualPayments": "Dato raccolto per evoluzioni future; nella versione corrente non modifica punteggio, rata o CONSAP."}
+  },
+  "calculation": {
+    "assumptions": {"annual_interest_rate": 0.04, "minimum_term_years_for_calculation": 1, "default_ltv_if_price_missing": 100, "default_commitment_ratio_if_income_missing": 100},
+    "formulas": {
+      "total_household_income": "monthlyIncome + supportIncome solo se supportRole = coapplicant",
+      "ltv": "loanAmount / propertyPrice * 100; se propertyPrice = 0, 100",
+      "estimated_monthly_payment": "P * r * (1+r)^n / ((1+r)^n - 1), dove P=loanAmount, r=annual_interest_rate/12, n=loanTerm*12",
+      "commitment_ratio": "(monthlyDebts + estimated_monthly_payment) / total_household_income * 100; se reddito = 0, 100",
+      "post_commitment_income": "total_household_income - monthlyDebts - estimated_monthly_payment",
+      "sussistenza_margin": "post_commitment_income - soglia_istat_mensile",
+      "raw_score": "arrotondamento della media semplice degli otto punteggi di area",
+      "final_score": "min(raw_score, tutti i cap applicabili); poi limitato tra 0 e 100"
+    }
+  },
+  "istat_sussistenza": {"enabled": true, "reference_year": 2024, "source": "ISTAT — Calcolatore soglia di povertà assoluta", "source_url": "https://www.istat.it/dati/calcolatori/soglia-di-poverta/", "lookup_url": "https://www.istat.it/wp-content/themes/EGPbs5-child/inc/poverta/query.php", "method": "La soglia mensile ISTAT è letta per anno, regione, tipologia del comune e fasce di età del nucleo. Il motore confronta il reddito netto dopo rata stimata e debiti con la soglia. È un indicatore prudenziale separato dal MutuoScore: non cambia il punteggio.", "age_bands": ["0-3", "4-10", "11-17", "18-29", "30-59", "60-74", "75+"], "municipality_types": {"1": "Area metropolitana", "2": "Grande comune", "3": "Piccolo comune"}, "status_thresholds": {"adequate_ratio_min": 120, "attention_ratio_min": 100}, "failure_message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."},
+  "rata_indicativa": {"enabled": true, "annual_interest_rate": 0.032, "formula": "P * r * (1+r)^n / ((1+r)^n - 1), dove P=mutuo richiesto, r=tasso annuo/12, n=durata in anni*12", "scope": "Simulazione matematica autonoma e puramente orientativa. Non è un’offerta, un preventivo, una proposta di finanziamento o un’indicazione di banca; non incide su MutuoScore, RRR, soglia ISTAT o ammissibilità al Fondo.", "customer_notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."},
+  "decision_thresholds": {"low_liquidity": 5000, "high_commitment_ratio": 40, "favourable_commitment_ratio": 30, "very_high_ltv": 95, "favourable_ltv": 80, "strength_savings_ratio": 0.2},
+  "areas": {
+    "affidabilita_creditizia": {"formula": "mappa creditHistory", "scores": {"none": 94, "past": 58, "active": 24}, "default": 45},
+    "solidita_reddituale": {"formula": "mappa total_household_income", "brackets": [[3500, 94], [2500, 88], [1800, 76], [1300, 62], [0, 40]], "default": 35},
+    "solidita_lavorativa": {"formula": "mappa jobType", "scores": {"permanent": 92, "pension": 88, "self": 72, "apprentice": 60, "fixed": 54, "trial": 30}, "default": 45},
+    "situazione_familiare": {"formula": "82 se householdEarners >= 2; altrimenti 76 se children = 0; altrimenti max(48, 70 - children*5); sottrai 8 se householdSize >= 5 e householdEarners = 1", "multi_earner_score": 82, "no_children_score": 76, "children_base": 70, "children_penalty": 5, "minimum": 48, "large_single_income": {"household_min": 5, "penalty": 8}},
+    "capacita_risparmio": {"formula": "rapporto savings/propertyPrice; se propertyPrice <= 0 assegna no_price_score", "no_price_score": 35, "ratio_brackets": [[0.25, 94], [0.2, 88], [0.1, 70]], "amount_brackets": [[10000, 55], [5000, 45]], "default": 25},
+    "comportamento_finanziario": {"formula": "mappa savingHabit; +5 se monthlyDebts/total_household_income <= 15%; -18 se commitment_ratio > 40%", "habit_scores": {"yes": 88, "some": 66, "no": 42}, "default": 45, "low_debt_ratio": 0.15, "low_debt_bonus": 5, "high_commitment_ratio": 40, "high_commitment_penalty": 18},
+    "valutazione_operazione": {"formula": "mappa LTV, -18 se commitment_ratio > 40%, -8 se purpose = second_home", "ltv_brackets": [[70, 92], [80, 86], [90, 70]], "default": 52, "high_commitment_ratio": 40, "high_commitment_penalty": 18, "second_home_penalty": 8},
+    "garanzie_supporti": {"formula": "62 senza supporto; 88 con reddito >= 1.800 e eta assente o <=70; 76 con reddito >=1.200; altrimenti 58", "no_support_score": 62, "high_income": 1800, "max_age_for_high_score": 70, "high_score": 88, "medium_income": 1200, "medium_score": 76, "default": 58}
+  },
+  "caps_and_messages": [
+    {"when": "creditHistory = active", "cap": 54, "warning": "È stata dichiarata una criticità creditizia ancora attiva."},
+    {"when": "creditHistory = past", "warning": "La criticità creditizia pregressa deve essere documentata e verificata."},
+    {"when": "savings < 5000", "cap": 49, "warning": "Liquidità inferiore a 5.000 euro: la pratica appare fragile."},
+    {"when": "jobType = trial", "cap": 54, "warning": "Il periodo di prova limita la stabilità lavorativa percepita."},
+    {"when": "jobType in fixed, apprentice", "cap": {"with_support": 84, "without_support": 69}, "warning": "La situazione lavorativa richiede documentazione e una valutazione prudenziale."},
+    {"when": "commitment_ratio > 40", "cap": 59, "warning": "La somma tra rata stimata e impegni mensili supera una soglia prudenziale."},
+    {"when": "ltv > 95", "cap": 59, "warning": "La richiesta supera il 95% del prezzo dell’immobile."}
+  ],
+  "strengths": [
+    {"when": "creditHistory = none", "message": "Storico dei pagamenti dichiarato senza criticità."},
+    {"when": "savings >= propertyPrice * 0.2", "message": "Disponibilità iniziale coerente con almeno il 20% del prezzo."},
+    {"when": "jobType in permanent, pension", "message": "Posizione lavorativa dichiarata come stabile."},
+    {"when": "commitment_ratio <= 30", "message": "Rapporto indicativo tra reddito e impegni mensili favorevole."},
+    {"when": "ltv <= 80", "message": "Rapporto tra mutuo richiesto e prezzo entro l’80%."}
+  ],
+  "classification": [[85, "top"], [70, "buono"], [55, "difficile"], [40, "critico"], [0, "alto_rischio"]],
+  "consap": {"eligibility_rule": "Il Fondo viene verificato quando il richiedente principale, oppure un cointestatario, non ha ancora compiuto 36 anni. Il garante non abilita la verifica. Se entrambi i richiedenti hanno 36 anni o più, ISEE e Fondo non vengono proposti.", "blocking": {"purpose_not_first_home": "Operazione diversa dall’acquisto della prima casa.", "loan_amount_max": 250000, "loan_amount_message": "Importo richiesto superiore a 250.000 euro.", "other_home_yes": "Presenza dichiarata di un altro immobile abitativo."}, "categories": {"applicant_under_age": 36, "applicant": "under36", "coapplicant": "coapplicant_under36"}, "guarantees": {"elevated_ltv_over": 80, "elevated_isee_required": "under_or_equal_40k", "elevated": "elevated_80", "ordinary": "ordinary_50"}, "messages": {"blocked": "Con le informazioni inserite il Fondo non viene proposto automaticamente.", "over_age": "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni.", "possible": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."}}
+}

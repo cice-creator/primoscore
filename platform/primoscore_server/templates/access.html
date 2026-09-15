@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#142D4E">
+  <title>Accesso · Primoscore</title>
+  <link rel="icon" href="/assets/favicon.svg"><link rel="stylesheet" href="/static/access.css">
+  <script src="/static/access.js" defer></script>
+</head>
+<body data-mode="{{ mode }}">
+  <header><a href="/"><img src="/assets/logo.svg" width="200" height="45" alt="Primoscore"></a><a class="home-link" href="/">Torna alla homepage</a></header>
+  {% if local %}<p class="local-note">Anteprima locale · Le email vengono preparate, ma non inviate.</p>{% endif %}
+  <main>
+    <aside><p class="eyebrow">IL TUO ACCESSO</p><h1>Il primo passo,<br><span>insieme.</span></h1><p>Uno spazio per le tue relazioni professionali, con un accesso personale e protetto.</p><nav aria-label="Tipo di accesso"><a href="/accesso/consulente">Consulente</a><a href="/accesso/cliente">Cliente</a><a href="/accesso/master">Master</a></nav></aside>
+    <section class="panel" aria-labelledby="form-title"><p class="eyebrow" id="step-label">PRIMOSCORE</p><h2 id="form-title">Accedi al tuo spazio</h2><p id="intro"></p><div id="surface"></div><p id="feedback" role="status" aria-live="polite"></p></section>
+  </main>
+  <footer>Primoscore · Voucher e sviluppo</footer>
+</body>
+</html>

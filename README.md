@@ -1,3 +1,13 @@
+# Primoscore — piattaforma consulenti del credito
+
+La versione attuale viene pubblicata dal Dockerfile nella radice. Istruzioni in [deploy/render/README.md](deploy/render/README.md).
+
+Voucher, Sviluppo e motore di punteggio sono in `platform/`; homepage in `dist/`. I dati sono separati per consulente e partono vuoti.
+
+---
+
+## Documentazione della versione precedente (non usata dal nuovo Dockerfile)
+
 # Primoscore
 
 Il progetto comprende sito, questionario, database lead, area amministrativa privata, integrazione Brevo e configurazione per pubblicazione HTTPS.

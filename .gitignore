@@ -8,3 +8,8 @@ outputs/
 tmp/
 .tmp_docs/
 .tmp_sheet_analysis/
+*.sqlite3
+*.sqlite3-*
+*.key
+.venv/
+platform/var/

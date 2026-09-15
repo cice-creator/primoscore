@@ -1,0 +1,21 @@
+{
+  "reference_commit": "b33193b31c6ef1c760fa96ef4b9d5daaa4100b81",
+  "reference_kind": "local_checkout_not_live_deployment_verification",
+  "captured_on": "2026-09-13",
+  "tracked_sources": [
+    {
+      "source": "server/partner_import_preview.py",
+      "sha256": "6758f64b4f2b33de4c12157ef88aeab1ef9c01d2c6a7f6776eedfbdc4bcc9292"
+    },
+    {
+      "source": "server/partner_cities.py",
+      "sha256": "3410749bfc393c9a051be41c9665764acf4d88b4ed3013c668876d9113174202"
+    },
+    {
+      "source": "server/assets/Andrea_Cicero_Modello_Sviluppo_Partner.xlsx",
+      "sha256": "49dae739317dc0ed918774c10c7a204f0898c58947472c5baf90cb0afcf1ff66"
+    }
+  ],
+  "adaptation": "Workbook schema, reader and review behavior adapted to Primoscore verified sessions and tenant transactions. No source database, partner rows or city seed imported. Template recreated empty.",
+  "automatic_sync_enabled": false
+}
