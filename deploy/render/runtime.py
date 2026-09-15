@@ -131,7 +131,7 @@ def main():
         print('Master predisposto. Confermare email e configurare Authenticator.')
     elif role == 'status':
         from urllib.request import Request, urlopen
-        req = Request('https://api.brevo.com/v3/senders', headers={'api-key': os.environ['BREVO_API_KEY']})
+        req = Request('https://api.brevo.com/v3/senders', headers={'api-key': os.environ['BREVO_API_KEY'], 'Accept': 'application/json', 'User-Agent': 'Primoscore/1.0'})
         try:
             with urlopen(req, timeout=15) as response:
                 senders = json.load(response).get('senders', [])

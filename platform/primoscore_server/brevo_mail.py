@@ -21,7 +21,7 @@ class BrevoMailer:
                 'subject': title + ' · Primoscore', 'textContent': body,
                 'htmlContent': '<p>' + html.escape(body).replace('\n', '<br>') + '</p>'}
         req = Request('https://api.brevo.com/v3/smtp/email', data=json.dumps(data).encode(),
-                      headers={'api-key': self.key, 'Content-Type': 'application/json'}, method='POST')
+                      headers={'api-key': self.key, 'Content-Type': 'application/json', 'Accept': 'application/json', 'User-Agent': 'Primoscore/1.0'}, method='POST')
         with urlopen(req, timeout=15) as response:
             if response.status != 201:
                 raise OSError('Invio email non confermato.')
