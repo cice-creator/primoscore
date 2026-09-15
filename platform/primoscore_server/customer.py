@@ -38,7 +38,7 @@ class Customer:
             lot,campaign=self._voucher(c,code);t=lot['tenant_id'];settings=self._settings(c,t)
             profile=c.execute('SELECT first_name,last_name,business_name,email,mobile,oam_number FROM consultant_profiles WHERE tenant_id=?',(t,)).fetchone()
             city=c.execute('SELECT name FROM cities WHERE tenant_id=? AND id=?',(t,lot['city_id'])).fetchone()
-            return dict(studio=lot['slug'],consultant=dict(profile),label=campaign['name'] if campaign else city['name'],campaign=bool(campaign),partners=[] if campaign else self._partners(c,lot),privacy_url=settings['privacy_url'],privacy_version=settings['privacy_version'],available=self.local or bool(settings['privacy_url'] and settings['privacy_version']),local=self.local)
+            return dict(studio=lot['slug'],consultant=dict(profile),label=campaign['name'] if campaign else city['name'],campaign=bool(campaign),partners=[] if campaign else self._partners(c,lot),privacy_url=settings['privacy_url'],privacy_version=settings['privacy_version'],available=True,local=self.local)
 
     def _client(self,c,session,guest):
         if session:
@@ -62,14 +62,16 @@ class Customer:
         if len(first)<2:raise AuthError('Inserisci il tuo nome completo.')
         mobile=string(d.get('mobile'),'cellulare',30,True)
         if not 9<=len(''.join(ch for ch in mobile if ch.isdigit()))<=15 or any(ch not in '+0123456789 ()-.' for ch in mobile):raise AuthError('Controlla il numero di cellulare.')
-        if d.get('privacy_accepted') is not True or d.get('service_requested') is not True:raise AuthError('Conferma la lettura dell’informativa e la richiesta di valutazione.')
+        if d.get('service_requested') is not True:raise AuthError('Conferma la richiesta di valutazione.')
         key=string(d.get('request_id'),'richiesta',128,True)
         if len(key)<16:raise AuthError('Ricarica la pagina e riprova.')
         fingerprint=hashlib.sha256(encode(d).encode()).hexdigest()
         with self.db.transaction() as c:
             lot,campaign=self._voucher(c,d.get('code'));t=lot['tenant_id'];settings=self._settings(c,t)
             version=settings['privacy_version'] or ('local-test-only' if self.local else '')
-            if not version or (not self.local and not settings['privacy_url']):raise AuthError('Il consulente deve completare l’informativa prima di ricevere richieste.',403)
+            has_notice=bool(settings['privacy_url'] and settings['privacy_version']) or self.local
+            if has_notice and d.get('privacy_accepted') is not True:raise AuthError('Conferma la lettura dell’informativa.')
+            if not has_notice and d.get('privacy_accepted') is True:raise AuthError('Non è disponibile un’informativa da confermare.')
             if d.get('privacy_version')!=version:raise AuthError('L’informativa è cambiata. Ricarica la pagina.',409)
             previous=c.execute('SELECT * FROM customer_intakes WHERE tenant_id=? AND request_id=?',(t,key)).fetchone()
             if previous:
@@ -91,11 +93,12 @@ class Customer:
             c.execute('INSERT INTO questionnaires(tenant_id,id,client_id,created_at) VALUES(?,?,?,?)',(t,questionnaire,client,now()))
             c.execute('INSERT INTO accounts VALUES(?,?,?,?,?,?,?)',(account,t,client,'customer',email,'pending',now()))
             c.execute('INSERT INTO auth_credentials(account_id,password_changed_at) VALUES(?,?)',(account,self.auth.timestamp()))
-            c.execute('INSERT INTO customer_intakes VALUES(?,?,?,?,?,?,?,?,?)',(t,client,key,fingerprint,label,version,settings['privacy_url'],now(),'campaign_qr' if campaign else 'city_qr'))
+            c.execute('INSERT INTO customer_intakes(tenant_id,client_id,request_id,fingerprint,partner_label,privacy_version,privacy_url,accepted_at,source,privacy_acknowledged) VALUES(?,?,?,?,?,?,?,?,?,?)',(t,client,key,fingerprint,label,version,settings['privacy_url'],now(),'campaign_qr' if campaign else 'city_qr',int(has_notice)))
             token=secrets.token_urlsafe(32)
             c.execute('INSERT INTO customer_guest_sessions VALUES(?,?,?)',(digest(token),account,self.auth.timestamp()+86400))
             self.auth._mail_token(c,self.auth._credentials(c,account),'invite')
             self.event(c,t,client,'intake_created')
+            if not has_notice:self.event(c,t,client,'intake_without_privacy_notice')
             return {'ok':True,'guest_token':token,'studio':lot['slug']}
 
     def _view(self,c,client):
