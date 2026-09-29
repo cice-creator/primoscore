@@ -38,7 +38,7 @@ class Customer:
             lot,campaign=self._voucher(c,code);t=lot['tenant_id'];settings=self._settings(c,t)
             profile=c.execute('SELECT first_name,last_name,business_name,email,mobile,oam_number FROM consultant_profiles WHERE tenant_id=?',(t,)).fetchone()
             city=c.execute('SELECT name FROM cities WHERE tenant_id=? AND id=?',(t,lot['city_id'])).fetchone()
-            return dict(studio=lot['slug'],consultant=dict(profile),label=campaign['name'] if campaign else city['name'],campaign=bool(campaign),partners=[] if campaign else self._partners(c,lot),privacy_url=settings['privacy_url'],privacy_version=settings['privacy_version'],available=True,local=self.local)
+            return dict(studio=lot['slug'],consultant=dict(profile),label=campaign['name'] if campaign else city['name'],campaign=bool(campaign),partners=[] if campaign else self._partners(c,lot),privacy_url=settings['privacy_url'],privacy_version=settings['privacy_version'],available=self.local or bool(settings['privacy_url'] and settings['privacy_version']),local=self.local)
 
     def _client(self,c,session,guest):
         if session:
@@ -70,6 +70,7 @@ class Customer:
             lot,campaign=self._voucher(c,d.get('code'));t=lot['tenant_id'];settings=self._settings(c,t)
             version=settings['privacy_version'] or ('local-test-only' if self.local else '')
             has_notice=bool(settings['privacy_url'] and settings['privacy_version']) or self.local
+            if not has_notice:raise AuthError('Il consulente deve completare l’informativa prima di ricevere richieste.',403)
             if has_notice and d.get('privacy_accepted') is not True:raise AuthError('Conferma la lettura dell’informativa.')
             if not has_notice and d.get('privacy_accepted') is True:raise AuthError('Non è disponibile un’informativa da confermare.')
             if d.get('privacy_version')!=version:raise AuthError('L’informativa è cambiata. Ricarica la pagina.',409)
