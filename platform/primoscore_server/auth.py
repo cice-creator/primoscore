@@ -44,7 +44,7 @@ def password_value(value):
 
 
 def consultant_profile(data):
-    required = ('first_name','last_name','email','mobile','landline','office_address','office_postcode','office_city','office_province','oam_number')
+    required = ('first_name','last_name','email','mobile','landline','office_address','office_postcode','office_city','office_province','oam_number','controller_name','controller_email')
     optional = ('business_name','ivass_number','tax_code','vat_number')
     allowed = set(required + optional) | {'password','ivass_registered'}
     if not isinstance(data, dict) or set(data) - allowed:
@@ -56,6 +56,7 @@ def consultant_profile(data):
             raise AuthError('Completa i dati richiesti del consulente e della sede.')
         result[field] = value.strip()
     result['email'] = email_address(result['email'])
+    result['controller_email'] = email_address(result['controller_email'])
     for field in ('mobile','landline'):
         if not re.fullmatch(r'\+?[0-9 ()-]{6,24}', result[field]):
             raise AuthError('Controlla cellulare e telefono fisso.')

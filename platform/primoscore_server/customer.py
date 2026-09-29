@@ -28,7 +28,10 @@ class Customer:
 
     def _settings(self,c,t):
         row=c.execute('SELECT * FROM customer_settings WHERE tenant_id=?',(t,)).fetchone()
-        return dict(row) if row else dict(tenant_id=t,privacy_url='',privacy_version='',revision=0)
+        result=dict(row) if row else dict(tenant_id=t,privacy_url='',privacy_version='',revision=0)
+        profile=c.execute('SELECT controller_name,controller_email FROM consultant_profiles WHERE tenant_id=?',(t,)).fetchone()
+        result.update(dict(profile) if profile else dict(controller_name='',controller_email=''))
+        return result
 
     def _partners(self,c,lot):
         return [dict(r) for r in c.execute("SELECT p.id,p.name,p.category FROM partners p WHERE p.tenant_id=? AND p.city_id=? AND p.status='active' AND EXISTS(SELECT 1 FROM deliveries d WHERE d.tenant_id=p.tenant_id AND d.partner_id=p.id AND d.lot_id=?) ORDER BY p.name",(lot['tenant_id'],lot['city_id'],lot['id']))]
@@ -38,7 +41,7 @@ class Customer:
             lot,campaign=self._voucher(c,code);t=lot['tenant_id'];settings=self._settings(c,t)
             profile=c.execute('SELECT first_name,last_name,business_name,email,mobile,oam_number FROM consultant_profiles WHERE tenant_id=?',(t,)).fetchone()
             city=c.execute('SELECT name FROM cities WHERE tenant_id=? AND id=?',(t,lot['city_id'])).fetchone()
-            return dict(studio=lot['slug'],consultant=dict(profile),label=campaign['name'] if campaign else city['name'],campaign=bool(campaign),partners=[] if campaign else self._partners(c,lot),privacy_url=settings['privacy_url'],privacy_version=settings['privacy_version'],available=self.local or bool(settings['privacy_url'] and settings['privacy_version']),local=self.local)
+            return dict(studio=lot['slug'],consultant=dict(profile),label=campaign['name'] if campaign else city['name'],campaign=bool(campaign),partners=[] if campaign else self._partners(c,lot),privacy_url=settings['privacy_url'],privacy_version=settings['privacy_version'],controller_name=settings['controller_name'],controller_email=settings['controller_email'],available=self.local or bool(settings['privacy_url'] and settings['privacy_version'] and settings['controller_name'] and settings['controller_email']),local=self.local)
 
     def _client(self,c,session,guest):
         if session:
@@ -69,7 +72,7 @@ class Customer:
         with self.db.transaction() as c:
             lot,campaign=self._voucher(c,d.get('code'));t=lot['tenant_id'];settings=self._settings(c,t)
             version=settings['privacy_version'] or ('local-test-only' if self.local else '')
-            has_notice=bool(settings['privacy_url'] and settings['privacy_version']) or self.local
+            has_notice=bool(settings['privacy_url'] and settings['privacy_version'] and settings['controller_name'] and settings['controller_email']) or self.local
             if not has_notice:raise AuthError('Il consulente deve completare l’informativa prima di ricevere richieste.',403)
             if has_notice and d.get('privacy_accepted') is not True:raise AuthError('Conferma la lettura dell’informativa.')
             if not has_notice and d.get('privacy_accepted') is True:raise AuthError('Non è disponibile un’informativa da confermare.')
@@ -196,7 +199,7 @@ class Customer:
             return dict(clients=clients,slots=slots,appointments=appointments,settings=self._settings(c,t))
 
     def configure(self,token,d,tenant=None,reason=''):
-        if not isinstance(d,dict) or set(d)-{'action','id','revision','starts_at','local_start','status','privacy_url','privacy_version'}:raise AuthError('Richiesta non valida.')
+        if not isinstance(d,dict) or set(d)-{'action','id','revision','starts_at','local_start','status','privacy_url','privacy_version','controller_name','controller_email'}:raise AuthError('Richiesta non valida.')
         action=d.get('action')
         with self.db.transaction() as c:
             actor,t,reason=self.workspace._scope(c,token,tenant,reason)
@@ -204,8 +207,11 @@ class Customer:
                 url=string(d.get('privacy_url'),'informativa',1000,True);version=string(d.get('privacy_version'),'versione informativa',100,True);parsed=urlsplit(url)
                 if parsed.scheme!='https' or not parsed.hostname or parsed.username or parsed.password:raise AuthError('Inserisci il collegamento HTTPS all’informativa del tuo studio.')
                 settings=self._settings(c,t)
+                controller_name=string(d.get('controller_name',settings['controller_name']),'titolare dello studio',250,True)
+                controller_email=email_address(d.get('controller_email',settings['controller_email']))
                 if settings['revision']!=integer(d.get('revision')):raise AuthError('Impostazioni aggiornate da un’altra scheda.',409)
                 c.execute('INSERT INTO customer_settings VALUES(?,?,?,1) ON CONFLICT(tenant_id) DO UPDATE SET privacy_url=excluded.privacy_url,privacy_version=excluded.privacy_version,revision=customer_settings.revision+1',(t,url,version))
+                c.execute('UPDATE consultant_profiles SET controller_name=?,controller_email=? WHERE tenant_id=?',(controller_name,controller_email,t))
             elif action=='slot.add':
                 start=d.get('starts_at')
                 if 'local_start' in d:

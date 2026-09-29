@@ -98,6 +98,10 @@ def create_app(database, encryption_key, origin, *, local=False, auth=None, cook
             response.delete_cookie(session_cookie,path='/',secure=not local,httponly=True,samesite='Strict')
         return response
 
+    @app.get('/ruoli-privacy')
+    def privacy_roles():
+        return render_template('privacy_roles.html')
+
     @app.get('/healthz')
     def health():
         return jsonify(ok=True)
