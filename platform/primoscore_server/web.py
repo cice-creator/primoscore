@@ -98,6 +98,10 @@ def create_app(database, encryption_key, origin, *, local=False, auth=None, cook
             response.delete_cookie(session_cookie,path='/',secure=not local,httponly=True,samesite='Strict')
         return response
 
+    @app.get('/privacy-collaudo')
+    def testing_privacy():
+        return render_template('privacy_testing.html')
+
     @app.get('/privacy')
     def platform_privacy():
         return render_template('privacy.html')

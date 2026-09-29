@@ -13,6 +13,9 @@ from .workspace import Workspace,string,integer
 from primoscore_core.intake import clean_answers,complete_result
 
 
+TEST_STUDIO_SLUG='studio-865b2fdabce3'
+TEST_CONTACT={'first_name':'Test','last_name':'Primoscore','mobile':'0000000000','email':'info@primoscore.it'}
+
 class Customer:
     def __init__(self,auth,*,local=False):self.auth=auth;self.db=auth.db;self.local=local;self.workspace=Workspace(auth)
 
@@ -41,7 +44,7 @@ class Customer:
             lot,campaign=self._voucher(c,code);t=lot['tenant_id'];settings=self._settings(c,t)
             profile=c.execute('SELECT first_name,last_name,business_name,email,mobile,oam_number FROM consultant_profiles WHERE tenant_id=?',(t,)).fetchone()
             city=c.execute('SELECT name FROM cities WHERE tenant_id=? AND id=?',(t,lot['city_id'])).fetchone()
-            return dict(studio=lot['slug'],consultant=dict(profile),label=campaign['name'] if campaign else city['name'],campaign=bool(campaign),partners=[] if campaign else self._partners(c,lot),privacy_url=settings['privacy_url'],privacy_version=settings['privacy_version'],controller_name=settings['controller_name'],controller_email=settings['controller_email'],available=self.local or bool(settings['privacy_url'] and settings['privacy_version'] and settings['controller_name'] and settings['controller_email']),local=self.local)
+            return dict(testing=lot['slug']==TEST_STUDIO_SLUG,test_contact=TEST_CONTACT if lot['slug']==TEST_STUDIO_SLUG else None,studio=lot['slug'],consultant=dict(profile),label=campaign['name'] if campaign else city['name'],campaign=bool(campaign),partners=[] if campaign else self._partners(c,lot),privacy_url=settings['privacy_url'],privacy_version=settings['privacy_version'],controller_name=settings['controller_name'],controller_email=settings['controller_email'],available=self.local or bool(settings['privacy_url'] and settings['privacy_version'] and settings['controller_name'] and settings['controller_email']),local=self.local)
 
     def _client(self,c,session,guest):
         if session:
@@ -71,6 +74,8 @@ class Customer:
         fingerprint=hashlib.sha256(encode(d).encode()).hexdigest()
         with self.db.transaction() as c:
             lot,campaign=self._voucher(c,d.get('code'));t=lot['tenant_id'];settings=self._settings(c,t)
+            if lot['slug']==TEST_STUDIO_SLUG and dict(first_name=first,last_name=last,mobile=mobile,email=email)!=TEST_CONTACT:
+                raise AuthError('Questo QR è riservato al collaudo: usa il contatto di prova precompilato.')
             version=settings['privacy_version'] or ('local-test-only' if self.local else '')
             has_notice=bool(settings['privacy_url'] and settings['privacy_version'] and settings['controller_name'] and settings['controller_email']) or self.local
             if not has_notice:raise AuthError('Il consulente deve completare l’informativa prima di ricevere richieste.',403)
@@ -114,7 +119,7 @@ class Customer:
         profile=c.execute('SELECT first_name,last_name,business_name,email,mobile FROM consultant_profiles WHERE tenant_id=?',(t,)).fetchone()
         slug=c.execute('SELECT slug FROM tenants WHERE id=?',(t,)).fetchone()[0]
         appointments=[view(r) for r in c.execute('SELECT * FROM appointments WHERE tenant_id=? AND client_id=? ORDER BY starts_at DESC',(t,ident))]
-        return dict(client=client,questionnaire=view(q),result=view(result)['result'] if result else None,completed_at=result['created_at'] if result else None,appointments=appointments,consultant=dict(profile) if profile else {},studio=slug,partner_label=attribution[0] if attribution else 'Contatto dello studio')
+        return dict(testing=slug==TEST_STUDIO_SLUG,client=client,questionnaire=view(q),result=view(result)['result'] if result else None,completed_at=result['created_at'] if result else None,appointments=appointments,consultant=dict(profile) if profile else {},studio=slug,partner_label=attribution[0] if attribution else 'Contatto dello studio')
 
     def get(self,session='',guest=''):
         with self.db.transaction() as c:
