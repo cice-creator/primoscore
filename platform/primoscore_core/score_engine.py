@@ -95,7 +95,9 @@ def calculate_subsistence(rule, answers, total_income, debts, payment):
             payload = json.loads(response.read().decode("utf-8"))
         value = payload["elements"][0]["SOGLIA"]
         threshold = float(str(value).replace(".", "").replace(",", ".")) if "," in str(value) else float(value)
-    except (OSError, ValueError, KeyError, IndexError, json.JSONDecodeError):
+        if not math.isfinite(threshold) or threshold <= 0:
+            raise ValueError()
+    except (OSError, TypeError, ValueError, KeyError, IndexError, json.JSONDecodeError):
         return {"status": "unavailable", "message": rule["failure_message"], "referenceYear": rule.get("reference_year")}
     post_commitment = total_income - debts - payment
     ratio = post_commitment / threshold * 100 if threshold else 0

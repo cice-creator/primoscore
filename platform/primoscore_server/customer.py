@@ -236,7 +236,7 @@ class Customer:
                 controller_email=email_address(d.get('controller_email',settings['controller_email']))
                 if settings['revision']!=integer(d.get('revision')):raise AuthError('Impostazioni aggiornate da un’altra scheda.',409)
                 c.execute('INSERT INTO customer_settings VALUES(?,?,?,1) ON CONFLICT(tenant_id) DO UPDATE SET privacy_url=excluded.privacy_url,privacy_version=excluded.privacy_version,revision=customer_settings.revision+1',(t,url,version))
-                c.execute('UPDATE consultant_profiles SET controller_name=?,controller_email=? WHERE tenant_id=?',(controller_name,controller_email,t))
+                c.execute('UPDATE consultant_profiles SET controller_name=?,controller_email=?,profile_revision=profile_revision+1 WHERE tenant_id=?',(controller_name,controller_email,t))
             elif action=='slot.add':
                 start=d.get('starts_at')
                 if 'local_start' in d:

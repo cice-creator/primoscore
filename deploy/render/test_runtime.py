@@ -63,4 +63,8 @@ class RestoreTest(unittest.TestCase):
                 self.assertEqual(restored.execute('PRAGMA integrity_check').fetchone()[0],'ok')
                 self.assertEqual(restored.execute('PRAGMA foreign_key_check').fetchall(),[])
                 self.assertEqual(cipher.decrypt(restored.execute('SELECT value FROM restore_probe').fetchone()[0].encode()),b'synthetic recovery check')
-                self.assertEqual(restored.execute('SELECT COUNT(*) FROM schema_migrations').fetchone()[0],8)
+                self.assertEqual(restored.execute('SELECT COUNT(*) FROM schema_migrations').fetchone()[0],9)
+
+    def test_periodic_backup_failure_does_not_stop_runtime(self):
+        with patch.object(runtime, 'backup', side_effect=OSError('volume unavailable')):
+            self.assertFalse(runtime.periodic_backup(Path('/data')))

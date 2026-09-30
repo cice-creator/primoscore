@@ -33,12 +33,16 @@ class Operations:
 
     def profile(self,token,d):
         if not isinstance(d,dict) or 'revision' not in d:raise AuthError('Profilo non valido.')
-        d=dict(d);revision=integer(d.pop('revision'));clean=consultant_profile(d)
+        d=dict(d);revision=integer(d.pop('revision'))
         with self.db.transaction() as c:
             actor,_=self.auth._resolve(c,token,full=True)
             if actor['role']!='consultant':raise AuthError('Operazione riservata al consulente.',403)
             old=c.execute('SELECT * FROM consultant_profiles WHERE tenant_id=?',(actor['tenant_id'],)).fetchone()
             if old['profile_revision']!=revision:raise AuthError('Profilo aggiornato in un’altra scheda. Ricarica.',409)
+            # The controller belongs to the studio privacy settings.  A stale
+            # profile form must never overwrite a newer privacy notice.
+            d['controller_name']=old['controller_name'];d['controller_email']=old['controller_email']
+            clean=consultant_profile(d)
             if clean['email']!=actor['email']:raise AuthError('Per cambiare email usa il comando con verifica del nuovo indirizzo.')
             c.execute('UPDATE consultant_profiles SET '+','.join(k+'=?' for k in clean)+',profile_revision=profile_revision+1 WHERE tenant_id=?',(*clean.values(),actor['tenant_id']))
             self.workspace._audit(c,actor,actor['tenant_id'],'','profile_updated')

@@ -7,7 +7,7 @@
     {
       "source": "server/score_engine.py",
       "destination": "primoscore_core/score_engine.py",
-      "sha256": "7620f724a5d7bae2870dfa3b3e1f7e0cba7ac87885037394ed6772139909fe5d"
+      "sha256": "c04d3203bbd90961e2a415f20cf7e45d266699136867fc49385a5fd58c9fc3f6"
     },
     {
       "source": "server/mutuoscore_constitution.json",

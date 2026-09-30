@@ -8,7 +8,7 @@ def queue(auth,c,tenant,client,event,kind,*,customer=False):
     rows=c.execute('SELECT a.id,a.email FROM accounts a JOIN auth_credentials x ON x.account_id=a.id WHERE a.tenant_id=? AND a.role=? AND a.status=? AND x.email_verified=1'+(' AND a.client_id=?' if customer else ''),[tenant,role,'active',*([client] if customer else [])]).fetchall()
     for row in rows:
         payload={'purpose':kind,'to':row['email'],'url':auth.origin+('/cliente/appuntamento' if customer else '/consulente/clienti')}
-        c.execute('INSERT OR IGNORE INTO service_mail(id,tenant_id,client_id,event_key,payload_encrypted,created_at) VALUES(?,?,?,?,?,?)',(new_id(),tenant,client,event+':'+row['id'],auth.cipher.encrypt(json.dumps(payload).encode()).decode(),auth.timestamp()))
+        c.execute('INSERT OR IGNORE INTO service_mail(id,tenant_id,client_id,event_key,payload_encrypted,created_at,recipient_account_id) VALUES(?,?,?,?,?,?,?)',(new_id(),tenant,client,event+':'+row['id'],auth.cipher.encrypt(json.dumps(payload).encode()).decode(),auth.timestamp(),row['id']))
 
 def send_operational(auth,mailer,limit=20):
     with auth.db.transaction() as c:
@@ -24,7 +24,7 @@ def send_operational(auth,mailer,limit=20):
                 c.execute("UPDATE service_mail SET status='cancelled' WHERE id=?",(ident,));cancelled+=1;continue
             payload=json.loads(auth.cipher.decrypt(row['payload_encrypted'].encode()))
             # A suspended account or changed address must not receive a queued notice.
-            recipient=c.execute("SELECT 1 FROM accounts a JOIN auth_credentials x ON x.account_id=a.id WHERE a.tenant_id=? AND a.email=? AND a.status='active' AND x.email_verified=1",(row['tenant_id'],payload['to'])).fetchone()
+            recipient=c.execute("SELECT 1 FROM accounts a JOIN auth_credentials x ON x.account_id=a.id WHERE a.id=? AND a.tenant_id=? AND a.email=? AND a.status='active' AND x.email_verified=1",(row['recipient_account_id'],row['tenant_id'],payload['to'])).fetchone()
             if not recipient:
                 c.execute("UPDATE service_mail SET status='cancelled' WHERE id=?",(ident,));cancelled+=1;continue
             c.execute("UPDATE service_mail SET status='sending',attempts=attempts+1 WHERE id=?",(ident,))

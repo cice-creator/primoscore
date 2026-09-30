@@ -60,6 +60,16 @@ def backup(directory):
         old.unlink()
 
 
+def periodic_backup(directory):
+    """Keep mail and web available if a scheduled copy cannot be written."""
+    try:
+        backup(directory)
+    except (OSError, sqlite3.Error) as error:
+        print('backup_failed ' + type(error).__name__, flush=True)
+        return False
+    return True
+
+
 def mail_loop(db):
     from primoscore_server.auth import Auth
     from primoscore_server.mail import SMTPMailer, send_pending
@@ -75,7 +85,7 @@ def mail_loop(db):
     last_backup = 0
     while True:
         if time.monotonic() - last_backup >= 86400:
-            backup(db.path.parent)
+            periodic_backup(db.path.parent)
             last_backup = time.monotonic()
         operational = send_operational(auth, mailer)
         if any(operational.values()):
