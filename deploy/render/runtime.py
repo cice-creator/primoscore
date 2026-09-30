@@ -1,5 +1,6 @@
 """Single-instance Render entry point; no legacy data or account imports."""
 import fcntl
+from contextlib import closing
 import json
 import os
 from pathlib import Path
@@ -48,10 +49,12 @@ def backup(directory):
     target = directory / 'backups'
     target.mkdir(mode=0o700, exist_ok=True)
     destination = target / ('primoscore-' + str(time.time_ns()) + '.sqlite3')
-    with sqlite3.connect(os.environ['PRIMOSCORE_DATABASE']) as source, sqlite3.connect(destination) as out:
+    temporary = destination.with_suffix('.partial')
+    with closing(sqlite3.connect(os.environ['PRIMOSCORE_DATABASE'])) as source, closing(sqlite3.connect(temporary)) as out:
         source.backup(out)
         if out.execute('PRAGMA integrity_check').fetchone()[0] != 'ok':
             raise RuntimeError('Backup non valido.')
+    temporary.replace(destination)
     # Only rotate the backups created by this version, never legacy files.
     for old in sorted(target.glob('primoscore-*.sqlite3'))[:-7]:
         old.unlink()
@@ -61,12 +64,22 @@ def mail_loop(db):
     from primoscore_server.auth import Auth
     from primoscore_server.mail import SMTPMailer, send_pending
     from primoscore_server.brevo_mail import BrevoMailer
+    from primoscore_server.notifications import send_operational
     auth = Auth(db, os.environ['PRIMOSCORE_AUTH_KEY'], os.environ['PRIMOSCORE_ORIGIN'])
     mailer = BrevoMailer() if os.environ['PRIMOSCORE_MAIL_TRANSPORT'] == 'brevo' else SMTPMailer()
     # The supervisor guarantees exactly one delivery process on this disk.
     with db.transaction() as c:
         c.execute("UPDATE auth_mail SET status=CASE WHEN attempts>=3 THEN 'failed' ELSE 'queued' END WHERE status='sending'")
+    with db.transaction() as c:
+        c.execute("UPDATE service_mail SET status=CASE WHEN attempts>=3 THEN 'failed' ELSE 'queued' END WHERE status='sending'")
+    last_backup = 0
     while True:
+        if time.monotonic() - last_backup >= 86400:
+            backup(db.path.parent)
+            last_backup = time.monotonic()
+        operational = send_operational(auth, mailer)
+        if any(operational.values()):
+            print('operational_delivery ' + json.dumps(operational), flush=True)
         result = send_pending(auth, mailer)
         if any(result.values()):
             print('mail_delivery ' + json.dumps(result), flush=True)

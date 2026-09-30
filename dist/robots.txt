@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /api/
+Disallow: /accesso/
+Disallow: /consulente/
+Disallow: /cliente/
+Disallow: /v/
+Sitemap: https://primoscore.it/sitemap.xml

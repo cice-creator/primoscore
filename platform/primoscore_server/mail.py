@@ -7,6 +7,7 @@ import smtplib
 import ssl
 from urllib.parse import urlsplit, parse_qs
 
+from .notifications import LABELS
 from .auth import AuthError, email_address
 
 
@@ -21,11 +22,13 @@ class SMTPMailer:
             raise ValueError('Usa SMTP con TLS sulla porta 465 o 587.')
 
     def send(self, payload):
-        labels = {'verify':'Conferma la tua email','reset':'Reimposta la password','invite':'Crea il tuo accesso cliente'}
+        labels = {'verify':'Conferma la tua email','reset':'Reimposta la password','invite':'Crea il tuo accesso cliente',**LABELS}
         message = EmailMessage()
         message['From'], message['To'] = self.sender,email_address(payload['to'])
         message['Subject'] = labels[payload['purpose']]+' · Primoscore'
         message.set_content(labels[payload['purpose']]+'.\n\n'+payload['url']+'\n\nIl collegamento è personale e può essere utilizzato una sola volta. Se non hai richiesto questa operazione, ignora questa email.\n\nPrimoscore')
+        if payload['purpose'] in LABELS:
+            message.set_content(labels[payload['purpose']]+'.\n\nApri la tua area riservata per i dettagli:\n'+payload['url']+'\n\nPrimoscore')
         context = ssl.create_default_context()
         transport = smtplib.SMTP_SSL if self.port==465 else smtplib.SMTP
         kwargs = {'context':context} if self.port==465 else {}

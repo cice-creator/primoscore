@@ -41,6 +41,10 @@ def complete_result(answers):
     if missing:raise ValueError('Completa le risposte richieste: '+', '.join(missing))
     if answers['children']>=answers['householdSize'] or answers['householdEarners']>answers['householdSize']:
         raise ValueError('Controlla componenti del nucleo, figli e persone con un reddito.')
+    bands=('istatAge0to3','istatAge4to10','istatAge11to17','istatAge18to29','istatAge30to59','istatAge60to74','istatAge75plus')
+    if any(k.startswith('istat') for k in answers):
+        if not answers.get('istatRegion') or not answers.get('istatMunicipalityType') or sum(answers.get(k,0) for k in bands)!=answers['householdSize'] or sum(answers.get(k,0) for k in bands[3:])<1:
+            raise ValueError('Per la verifica ISTAT indica regione, tipologia del comune e fasce di età coerenti con il nucleo, con almeno un adulto.')
     if answers.get('propertyFound')=='no' and not all(answers.get(k) for k in ('propertyPrice','loanAmount')):
         result={'partial':True,'engineVersion':'cicero-v2-intake-1','classification':'da_approfondire','strengths':['Hai descritto il tuo progetto e la tua situazione.'],'warnings':['Per stimare la rata servono importo del mutuo e valore dell’immobile.'],'metrics':{},'consap':{'explanation':'Verifica da completare con il tuo consulente.'}}
     else:

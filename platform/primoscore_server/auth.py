@@ -138,6 +138,7 @@ class Auth:
             query['studio'] = c.execute('SELECT slug FROM tenants WHERE id=?',(actor['tenant_id'],)).fetchone()['slug']
         payload = {'to':actor['email'],'purpose':purpose,'url':self.origin+'/accesso/'+route+'?'+urlencode(query)+'#token='+token}
         c.execute('INSERT INTO auth_mail(id,account_id,payload_encrypted,created_at) VALUES(?,?,?,?)', (new_id(),actor['id'],self.cipher.encrypt(json.dumps(payload).encode()).decode(),timestamp))
+        return token
 
     def register(self, data, ip):
         self.rate('register-ip', ip, 5, 3600)
@@ -179,6 +180,17 @@ class Auth:
     def verify_email(self, token):
         with self.db.transaction() as c:
             row = self._token(c, token, 'verify')
+            change=c.execute('SELECT * FROM email_changes WHERE account_id=? AND token_hash=? AND expires_at>?',(row['account_id'],digest(token),self.timestamp())).fetchone()
+            if change:
+                actor=self._credentials(c,row['account_id'])
+                if c.execute("SELECT 1 FROM accounts WHERE role='consultant' AND email=? AND id!=?",(change['new_email'],actor['id'])).fetchone():raise AuthError('Il nuovo indirizzo non è più disponibile.')
+                c.execute('UPDATE accounts SET email=? WHERE id=?',(change['new_email'],actor['id']))
+                c.execute('UPDATE consultant_profiles SET email=?,profile_revision=profile_revision+1 WHERE tenant_id=?',(change['new_email'],actor['tenant_id']))
+                c.execute('DELETE FROM auth_sessions WHERE account_id=?',(actor['id'],))
+                c.execute('DELETE FROM auth_steps WHERE account_id=?',(actor['id'],))
+                c.execute('UPDATE auth_tokens SET used_at=? WHERE account_id=? AND used_at IS NULL',(self.timestamp(),actor['id']))
+                c.execute('DELETE FROM email_changes WHERE account_id=?',(actor['id'],))
+                self._event(c,actor['id'],'email_changed')
             c.execute('UPDATE auth_tokens SET used_at=? WHERE token_hash=?', (self.timestamp(),digest(token)))
             c.execute('UPDATE auth_credentials SET email_verified=1 WHERE account_id=?', (row['account_id'],))
             self._event(c, row['account_id'], 'email_verified')

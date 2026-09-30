@@ -3,6 +3,7 @@ import html
 import json
 import os
 from urllib.request import Request, urlopen
+from .notifications import LABELS
 from .auth import email_address
 
 
@@ -13,9 +14,11 @@ class BrevoMailer:
 
     def send(self, payload):
         labels = {'verify': 'Conferma la tua email', 'reset': 'Reimposta la password',
-                  'invite': 'Crea il tuo accesso cliente'}
+                  'invite': 'Crea il tuo accesso cliente',**LABELS}
         title = labels[payload['purpose']]
         body = title + '.\n\n' + payload['url'] + '\n\nIl collegamento è personale e può essere utilizzato una sola volta. Se non hai richiesto questa operazione, ignora questa email.\n\nPrimoscore'
+        if payload['purpose'] in LABELS:
+            body=title+'.\n\nApri la tua area riservata per i dettagli:\n'+payload['url']+'\n\nPrimoscore'
         data = {'sender': {'email': self.sender, 'name': 'Primoscore'},
                 'to': [{'email': email_address(payload['to'])}],
                 'subject': title + ' · Primoscore', 'textContent': body,

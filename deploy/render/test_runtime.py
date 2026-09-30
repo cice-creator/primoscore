@@ -45,3 +45,22 @@ class RuntimeTest(unittest.TestCase):
 
 
 if __name__ == '__main__': unittest.main()
+
+class RestoreTest(unittest.TestCase):
+    def test_backup_restores_database_and_encrypted_material(self):
+        from cryptography.fernet import Fernet
+        import sqlite3
+        from primoscore_server.database import Database
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'PRIMOSCORE_STATE_DIR': directory}, clear=True):
+            root=Path(directory);runtime.configure();db=Database(os.environ['PRIMOSCORE_DATABASE']);db.initialize()
+            cipher=Fernet((root/'auth.key').read_bytes())
+            with db.transaction() as c:
+                c.execute('CREATE TABLE restore_probe (value TEXT)')
+                c.execute('INSERT INTO restore_probe VALUES (?)',(cipher.encrypt(b'synthetic recovery check').decode(),))
+            runtime.backup(root)
+            backup=next((root/'backups').glob('*.sqlite3'))
+            with sqlite3.connect(backup) as restored:
+                self.assertEqual(restored.execute('PRAGMA integrity_check').fetchone()[0],'ok')
+                self.assertEqual(restored.execute('PRAGMA foreign_key_check').fetchall(),[])
+                self.assertEqual(cipher.decrypt(restored.execute('SELECT value FROM restore_probe').fetchone()[0].encode()),b'synthetic recovery check')
+                self.assertEqual(restored.execute('SELECT COUNT(*) FROM schema_migrations').fetchone()[0],8)

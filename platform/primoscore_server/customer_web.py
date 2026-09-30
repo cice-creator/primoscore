@@ -1,5 +1,6 @@
 from urllib.parse import unquote
-from flask import request,jsonify,render_template,redirect
+from flask import request,jsonify,render_template,redirect,Response
+import json
 from .auth import AuthError
 from .customer import Customer
 
@@ -39,6 +40,18 @@ def register_customer(app,auth,session_token,local):
 
     @app.post('/api/customer/complete')
     def complete():return jsonify(service.complete(request.get_json(silent=True),**credentials()))
+
+    @app.post('/api/customer/restart-test')
+    def restart_test():
+        return jsonify(service.restart_test(request.get_json(silent=True),**credentials()))
+
+    from .operations import Operations
+    operations=Operations(auth)
+    @app.get('/api/workspace/archive.json')
+    def complete_archive():
+        return Response(json.dumps(operations.export(session_token(),**scope()),ensure_ascii=False),mimetype='application/json',headers={'Content-Disposition':'attachment; filename="primoscore-archivio-completo.json"'})
+    @app.post('/api/workspace/anonymize')
+    def anonymize_client():return jsonify(operations.erase(session_token(),request.get_json(silent=True),**scope()))
 
     @app.get('/api/customer/slots')
     def slots():return jsonify(slots=service.slots(**credentials()))

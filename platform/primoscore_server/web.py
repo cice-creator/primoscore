@@ -6,9 +6,12 @@ import io
 import os
 from pathlib import Path
 import secrets
+import re
+import sqlite3
+from contextlib import closing
 from urllib.parse import urlsplit
 
-from flask import Flask, jsonify, request, render_template, send_from_directory
+from flask import Flask, jsonify, request, render_template, send_from_directory, Response
 import qrcode
 from qrcode.image.svg import SvgPathImage
 
@@ -52,7 +55,7 @@ def create_app(database, encryption_key, origin, *, local=False, auth=None, cook
 
     @app.after_request
     def headers(response):
-        response.headers['Cache-Control'] = 'no-store'
+        response.headers['Cache-Control'] = 'public, max-age=0, must-revalidate' if response.status_code==200 and (request.path.startswith(('/static/','/assets/')) or request.path in ('/styles.css','/animation.js','/script.js')) else 'no-store'
         response.headers['Referrer-Policy'] = 'no-referrer'
         response.headers['X-Content-Type-Options'] = 'nosniff'
         response.headers['X-Frame-Options'] = 'DENY'
@@ -112,7 +115,12 @@ def create_app(database, encryption_key, origin, *, local=False, auth=None, cook
 
     @app.get('/healthz')
     def health():
-        return jsonify(ok=True)
+        try:
+            with closing(sqlite3.connect(database.path.as_uri()+'?mode=ro',uri=True,timeout=2)) as c:
+                c.execute('SELECT version FROM schema_migrations LIMIT 1').fetchone()
+            return jsonify(ok=True)
+        except (sqlite3.Error,OSError):
+            return jsonify(ok=False),503
 
     @app.get('/')
     def home():
@@ -126,7 +134,7 @@ def create_app(database, encryption_key, origin, *, local=False, auth=None, cook
     def home_files(filename):
         if filename=='script.js':
             return send_from_directory(Path(__file__).parent/'static','home-access.js')
-        if filename not in ('styles.css','animation.js'):
+        if filename not in ('styles.css','animation.js','robots.txt','sitemap.xml'):
             return '',404
         return send_from_directory(public,filename)
 
@@ -139,14 +147,16 @@ def create_app(database, encryption_key, origin, *, local=False, auth=None, cook
 
     @app.get('/api/auth/csrf')
     def csrf_endpoint():
-        token = secrets.token_urlsafe(32)
+        token = request.cookies.get(csrf_cookie,'')
+        if not re.fullmatch(r'[A-Za-z0-9_-]{43}',token):
+            token = secrets.token_urlsafe(32)
         response = jsonify(csrf=token)
         set_cookie(response,csrf_cookie,token,28800)
         return response
 
     @app.post('/api/auth/register')
     def register():
-        data = body(('first_name','last_name','email','mobile','landline','office_address','office_postcode','office_city','office_province','oam_number','business_name','ivass_number','tax_code','vat_number','ivass_registered','password'))
+        data = body(('first_name','last_name','email','mobile','landline','office_address','office_postcode','office_city','office_province','oam_number','business_name','ivass_number','tax_code','vat_number','ivass_registered','password','controller_name','controller_email'))
         auth.register(data,request.remote_addr)
         return jsonify(ok=True,message='Se l’indirizzo può essere registrato, riceverai il collegamento di conferma. Se hai già un account, usa l’accesso o il recupero password.')
 
@@ -222,6 +232,22 @@ def create_app(database, encryption_key, origin, *, local=False, auth=None, cook
         auth.rate('invite-account',user['id'],10,3600)
         auth.invite_customer(session_token(),data.get('client_id',''))
         return jsonify(ok=True)
+
+
+    from .operations import Operations
+    operations=Operations(auth)
+    @app.post('/api/master/studio-status')
+    def studio_status():return jsonify(operations.status(session_token(),request.get_json(silent=True)))
+    @app.get('/api/master/health')
+    def operations_health():return jsonify(operations.health(session_token()))
+    @app.post('/api/master/retry-mail')
+    def retry_mail():
+        body(())
+        return jsonify(operations.retry_mail(session_token()))
+    @app.post('/api/consultant/profile')
+    def profile_update():return jsonify(operations.profile(session_token(),request.get_json(silent=True)))
+    @app.post('/api/consultant/email')
+    def email_update():return jsonify(operations.email(session_token(),request.get_json(silent=True)))
 
     from .workspace_web import register_workspace
     register_workspace(app,auth,session_token,local)

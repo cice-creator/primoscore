@@ -10,6 +10,7 @@ from .auth import AuthError,email_address,digest
 from .database import now
 from .repository import new_id,encode,view
 from .workspace import Workspace,string,integer
+from .notifications import queue
 from primoscore_core.intake import clean_answers,complete_result
 
 
@@ -87,7 +88,10 @@ class Customer:
                 actor,client=self._client(c,'',guest)
                 if previous['client_id']!=client['id'] or t!=client['tenant_id'] or previous['fingerprint']!=fingerprint:raise AuthError('Richiesta già acquisita. Usa il tuo accesso per riprendere.',409)
                 return {'ok':True,'studio':lot['slug']}
-            if c.execute("SELECT 1 FROM accounts WHERE tenant_id=? AND role='customer' AND email=?",(t,email)).fetchone():raise AuthError('Non è possibile creare un nuovo accesso con questi dati. Se hai già iniziato, usa Accedi o il recupero dell’accesso.',409)
+            existing_account=c.execute("SELECT 1 FROM accounts WHERE tenant_id=? AND role='customer' AND email=?",(t,email)).fetchone()
+            if existing_account and lot['slug']==TEST_STUDIO_SLUG:
+                return {'ok':True,'resume_required':True,'studio':lot['slug']}
+            if existing_account:raise AuthError('Non è possibile creare un nuovo accesso con questi dati. Se hai già iniziato, usa Accedi o il recupero dell’accesso.',409)
             partner=None;label='Non ricordo'
             if campaign:partner=campaign['id'];label=campaign['name']
             else:
@@ -107,6 +111,7 @@ class Customer:
             c.execute('INSERT INTO customer_guest_sessions VALUES(?,?,?)',(digest(token),account,self.auth.timestamp()+86400))
             self.auth._mail_token(c,self.auth._credentials(c,account),'invite')
             self.event(c,t,client,'intake_created')
+            queue(self.auth,c,t,client,'contact:'+client,'contact')
             if not has_notice:self.event(c,t,client,'intake_without_privacy_notice')
             return {'ok':True,'guest_token':token,'studio':lot['slug']}
 
@@ -119,7 +124,7 @@ class Customer:
         profile=c.execute('SELECT first_name,last_name,business_name,email,mobile FROM consultant_profiles WHERE tenant_id=?',(t,)).fetchone()
         slug=c.execute('SELECT slug FROM tenants WHERE id=?',(t,)).fetchone()[0]
         appointments=[view(r) for r in c.execute('SELECT * FROM appointments WHERE tenant_id=? AND client_id=? ORDER BY starts_at DESC',(t,ident))]
-        return dict(testing=slug==TEST_STUDIO_SLUG,client=client,questionnaire=view(q),result=view(result)['result'] if result else None,completed_at=result['created_at'] if result else None,appointments=appointments,consultant=dict(profile) if profile else {},studio=slug,partner_label=attribution[0] if attribution else 'Contatto dello studio')
+        return dict(testing=slug==TEST_STUDIO_SLUG,client=client,questionnaire=view(q),result=(view(result)['result'] or None) if result else None,completed_at=result['created_at'] if result else None,appointments=appointments,consultant=dict(profile) if profile else {},studio=slug,partner_label=attribution[0] if attribution else 'Contatto dello studio')
 
     def get(self,session='',guest=''):
         with self.db.transaction() as c:
@@ -163,6 +168,19 @@ class Customer:
             self.event(c,t,client['id'],'assessment_completed')
             return {'result':result}
 
+
+    def restart_test(self,d,session='',guest=''):
+        if not isinstance(d,dict) or set(d)!={'revision'}:raise AuthError('Richiesta non valida.')
+        with self.db.transaction() as c:
+            _,client=self._client(c,session,guest)
+            t=client['tenant_id']
+            if c.execute('SELECT slug FROM tenants WHERE id=?',(t,)).fetchone()[0]!=TEST_STUDIO_SLUG:raise AuthError('Operazione riservata allo studio di collaudo.',403)
+            q=c.execute('SELECT * FROM questionnaires WHERE tenant_id=? AND client_id=?',(t,client['id'])).fetchone()
+            if q['revision']!=integer(d['revision']):raise AuthError('La prova è cambiata in un’altra scheda. Ricarica.',409)
+            c.execute("UPDATE questionnaires SET answers_json='{}',current_step=0,revision=revision+1 WHERE tenant_id=? AND id=?",(t,q['id']))
+            self.event(c,t,client['id'],'test_restarted')
+            return {'ok':True}
+
     def slots(self,session='',guest=''):
         with self.db.transaction() as c:
             _,client=self._client(c,session,guest)
@@ -185,6 +203,8 @@ class Customer:
                 c.execute('INSERT INTO appointments(tenant_id,id,client_id,starts_at,ends_at,created_at) VALUES(?,?,?,?,?,?)',(t,ident,client['id'],slot['starts_at'],slot['ends_at'],now()))
                 c.execute('INSERT INTO customer_bookings VALUES(?,?,?,?)',(t,ident,slot_id,note))
                 self.event(c,t,client['id'],'appointment_booked')
+                queue(self.auth,c,t,client['id'],'booking:'+ident,'booking')
+                queue(self.auth,c,t,client['id'],'booking:'+ident,'booking',customer=True)
                 return {'appointment':dict(c.execute('SELECT * FROM appointments WHERE tenant_id=? AND id=?',(t,ident)).fetchone())}
         except sqlite3.IntegrityError as e:raise AuthError('Orario appena occupato. Scegline un altro.',409) from e
 
@@ -240,6 +260,7 @@ class Customer:
                 if action!='slot.close' and status not in ('cancelled','completed'):raise AuthError('Stato non valido.')
                 if table=='appointments' and row['status']!='confirmed':raise AuthError('Appuntamento già concluso.',409)
                 c.execute('UPDATE '+table+' SET status=?,revision=revision+1 WHERE tenant_id=? AND id=?',(status,t,ident))
+                if table=='appointments':queue(self.auth,c,t,row['client_id'],'appointment:'+ident+':'+status,'appointment_changed',customer=True)
             else:raise AuthError('Operazione non disponibile.')
             self.workspace._audit(c,actor,t,reason,'customer_'+action)
             return {'ok':True}
