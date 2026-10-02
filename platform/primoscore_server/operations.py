@@ -41,7 +41,7 @@ class Operations:
             if old['profile_revision']!=revision:raise AuthError('Profilo aggiornato in un’altra scheda. Ricarica.',409)
             # The controller belongs to the studio privacy settings.  A stale
             # profile form must never overwrite a newer privacy notice.
-            d['controller_name']=old['controller_name'];d['controller_email']=old['controller_email']
+            d['controller_name']=old['controller_name'];d['controller_email']=old['controller_email'];d['controller_dpo']=old['controller_dpo']
             clean=consultant_profile(d)
             if clean['email']!=actor['email']:raise AuthError('Per cambiare email usa il comando con verifica del nuovo indirizzo.')
             c.execute('UPDATE consultant_profiles SET '+','.join(k+'=?' for k in clean)+',profile_revision=profile_revision+1 WHERE tenant_id=?',(*clean.values(),actor['tenant_id']))

@@ -45,7 +45,7 @@ def password_value(value):
 
 def consultant_profile(data):
     required = ('first_name','last_name','email','mobile','landline','office_address','office_postcode','office_city','office_province','oam_number','controller_name','controller_email')
-    optional = ('business_name','ivass_number','tax_code','vat_number')
+    optional = ('business_name','ivass_number','tax_code','vat_number','controller_dpo')
     allowed = set(required + optional) | {'password','ivass_registered'}
     if not isinstance(data, dict) or set(data) - allowed:
         raise AuthError('Campi di registrazione non validi.')
@@ -151,6 +151,8 @@ class Auth:
             tenant, account = new_id(), new_id()
             c.execute('INSERT INTO tenants VALUES(?,?,?,?)', (tenant,'studio-'+secrets.token_hex(6),'draft',now()))
             c.execute('INSERT INTO consultant_profiles(tenant_id,'+','.join(profile)+') VALUES('+','.join('?' for _ in range(len(profile)+1))+')', [tenant,*profile.values()])
+            from .studio_privacy import automatic_notice
+            automatic_notice(c, tenant, self.origin)
             c.execute('INSERT INTO accounts VALUES(?,?,?,?,?,?,?)', (account,tenant,None,'consultant',profile['email'],'pending',now()))
             c.execute('INSERT INTO auth_credentials(account_id,password_hash,password_changed_at) VALUES(?,?,?)', (account,hashed,self.timestamp()))
             actor = self._credentials(c, account)

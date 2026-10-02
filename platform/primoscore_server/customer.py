@@ -11,6 +11,7 @@ from .database import now
 from .repository import new_id,encode,view
 from .workspace import Workspace,string,integer
 from .notifications import queue
+from .studio_privacy import automatic_notice
 from primoscore_core.intake import clean_answers,complete_result
 
 
@@ -33,8 +34,15 @@ class Customer:
     def _settings(self,c,t):
         row=c.execute('SELECT * FROM customer_settings WHERE tenant_id=?',(t,)).fetchone()
         result=dict(row) if row else dict(tenant_id=t,privacy_url='',privacy_version='',revision=0)
-        profile=c.execute('SELECT controller_name,controller_email FROM consultant_profiles WHERE tenant_id=?',(t,)).fetchone()
+        profile=c.execute('SELECT controller_name,controller_email,controller_dpo,controller_address,office_address,office_postcode,office_city,office_province FROM consultant_profiles WHERE tenant_id=?',(t,)).fetchone()
         result.update(dict(profile) if profile else dict(controller_name='',controller_email=''))
+        result['automatic_privacy'] = not result['privacy_url'] and not result['privacy_version']
+        if profile:
+            result['controller_address'] = profile['controller_address'] or f"{profile['office_address']}, {profile['office_postcode']} {profile['office_city']} ({profile['office_province']})"
+        if not self.local and not result['privacy_url'] and not result['privacy_version']:
+            notice = automatic_notice(c, t, self.auth.origin)
+            if notice:
+                result.update(notice)
         return result
 
     def _partners(self,c,lot):
@@ -224,11 +232,22 @@ class Customer:
             return dict(clients=clients,slots=slots,appointments=appointments,settings=self._settings(c,t))
 
     def configure(self,token,d,tenant=None,reason=''):
-        if not isinstance(d,dict) or set(d)-{'action','id','revision','starts_at','local_start','status','privacy_url','privacy_version','controller_name','controller_email'}:raise AuthError('Richiesta non valida.')
+        if not isinstance(d,dict) or set(d)-{'action','id','revision','starts_at','local_start','status','privacy_url','privacy_version','controller_name','controller_email','controller_address','controller_dpo'}:raise AuthError('Richiesta non valida.')
         action=d.get('action')
         with self.db.transaction() as c:
             actor,t,reason=self.workspace._scope(c,token,tenant,reason)
-            if action=='privacy':
+            if action=='privacy.auto':
+                settings=self._settings(c,t)
+                if not settings['automatic_privacy']:raise AuthError('Questo studio usa un’informativa esterna.')
+                if settings['revision']!=integer(d.get('revision')):raise AuthError('Impostazioni aggiornate da un’altra scheda.',409)
+                name=string(d.get('controller_name'),'titolare',250,True)
+                email=email_address(d.get('controller_email'))
+                address=string(d.get('controller_address'),'sede del titolare',250,True)
+                dpo=string(d.get('controller_dpo',''),'DPO',250)
+                c.execute('UPDATE consultant_profiles SET controller_name=?,controller_email=?,controller_address=?,controller_dpo=?,profile_revision=profile_revision+1 WHERE tenant_id=?',(name,email,address,dpo,t))
+                c.execute("INSERT INTO customer_settings VALUES(?,'','',1) ON CONFLICT(tenant_id) DO UPDATE SET revision=customer_settings.revision+1",(t,))
+                automatic_notice(c,t,self.auth.origin)
+            elif action=='privacy':
                 url=string(d.get('privacy_url'),'informativa',1000,True);version=string(d.get('privacy_version'),'versione informativa',100,True);parsed=urlsplit(url)
                 if parsed.scheme!='https' or not parsed.hostname or parsed.username or parsed.password:raise AuthError('Inserisci il collegamento HTTPS all’informativa del tuo studio.')
                 settings=self._settings(c,t)

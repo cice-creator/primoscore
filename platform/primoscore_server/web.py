@@ -109,6 +109,16 @@ def create_app(database, encryption_key, origin, *, local=False, auth=None, cook
     def platform_privacy():
         return render_template('privacy.html')
 
+    @app.get('/privacy/studio/<slug>/<version>')
+    def studio_privacy(slug, version):
+        import json
+        with auth.db.transaction() as c:
+            row = c.execute('SELECT d.* FROM studio_privacy_documents d JOIN tenants t ON t.id=d.tenant_id WHERE t.slug=? AND d.version=?', (slug, version)).fetchone()
+            if not row:
+                return 'Informativa non disponibile.', 404
+            profile = json.loads(row['profile_json'])
+        return render_template('studio_privacy.html', profile=profile, version=version)
+
     @app.get('/ruoli-privacy')
     def privacy_roles():
         return render_template('privacy_roles.html')
@@ -167,7 +177,7 @@ def create_app(database, encryption_key, origin, *, local=False, auth=None, cook
 
     @app.post('/api/auth/register')
     def register():
-        data = body(('first_name','last_name','email','mobile','landline','office_address','office_postcode','office_city','office_province','oam_number','business_name','ivass_number','tax_code','vat_number','ivass_registered','password','controller_name','controller_email'))
+        data = body(('first_name','last_name','email','mobile','landline','office_address','office_postcode','office_city','office_province','oam_number','business_name','ivass_number','tax_code','vat_number','ivass_registered','password','controller_name','controller_email','controller_dpo'))
         auth.register(data,request.remote_addr)
         return jsonify(ok=True,message='Se l’indirizzo può essere registrato, riceverai il collegamento di conferma. Se hai già un account, usa l’accesso o il recupero password.')
 
