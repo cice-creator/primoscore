@@ -9,3 +9,5 @@
 .import-dialog input[type=checkbox]{width:20px;height:20px}
 .import-dialog .check{display:flex;align-items:center;gap:8px}
 .import-issue,#import-error{color:#a33333}
+
+.quick-start{margin-bottom:26px}.quick-start p{min-height:50px}.row-action{display:flex;justify-content:space-between;align-items:center;gap:15px;border-bottom:1px solid #e4ecef;padding:12px 0}.row-action p{margin:6px 0}.row-action a{white-space:nowrap}

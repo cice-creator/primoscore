@@ -141,8 +141,15 @@ def create_app(database, encryption_key, origin, *, local=False, auth=None, cook
     @app.get('/accesso/')
     @app.get('/accesso/<mode>')
     def access(mode='consulente'):
-        if mode not in ('consulente','cliente','master','registrazione','conferma','nuova-password','invito','recupero','verifica','profilo'):
+        if mode not in ('consulente','cliente','master','registrazione','conferma','nuova-password','invito','recupero','verifica','profilo','continua'):
             return '',404
+        if mode=='continua':
+            try:
+                user=auth.identity(session_token())
+                if user['role']=='master':return redirect('/master/')
+                if user['active']:return redirect('/consulente/' if user['role']=='consultant' else '/cliente/')
+                return redirect('/accesso/profilo')
+            except AuthError:return redirect('/accesso/consulente')
         if mode=='profilo':
             try:
                 if auth.identity(session_token(),full=True)['role']=='master':return redirect('/master/')
