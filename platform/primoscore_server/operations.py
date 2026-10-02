@@ -68,7 +68,7 @@ class Operations:
     def export(self,token,tenant=None,reason=''):
         with self.db.transaction() as c:
             actor,t,reason=self.workspace._scope(c,token,tenant,reason)
-            tables=('consultant_profiles','cities','partners','voucher_lots','campaigns','deliveries','activities','print_runs','clients','questionnaires','assessments','customer_intakes','customer_events','booking_slots','appointments','customer_bookings','customer_settings','privacy_erasures')
+            tables=('consultant_profiles','cities','partners','voucher_lots','campaigns','deliveries','activities','print_runs','clients','questionnaires','assessments','customer_intakes','customer_events','booking_slots','appointments','customer_bookings','customer_settings','privacy_erasures','crm_leads','crm_events','crm_drafts')
             result={'format':'primoscore-studio-export-1','created_at':now(),'data':{table:[view(r) for r in c.execute('SELECT * FROM '+table+' WHERE tenant_id=?',(t,))] for table in tables}}
             self.workspace._audit(c,actor,t,reason,'export_complete_studio')
             return result
@@ -108,6 +108,8 @@ def anonymize(c,t,ident,timestamp):
             c.execute('DELETE FROM '+table+' WHERE account_id=?',(account,))
         c.execute('UPDATE auth_credentials SET password_hash=NULL,email_verified=0,totp_encrypted=NULL WHERE account_id=?',(account,))
         c.execute("UPDATE accounts SET email=?,status='suspended' WHERE id=?",('erased-'+account+'@example.invalid',account))
+    for table in ('crm_leads','crm_events','crm_drafts'):
+        c.execute('DELETE FROM '+table+' WHERE tenant_id=? AND client_id=?',(t,ident))
     c.execute('DELETE FROM service_mail WHERE tenant_id=? AND client_id=?',(t,ident))
     c.execute("UPDATE clients SET first_name='Contatto anonimizzato',last_name='',email='',mobile='',residence_city='',stage='archived',revision=revision+1 WHERE tenant_id=? AND id=?",(t,ident))
     c.execute("UPDATE questionnaires SET answers_json='{}',current_step=0,revision=revision+1 WHERE tenant_id=? AND client_id=?",(t,ident))

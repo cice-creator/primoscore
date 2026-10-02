@@ -11,7 +11,7 @@ import sqlite3
 from contextlib import closing
 from urllib.parse import urlsplit
 
-from flask import Flask, jsonify, request, render_template, send_from_directory, Response
+from flask import Flask, jsonify, request, render_template, send_from_directory, Response, redirect
 import qrcode
 from qrcode.image.svg import SvgPathImage
 
@@ -143,6 +143,10 @@ def create_app(database, encryption_key, origin, *, local=False, auth=None, cook
     def access(mode='consulente'):
         if mode not in ('consulente','cliente','master','registrazione','conferma','nuova-password','invito','recupero','verifica','profilo'):
             return '',404
+        if mode=='profilo':
+            try:
+                if auth.identity(session_token(),full=True)['role']=='master':return redirect('/master/')
+            except AuthError:pass
         return render_template('access.html',mode=mode,local=local)
 
     @app.get('/api/auth/csrf')
@@ -249,6 +253,10 @@ def create_app(database, encryption_key, origin, *, local=False, auth=None, cook
     @app.post('/api/consultant/email')
     def email_update():return jsonify(operations.email(session_token(),request.get_json(silent=True)))
 
+    from .crm_web import register_crm
+    register_crm(app,auth,session_token,local)
+    from .master_web import register_master
+    register_master(app,auth,session_token,local)
     from .workspace_web import register_workspace
     register_workspace(app,auth,session_token,local)
     from .partner_import_web import register_partner_import
