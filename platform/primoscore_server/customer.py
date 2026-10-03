@@ -118,6 +118,8 @@ class Customer:
             token=secrets.token_urlsafe(32)
             c.execute('INSERT INTO customer_guest_sessions VALUES(?,?,?)',(digest(token),account,self.auth.timestamp()+86400))
             self.auth._mail_token(c,self.auth._credentials(c,account),'invite')
+            from .crm import CRM
+            CRM(self.auth)._client(c,t,client)
             self.event(c,t,client,'intake_created')
             queue(self.auth,c,t,client,'contact:'+client,'contact')
             if not has_notice:self.event(c,t,client,'intake_without_privacy_notice')
@@ -210,6 +212,8 @@ class Customer:
                 ident=new_id()
                 c.execute('INSERT INTO appointments(tenant_id,id,client_id,starts_at,ends_at,created_at) VALUES(?,?,?,?,?,?)',(t,ident,client['id'],slot['starts_at'],slot['ends_at'],now()))
                 c.execute('INSERT INTO customer_bookings VALUES(?,?,?,?)',(t,ident,slot_id,note))
+                from .crm import CRM
+                CRM(self.auth).booked(c,t,client['id'])
                 self.event(c,t,client['id'],'appointment_booked')
                 queue(self.auth,c,t,client['id'],'booking:'+ident,'booking')
                 queue(self.auth,c,t,client['id'],'booking:'+ident,'booking',customer=True)

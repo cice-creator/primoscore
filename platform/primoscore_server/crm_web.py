@@ -19,3 +19,9 @@ def register_crm(app,auth,session_token,local):
     def crm_read(ident=None):return jsonify(service.snapshot(session_token(),ident=ident,**scope()))
     @app.post('/api/workspace/crm/<ident>')
     def crm_command(ident):return jsonify(service.command(session_token(),ident,request.get_json(silent=True),**scope()))
+
+    @app.route('/api/workspace/crm-rules',methods=['GET','POST'])
+    def crm_rules():
+        data=request.get_json(silent=True) if request.method=='POST' else None
+        if request.method=='POST' and not isinstance(data,dict):raise AuthError('Dati non validi.')
+        return jsonify(service.rules(session_token(),data,**scope()))

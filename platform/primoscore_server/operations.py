@@ -68,7 +68,7 @@ class Operations:
     def export(self,token,tenant=None,reason=''):
         with self.db.transaction() as c:
             actor,t,reason=self.workspace._scope(c,token,tenant,reason)
-            tables=('consultant_profiles','cities','partners','voucher_lots','campaigns','deliveries','activities','print_runs','clients','questionnaires','assessments','customer_intakes','customer_events','booking_slots','appointments','customer_bookings','customer_settings','privacy_erasures','crm_leads','crm_events','crm_drafts')
+            tables=('consultant_profiles','cities','partners','voucher_lots','campaigns','deliveries','activities','print_runs','clients','questionnaires','assessments','customer_intakes','customer_events','booking_slots','appointments','customer_bookings','customer_settings','privacy_erasures','crm_leads','crm_events','crm_drafts','crm_rules')
             result={'format':'primoscore-studio-export-1','created_at':now(),'data':{table:[view(r) for r in c.execute('SELECT * FROM '+table+' WHERE tenant_id=?',(t,))] for table in tables}}
             self.workspace._audit(c,actor,t,reason,'export_complete_studio')
             return result
