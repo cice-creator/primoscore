@@ -71,20 +71,30 @@ class CRM:
                 if channel not in ('whatsapp','email') or purpose not in PURPOSES:raise AuthError('Bozza non valida.')
                 existing=c.execute("SELECT id FROM crm_drafts WHERE tenant_id=? AND client_id=? AND channel=? AND purpose=? AND status='draft'",(t,ident,channel,purpose)).fetchone()
                 if existing:raise AuthError('Esiste già una bozza di questo tipo: modifica quella disponibile.',409)
-                studio=c.execute('SELECT * FROM consultant_profiles WHERE tenant_id=?',(t,)).fetchone();signature=studio['first_name']+' '+studio['last_name']+' · '+(studio['business_name'] or 'Primoscore')
+                studio=c.execute('SELECT * FROM consultant_profiles WHERE tenant_id=?',(t,)).fetchone()
+                consultant=' '.join(filter(None,(studio['first_name'].strip(),studio['last_name'].strip())))
+                studio_name=studio['business_name'].strip() or consultant
+                signature_lines=[consultant]
+                if studio_name!=consultant:signature_lines.append(studio_name)
+                address=' '.join(filter(None,(studio['office_address'].strip(),studio['office_postcode'].strip(),studio['office_city'].strip(),studio['office_province'].strip())))
+                if address:signature_lines.append(address)
+                phones=list(dict.fromkeys(value.strip() for value in (studio['mobile'],studio['landline']) if value.strip()))
+                if phones:signature_lines.append('Tel. '+' · '.join(phones))
+                if studio['email'].strip():signature_lines.append(studio['email'].strip())
+                signature='\n'.join(filter(None,signature_lines))
                 future=c.execute("SELECT * FROM appointments WHERE tenant_id=? AND client_id=? AND status='confirmed' AND starts_at>? ORDER BY starts_at LIMIT 1",(t,ident,self.auth.timestamp())).fetchone()
                 slots=c.execute("SELECT * FROM booking_slots s WHERE tenant_id=? AND status='open' AND starts_at>? AND NOT EXISTS(SELECT 1 FROM appointments a WHERE a.tenant_id=s.tenant_id AND a.status='confirmed' AND a.starts_at<s.ends_at AND a.ends_at>s.starts_at) ORDER BY starts_at LIMIT 2",(t,self.auth.timestamp())).fetchall()
                 when=lambda ts:datetime.fromtimestamp(ts,ZoneInfo('Europe/Rome')).strftime('%d/%m/%Y alle %H:%M')
                 if purpose in ('confirmation','reminder') and not future:raise AuthError('Prima fissa un appuntamento futuro.')
-                messages={'first':'Hai lasciato una richiesta tramite Primoscore. Mi farebbe piacere ascoltare il tuo progetto: quando preferisci sentirci per concordare un appuntamento?',
-                'no_answer':'Ho provato a chiamarti per la tua richiesta su Primoscore. Qual è un momento comodo per sentirci?',
-                'followup':'Ti ricontatto per la tua richiesta su Primoscore. Se vuoi, possiamo fissare un incontro per parlarne insieme. Quando ti sarebbe comodo?',
+                messages={'first':'Hai lasciato una richiesta al nostro studio. Mi farebbe piacere ascoltare il tuo progetto: quando preferisci sentirci per concordare un appuntamento?',
+                'no_answer':'Ho provato a chiamarti per la tua richiesta al nostro studio. Qual è un momento comodo per sentirci?',
+                'followup':'Ti ricontatto per la tua richiesta al nostro studio. Se vuoi, possiamo fissare un incontro per parlarne insieme. Quando ti sarebbe comodo?',
                 'proposal':('Per il nostro incontro posso proporti '+ ' oppure '.join(when(s['starts_at']) for s in slots)+'. Quale preferisci? Gli orari sono da confermare.' if slots else 'Vorrei proporti un incontro. Quali giorni e orari preferisci?'),
                 'confirmation':'Ti confermo il nostro appuntamento del '+(when(future['starts_at']) if future else '')+'. Se hai bisogno di modificarlo, rispondimi.',
                 'reminder':'Ti ricordo il nostro appuntamento del '+(when(future['starts_at']) if future else '')+'. Ti aspetto! Se hai un imprevisto, avvisami.',
                 'reschedule':'Non siamo riusciti a incontrarci. Vuoi concordare un nuovo appuntamento? Indicami un momento comodo per te.'}
                 body='Ciao '+client['first_name']+',\n\n'+messages[purpose]+'\n\n'+signature
-                c.execute('INSERT INTO crm_drafts(tenant_id,client_id,id,channel,purpose,subject,body,created_at) VALUES(?,?,?,?,?,?,?,?)',(t,ident,new_id(),channel,purpose,'Il tuo appuntamento · '+(studio['business_name'] or 'Primoscore') if channel=='email' else '',body,now()))
+                c.execute('INSERT INTO crm_drafts(tenant_id,client_id,id,channel,purpose,subject,body,created_at) VALUES(?,?,?,?,?,?,?,?)',(t,ident,new_id(),channel,purpose,'Il tuo appuntamento · '+studio_name if channel=='email' else '',body,now()))
                 self._event(c,t,ident,'draft','Bozza '+channel+' preparata. Nessun invio.')
             elif action=='save_draft':
                 draft=self.workspace._get(c,t,'crm_drafts',d.get('id'))
