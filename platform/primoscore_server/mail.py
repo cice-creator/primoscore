@@ -29,6 +29,8 @@ class SMTPMailer:
         message.set_content(labels[payload['purpose']]+'.\n\n'+payload['url']+'\n\nIl collegamento è personale e può essere utilizzato una sola volta. Se non hai richiesto questa operazione, ignora questa email.\n\nPrimoscore')
         if payload['purpose'] in LABELS:
             message.set_content(labels[payload['purpose']]+'.\n\nApri la tua area riservata per i dettagli:\n'+payload['url']+'\n\nPrimoscore')
+        if payload['purpose']=='report':
+            message.set_content('Il tuo report Primoscore è pronto.\n\nLeggi il tuo report e conferma il tuo indirizzo email:\n'+payload['url']+'\n\nIl collegamento è personale e valido per 7 giorni. Non condividerlo.\n\nPrimoscore')
         context = ssl.create_default_context()
         transport = smtplib.SMTP_SSL if self.port==465 else smtplib.SMTP
         kwargs = {'context':context} if self.port==465 else {}

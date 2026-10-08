@@ -15,7 +15,7 @@ def register_customer(app,auth,session_token,local):
     @app.get('/cliente/')
     @app.get('/cliente/<section>')
     def customer_page(section='area'):
-        if section not in ('area','questionario','risultato','appuntamento','informativa-prova'):return '',404
+        if section not in ('area','questionario','risultato','appuntamento','informativa-prova','report','report-inviato'):return '',404
         return render_template('customer.html',section=section,local=local,code='')
 
     @app.get('/api/customer/context/<code>')
@@ -40,6 +40,19 @@ def register_customer(app,auth,session_token,local):
 
     @app.post('/api/customer/complete')
     def complete():return jsonify(service.complete(request.get_json(silent=True),**credentials()))
+
+    @app.post('/api/customer/report/open')
+    def open_report():
+        data=request.get_json(silent=True)
+        if not isinstance(data,dict) or set(data)!={'token'}:raise AuthError('Richiesta non valida.')
+        auth.rate('report-open',request.remote_addr,30,900)
+        result=service.report(data['token'],verify=True)
+        response=jsonify(result)
+        response.set_cookie(prefix+'report',data['token'],max_age=7*86400,httponly=True,secure=not local,samesite='Strict',path='/')
+        return response
+
+    @app.get('/api/customer/report')
+    def report():return jsonify(service.report(request.cookies.get(prefix+'report','')))
 
     @app.post('/api/customer/restart-test')
     def restart_test():

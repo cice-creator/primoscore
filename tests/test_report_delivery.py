@@ -1,0 +1,70 @@
+import json
+from urllib.parse import urlsplit,parse_qs
+from report_support import CustomerFixture,BASE
+from primoscore_server.auth import AuthError
+from primoscore_server.notifications import send_operational
+from primoscore_server.operations import Operations
+
+class ReportDeliveryTest(CustomerFixture):
+    def delivery(self):
+        with self.db.transaction() as c:
+            row=c.execute("SELECT payload_encrypted FROM service_mail WHERE event_key LIKE 'report:%' ORDER BY rowid DESC LIMIT 1").fetchone()
+        payload=json.loads(self.auth.cipher.decrypt(row[0].encode()))
+        return payload,parse_qs(urlsplit(payload['url']).fragment)['token'][0]
+
+    def test_mailbox_verification_gates_report(self):
+        guest=self.intake();self.save(guest)
+        sent=self.customer.complete({'revision':1},guest=guest)
+        self.assertNotIn('result',sent)
+        self.assertIsNone(self.customer.get(guest=guest)['result'])
+        payload,token=self.delivery()
+        self.assertNotIn('totalScore',payload);self.assertNotIn('answers',payload)
+        with self.assertRaises(AuthError):self.customer.report(token)
+        self.assertEqual(self.customer.report(token,verify=True)['result']['totalScore'],86)
+        self.assertEqual(self.customer.get(guest=guest)['result']['totalScore'],86)
+        self.assertEqual(self.customer.report(token)['result']['totalScore'],86)
+
+    def test_correction_revoke_resend_and_revision(self):
+        guest=self.intake();self.save(guest);self.customer.complete({'revision':1},guest=guest)
+        _,old=self.delivery()
+        self.customer.complete({'revision':1,'email':'corrected@example.invalid'},guest=guest)
+        with self.assertRaises(AuthError):self.customer.report(old,verify=True)
+        payload,token=self.delivery();self.assertEqual(payload['to'],'corrected@example.invalid')
+        self.assertEqual(self.customer.get(guest=guest)['client']['email'],'client@example.invalid')
+        self.customer.report(token,verify=True)
+        self.assertEqual(self.customer.get(guest=guest)['client']['email'],'corrected@example.invalid')
+        self.save(guest,{**BASE,'savings':60000},revision=1)
+        with self.assertRaises(AuthError):self.customer.report(token)
+
+    def test_pending_account_mail_is_sent_and_revoked_mail_cancelled(self):
+        guest=self.intake();self.save(guest);self.customer.complete({'revision':1},guest=guest)
+        self.customer.complete({'revision':1},guest=guest)
+        class Mailer:
+            def __init__(self):self.sent=[]
+            def send(self,payload):self.sent.append(payload)
+        mailer=Mailer();send_operational(self.auth,mailer)
+        self.assertEqual(len([p for p in mailer.sent if p['purpose']=='report']),1)
+        _,token=self.delivery();self.time+=7*86400+1
+        with self.assertRaises(AuthError):self.customer.report(token,verify=True)
+
+    def test_erasure_revokes_report(self):
+        guest=self.intake();self.save(guest);self.customer.complete({'revision':1},guest=guest)
+        _,token=self.delivery();client=self.customer.get(guest=guest)['client']
+        Operations(self.auth).erase(self.session,dict(client_id=client['id'],revision=client['revision'],confirmation='ANONIMIZZA'))
+        with self.assertRaises(AuthError):self.customer.report(token,verify=True)
+
+    def test_http_link_opens_on_other_device_with_csrf_and_cookie(self):
+        from primoscore_server.web import create_app
+        guest=self.intake();self.save(guest);self.customer.complete({'revision':1},guest=guest)
+        _,token=self.delivery()
+        app=create_app(self.db,self.key,self.auth.origin,auth=self.auth)
+        client=app.test_client();base=self.auth.origin
+        self.assertEqual(client.get('/cliente/report',base_url=base).status_code,200)
+        self.assertEqual(client.get('/api/customer/report',base_url=base).status_code,403)
+        self.assertEqual(client.post('/api/customer/report/open',base_url=base,json={'token':token}).status_code,403)
+        csrf=client.get('/api/auth/csrf',base_url=base).json['csrf']
+        response=client.post('/api/customer/report/open',base_url=base,headers={'Origin':base,'X-CSRF-Token':csrf},json={'token':token})
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.json['result']['totalScore'],86)
+        self.assertIn('HttpOnly',response.headers['Set-Cookie'])
+        self.assertEqual(client.get('/api/customer/report',base_url=base).json['result']['totalScore'],86)

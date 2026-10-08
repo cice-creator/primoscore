@@ -84,6 +84,7 @@ def create_app(database, encryption_key, origin, *, local=False, auth=None, cook
     def clear_guest(response):
         app.extensions['primoscore_customer'].logout_guest(request.cookies.get(prefix+'guest',''))
         response.delete_cookie(prefix+'guest',path='/',secure=not local,httponly=True,samesite='Strict')
+        response.delete_cookie(prefix+'report',path='/',secure=not local,httponly=True,samesite='Strict')
 
     def finish(result):
         result = dict(result)

@@ -139,7 +139,12 @@ class Customer:
     def get(self,session='',guest=''):
         with self.db.transaction() as c:
             actor,client=self._client(c,session,guest)
-            return {**self._view(c,client),'temporary_access':actor['status']=='pending','local':self.local}
+            data=self._view(c,client)
+            data['assessment_completed']=bool(data['result'])
+            row=c.execute('SELECT d.verified_at,d.email FROM customer_report_deliveries d JOIN assessments a ON a.id=d.assessment_id AND a.tenant_id=d.tenant_id WHERE d.account_id=? AND a.questionnaire_id=? AND a.answers_revision=? ORDER BY d.rowid DESC LIMIT 1',(actor['id'],data['questionnaire']['id'],data['questionnaire']['revision'])).fetchone()
+            data['report_email']=row['email'] if row else client['email']
+            if not row or row['verified_at'] is None or row['email']!=client['email']:data['result']=None
+            return {**data,'temporary_access':actor['status']=='pending','local':self.local}
 
     def save(self,d,session='',guest=''):
         if not isinstance(d,dict) or set(d)!={'answers','step','revision','residence_city'}:raise AuthError('Campi non validi.')
@@ -156,28 +161,65 @@ class Customer:
             return {'revision':revision+1}
 
     def complete(self,d,session='',guest=''):
-        if not isinstance(d,dict) or set(d)!={'revision'}:raise AuthError('Richiesta non valida.')
+        if not isinstance(d,dict) or set(d)-{'revision','email'} or 'revision' not in d:raise AuthError('Richiesta non valida.')
         revision=integer(d['revision'])
+        email=email_address(d.get('email') or self.get(session,guest)['client']['email'])
         # Calculate outside the write transaction (the core may consult ISTAT).
         before=self.get(session,guest);q=before['questionnaire'];client=before['client']
         if q['revision']!=revision:raise AuthError('Le risposte sono cambiate. Ricarica prima di calcolare.',409)
-        if before['result']:return {'result':before['result']}
         self.auth.rate('customer-complete',client['tenant_id']+':'+client['id'],10,900)
         if not client['last_name'] or not client['residence_city']:raise AuthError('Completa cognome e città di residenza.')
         try:result=complete_result(q['answers'])
         except ValueError as e:raise AuthError(str(e)) from e
         with self.db.transaction() as c:
-            _,current=self._client(c,session,guest);t=current['tenant_id']
+            actor,current=self._client(c,session,guest);t=current['tenant_id']
             if current['id']!=client['id']:raise AuthError('Accesso cambiato. Ricarica.',409)
             latest=c.execute('SELECT * FROM questionnaires WHERE tenant_id=? AND id=?',(t,q['id'])).fetchone()
             if latest['revision']!=revision or current['revision']!=client['revision']:raise AuthError('Le risposte sono cambiate durante il calcolo. Riprova.',409)
-            existing=c.execute('SELECT result_json FROM assessments WHERE tenant_id=? AND questionnaire_id=? AND answers_revision=?',(t,q['id'],revision)).fetchone()
-            if existing:return {'result':json.loads(existing[0])}
-            c.execute('INSERT INTO assessments(tenant_id,id,client_id,questionnaire_id,answers_revision,engine_version,answers_json,result_json,created_at) VALUES(?,?,?,?,?,?,?,?,?)',(t,new_id(),client['id'],q['id'],revision,result['engineVersion'],encode(q['answers']),encode(result),now()))
+            existing=c.execute('SELECT id FROM assessments WHERE tenant_id=? AND questionnaire_id=? AND answers_revision=?',(t,q['id'],revision)).fetchone()
+            if existing:return self._queue_report(c,actor,current,existing['id'],email)
+            assessment=new_id()
+            c.execute('INSERT INTO assessments(tenant_id,id,client_id,questionnaire_id,answers_revision,engine_version,answers_json,result_json,created_at) VALUES(?,?,?,?,?,?,?,?,?)',(t,assessment,client['id'],q['id'],revision,result['engineVersion'],encode(q['answers']),encode(result),now()))
             c.execute('UPDATE questionnaires SET current_step=6 WHERE tenant_id=? AND id=?',(t,q['id']))
             self.event(c,t,client['id'],'assessment_completed')
-            return {'result':result}
+            return self._queue_report(c,actor,current,assessment,email)
 
+
+    def _queue_report(self,c,actor,client,assessment,email):
+        t=client['tenant_id']
+        if c.execute("SELECT 1 FROM accounts WHERE tenant_id=? AND role='customer' AND email=? AND id!=?",(t,email,actor['id'])).fetchone():
+            raise AuthError('Indirizzo già associato a un altro accesso. Usa un altro indirizzo.',409)
+        if c.execute('SELECT slug FROM tenants WHERE id=?',(t,)).fetchone()[0]==TEST_STUDIO_SLUG and email!=TEST_CONTACT['email']:
+            raise AuthError('Usa l’indirizzo precompilato dello studio di collaudo.')
+        c.execute('DELETE FROM customer_report_deliveries WHERE account_id=?',(actor['id'],))
+        c.execute("UPDATE service_mail SET status='cancelled' WHERE recipient_account_id=? AND event_key LIKE 'report:%' AND status IN ('queued','failed')",(actor['id'],))
+        token=secrets.token_urlsafe(32)
+        c.execute('INSERT INTO customer_report_deliveries VALUES(?,?,?,?,?,?,?,?,NULL)',(digest(token),actor['id'],assessment,t,client['id'],email,actor['email'],self.auth.timestamp()+7*86400))
+        payload={'purpose':'report','to':email,'url':self.auth.origin+'/cliente/report#token='+token}
+        c.execute('INSERT INTO service_mail(id,tenant_id,client_id,event_key,payload_encrypted,created_at,recipient_account_id) VALUES(?,?,?,?,?,?,?)',(new_id(),t,client['id'],'report:'+digest(token),self.auth.cipher.encrypt(json.dumps(payload).encode()).decode(),self.auth.timestamp(),actor['id']))
+        self.event(c,t,client['id'],'report_email_requested')
+        return {'report_pending':True,'email':email,'delivery_status':'queued'}
+
+    def report(self,token,*,verify=False):
+        if not isinstance(token,str) or not 20<=len(token)<=200:raise AuthError('Collegamento non valido o scaduto.',403)
+        with self.db.transaction() as c:
+            row=c.execute("SELECT d.* FROM customer_report_deliveries d JOIN accounts a ON a.id=d.account_id JOIN tenants t ON t.id=d.tenant_id JOIN assessments r ON r.id=d.assessment_id AND r.tenant_id=d.tenant_id JOIN questionnaires q ON q.id=r.questionnaire_id AND q.tenant_id=r.tenant_id AND q.revision=r.answers_revision WHERE d.token_hash=? AND d.expires_at>? AND a.status IN ('pending','active') AND a.email=CASE WHEN d.verified_at IS NULL THEN d.original_email ELSE d.email END AND t.status='active'",(digest(token),self.auth.timestamp())).fetchone()
+            if not row or (not verify and row['verified_at'] is None):raise AuthError('Collegamento non valido o scaduto. Richiedi una nuova email dalla tua area.',403)
+            if verify and row['verified_at'] is None:
+                if c.execute("SELECT 1 FROM accounts WHERE tenant_id=? AND role='customer' AND email=? AND id!=?",(row['tenant_id'],row['email'],row['account_id'])).fetchone():raise AuthError('Indirizzo già associato a un altro accesso.',409)
+                actor=self.auth._credentials(c,row['account_id'])
+                changed=actor['email']!=row['email']
+                if changed:
+                    c.execute('UPDATE accounts SET email=? WHERE id=?',(row['email'],row['account_id']))
+                    c.execute('UPDATE clients SET email=?,revision=revision+1 WHERE tenant_id=? AND id=?',(row['email'],row['tenant_id'],row['client_id']))
+                    c.execute('UPDATE auth_tokens SET used_at=? WHERE account_id=? AND used_at IS NULL',(self.auth.timestamp(),row['account_id']))
+                    c.execute("UPDATE auth_mail SET status='cancelled' WHERE account_id=? AND status IN ('queued','failed')",(row['account_id'],))
+                c.execute('UPDATE auth_credentials SET email_verified=1 WHERE account_id=?',(row['account_id'],))
+                c.execute('UPDATE customer_report_deliveries SET verified_at=? WHERE token_hash=?',(self.auth.timestamp(),digest(token)))
+                self.event(c,row['tenant_id'],row['client_id'],'report_email_verified')
+                if changed and actor['status']=='pending':self.auth._mail_token(c,self.auth._credentials(c,row['account_id']),'invite')
+            client=view(c.execute('SELECT * FROM clients WHERE tenant_id=? AND id=?',(row['tenant_id'],row['client_id'])).fetchone())
+            return {**self._view(c,client),'assessment_completed':True,'report_email':row['email'],'temporary_access':False,'local':self.local}
 
     def restart_test(self,d,session='',guest=''):
         if not isinstance(d,dict) or set(d)!={'revision'}:raise AuthError('Richiesta non valida.')

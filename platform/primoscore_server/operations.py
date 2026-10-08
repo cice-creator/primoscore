@@ -25,7 +25,7 @@ class Operations:
             ids=[r[0] for r in c.execute('SELECT id FROM accounts WHERE tenant_id=?',(tenant['id'],))]
             if d['status']=='suspended':
                 for ident in ids:
-                    for table in ('auth_sessions','auth_steps','customer_guest_sessions'):
+                    for table in ('auth_sessions','auth_steps','customer_guest_sessions','customer_report_deliveries'):
                         c.execute('DELETE FROM '+table+' WHERE account_id=?',(ident,))
                     c.execute('UPDATE auth_tokens SET used_at=? WHERE account_id=? AND used_at IS NULL',(self.auth.timestamp(),ident))
             self.workspace._audit(c,actor,tenant['id'],reason,'studio_'+d['status'])
@@ -104,7 +104,7 @@ def anonymize(c,t,ident,timestamp):
     """Idempotent purge, also used when reapplying the erasure ledger after restore."""
     for row in c.execute('SELECT id FROM accounts WHERE tenant_id=? AND client_id=?',(t,ident)).fetchall():
         account=row[0]
-        for table in ('auth_sessions','auth_steps','auth_recovery_codes','auth_tokens','auth_mail','customer_guest_sessions'):
+        for table in ('auth_sessions','auth_steps','auth_recovery_codes','auth_tokens','auth_mail','customer_guest_sessions','customer_report_deliveries'):
             c.execute('DELETE FROM '+table+' WHERE account_id=?',(account,))
         c.execute('UPDATE auth_credentials SET password_hash=NULL,email_verified=0,totp_encrypted=NULL WHERE account_id=?',(account,))
         c.execute("UPDATE accounts SET email=?,status='suspended' WHERE id=?",('erased-'+account+'@example.invalid',account))
