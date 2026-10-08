@@ -23,7 +23,7 @@ function applyLanguage(){
  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
  let node;
  while(node=walker.nextNode()){
-  if(node.parentElement.closest('script,style,.languages'))continue;
+  if(node.parentElement.closest('script,style,.languages,[data-no-translate]'))continue;
   const cached=originalText.get(node);
   const source=cached&&node.nodeValue===cached.last?cached.source:node.nodeValue;
   const output=translateText(source);
