@@ -60,6 +60,7 @@ def calculate_score(answers):
     caps, warnings, strengths = outcome_messages(rules, answers, savings, price, ltv, commitment, support_role)
     subsistence = calculate_subsistence(rules["istat_sussistenza"], answers, total_income, debts, payment)
     if subsistence["status"] == "below_threshold":
+        caps.append(rules["istat_sussistenza"]["below_threshold_score_cap"])
         warnings.append("Dopo rata stimata e impegni, il reddito del nucleo risulta sotto la soglia ISTAT di sussistenza.")
     elif subsistence["status"] == "attention":
         warnings.append("Dopo rata stimata e impegni, il margine rispetto alla soglia ISTAT di sussistenza è contenuto.")
@@ -82,7 +83,7 @@ def calculate_indicative_payment(rule, loan, term):
 
 
 def calculate_subsistence(rule, answers, total_income, debts, payment):
-    """Legge solo dati aggregati dal calcolatore ISTAT; il punteggio non viene modificato."""
+    """Legge dati aggregati ISTAT per verificare la sussistenza e applicare il limite al punteggio."""
     keys = ("istatAge0to3", "istatAge4to10", "istatAge11to17", "istatAge18to29", "istatAge30to59", "istatAge60to74", "istatAge75plus")
     counts = [number(answers.get(key)) for key in keys]
     household = number(answers.get("householdSize"))

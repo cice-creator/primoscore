@@ -7,13 +7,14 @@
     {
       "source": "server/score_engine.py",
       "destination": "primoscore_core/score_engine.py",
-      "sha256": "1df5c155a873e82d024a564661e831a5707b126b1cc60675488d70a45c65257e",
-      "local_adaptation": "2026-10-08: verifica CONSAP e risposte obbligatorie del Fondo solo per purpose=first_home."
+      "sha256": "14d15a7b8773b2a72ba5972167b7669900b311ba0c8cba54e8eeb34c559ee792",
+      "local_adaptation": "2026-10-08: CONSAP solo prima casa; score massimo 59 sotto la soglia ISTAT di sussistenza."
     },
     {
       "source": "server/mutuoscore_constitution.json",
       "destination": "primoscore_core/mutuoscore_constitution.json",
-      "sha256": "36351d1e7db08ce43cdd11218974376029e19443883eee67957f591e28649c0b"
+      "sha256": "89033789930ce058dfb37152f36e660ac0d64efd5deb01ce702d00c74c862f73",
+      "local_adaptation": "2026-10-08: CONSAP solo prima casa; score massimo 59 sotto la soglia ISTAT di sussistenza."
     },
     {
       "source": "server/questionnaire.py",
