@@ -6,6 +6,8 @@ from .customer import Customer
 
 
 def register_customer(app,auth,session_token,local):
+    from .public_simulation import register_public_simulation
+    register_public_simulation(app,auth,local)
     service=Customer(auth,local=local);app.extensions['primoscore_customer']=service
     prefix=app.config['PRIMOSCORE_COOKIE_PREFIX']
     guest_cookie=prefix+'guest'

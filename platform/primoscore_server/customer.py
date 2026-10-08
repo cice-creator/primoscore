@@ -143,7 +143,7 @@ class Customer:
             data['assessment_completed']=bool(data['result'])
             row=c.execute('SELECT d.verified_at,d.email FROM customer_report_deliveries d JOIN assessments a ON a.id=d.assessment_id AND a.tenant_id=d.tenant_id WHERE d.account_id=? AND a.questionnaire_id=? AND a.answers_revision=? ORDER BY d.rowid DESC LIMIT 1',(actor['id'],data['questionnaire']['id'],data['questionnaire']['revision'])).fetchone()
             data['report_email']=row['email'] if row else client['email']
-            if not row or row['verified_at'] is None or row['email']!=client['email']:data['result']=None
+            if (not row or row['verified_at'] is None or row['email']!=client['email']) and not (data['result'] and data['result'].get('simulationMode')=='max'):data['result']=None
             return {**data,'temporary_access':actor['status']=='pending','local':self.local}
 
     def save(self,d,session='',guest=''):

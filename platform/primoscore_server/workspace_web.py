@@ -50,4 +50,4 @@ def register_workspace(app,auth,session_token,local):
     def public_voucher(code):
         try:profile=workspace.public_voucher(code)
         except AuthError:return render_template('voucher.html',profile=None,local=local),404
-        return render_template('customer.html',section='ingresso',code=code,local=local)
+        return render_template('simulation.html',code=code,local=local)
