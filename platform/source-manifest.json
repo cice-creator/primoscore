@@ -7,7 +7,8 @@
     {
       "source": "server/score_engine.py",
       "destination": "primoscore_core/score_engine.py",
-      "sha256": "c04d3203bbd90961e2a415f20cf7e45d266699136867fc49385a5fd58c9fc3f6"
+      "sha256": "1df5c155a873e82d024a564661e831a5707b126b1cc60675488d70a45c65257e",
+      "local_adaptation": "2026-10-08: verifica CONSAP e risposte obbligatorie del Fondo solo per purpose=first_home."
     },
     {
       "source": "server/mutuoscore_constitution.json",
@@ -17,7 +18,8 @@
     {
       "source": "server/questionnaire.py",
       "destination": "primoscore_core/questionnaire.py",
-      "sha256": "e06b3d3101b9e256fb12b765c3b375af30356cead6c7e41c7eca29a7d31db8d7"
+      "sha256": "9140396b3c863503cbf93089214c5416b24886917e057cfe55a44e3232ff8e29",
+      "local_adaptation": "2026-10-08: verifica CONSAP e risposte obbligatorie del Fondo solo per purpose=first_home."
     }
   ],
   "tracked_sources": [

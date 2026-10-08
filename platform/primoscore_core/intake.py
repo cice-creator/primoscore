@@ -30,6 +30,8 @@ def clean_answers(incoming):
     if cleaned.get('supportRole')=='none':
         cleaned.pop('supportAge',None);cleaned.pop('supportIncome',None)
     if cleaned.get('iseeUnknown')=='yes':cleaned.pop('iseeBand',None)
+    if cleaned.get('purpose') != 'first_home':
+        for key in ('otherHome','iseeBand','iseeUnknown'):cleaned.pop(key,None)
     return cleaned
 
 
@@ -53,5 +55,6 @@ def complete_result(answers):
             result['warnings']=[('La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con il tuo consulente.' if 'ISTAT' in w else w) for w in result['warnings']]
         if not (answers.get('applicantAge',0)<36 or (answers.get('supportRole')=='coapplicant' and answers.get('supportAge',90)<36)) or answers.get('iseeUnknown')=='yes':
             result['consap']={'accessStatus':'manual_review','explanation':'L’accesso al Fondo dipende anche da categorie e requisiti ulteriori. Il tuo consulente verificherà la tua situazione; questa valutazione non ti esclude dal Fondo.'}
+    if answers.get('purpose') != 'first_home':result['consap']=None
     result['intakeVersion']=INTAKE_VERSION
     return result

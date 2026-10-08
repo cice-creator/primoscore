@@ -135,6 +135,8 @@ def outcome_messages(rules, answers, savings, price, ltv, commitment, support_ro
 
 
 def evaluate_consap(rules, answers, ltv):
+    if answers.get("purpose") != "first_home":
+        return None
     blocking, block, messages = [], rules["blocking"], rules["messages"]
     category = rules["categories"]
     applicant_under_36 = 0 < number(answers.get("applicantAge")) < category["applicant_under_age"]

@@ -133,12 +133,14 @@ def required_question_ids(answers):
         for question_id, rule in rules.items():
             if not rule.get("conditional"):
                 required.add(question_id)
+    if answers.get("purpose") != "first_home":
+        required.discard("otherHome")
     applicant_under_36 = 0 < int(answers.get("applicantAge") or 0) < 36
     coapplicant_under_36 = (
         answers.get("supportRole") == "coapplicant"
         and 0 < int(answers.get("supportAge") or 0) < 36
     )
-    if applicant_under_36 or coapplicant_under_36:
+    if answers.get("purpose") == "first_home" and (applicant_under_36 or coapplicant_under_36):
         required.add("iseeBand")
     if answers.get("supportRole") in {"coapplicant", "guarantor"}:
         required.update({"supportAge", "supportIncome"})
