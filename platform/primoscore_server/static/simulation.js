@@ -1,5 +1,5 @@
 const app=document.querySelector('#app');
-const money=v=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v);
+const money=v=>new Intl.NumberFormat(({it:'it-IT',en:'en-IE',fr:'fr-FR',es:'es-ES'})[window.previewLocale||'it'],{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(v);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const SIMULATION_RATE=4, MAX_END_AGE=80;
 let publicContext=null,csrf='',estimateResult=null;

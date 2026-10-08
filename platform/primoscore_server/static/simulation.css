@@ -34,3 +34,4 @@
 [data-layout="layout-6"]{margin-top:18px}
 [data-layout="layout-7"]{font-size:24px}
 .consent-row{display:flex;gap:10px;align-items:start}.consent-row input{width:20px;min-height:20px;flex-shrink:0}#leadForm>button{width:100%;margin-top:16px}
+.languages{display:flex;gap:5px;align-items:center}.languages button{border:1px solid #dce5eb;background:white;color:#142d4e;padding:8px 11px;border-radius:7px;font-size:13px}.languages button[aria-pressed=true]{background:#142d4e;color:white}header{gap:15px}@media(max-width:600px){header{height:auto;min-height:90px;padding:15px 20px;flex-wrap:wrap}.languages{width:100%;justify-content:space-between}.languages button{flex:1;padding:8px 5px;font-size:12px}}
