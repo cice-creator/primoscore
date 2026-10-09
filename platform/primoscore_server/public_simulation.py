@@ -8,6 +8,8 @@ from primoscore_core.score_engine import calculate_subsistence, load_constitutio
 def evaluate(mode, incoming):
     try:
         answers = clean_answers(incoming)
+        if answers.get('supportRole')=='coapplicant' and answers.get('supportInHousehold') not in ('yes','no'):
+            raise ValueError('Indica se il cointestatario fa parte del nucleo familiare.')
         if mode == 'score':
             answers['propertyFound'] = 'yes'
             return answers, complete_result(answers)
@@ -29,9 +31,9 @@ def evaluate(mode, incoming):
             raise ValueError('La soglia ISTAT non è disponibile. Riprova oppure richiedi una consulenza per verificare le tue possibilità.')
         threshold = subsistence['threshold']
         rata = max(0, min(income*.5-debts, income-debts-threshold))
-        r = .04/12
+        r = load_constitution()['calculation']['assumptions']['annual_interest_rate']/12
         capital = math.floor((rata*(1-(1+r)**(-years*12))/r)/1000)*1000
-        return answers, dict(engineVersion='primoscore-maximum-1', simulationMode='max', classification='stima_teorica', maxLoan=capital, effectiveTerm=years, threshold=threshold, referenceYear=subsistence['referenceYear'], metrics=dict(totalHouseholdIncome=income), strengths=[], warnings=['Stima teorica e puramente indicativa, da approfondire con il consulente.'])
+        return answers, dict(engineVersion='primoscore-maximum-1', simulationMode='max', classification='stima_teorica', maxLoan=capital, effectiveTerm=years, maximumPayment=round(rata,2), threshold=threshold, referenceYear=subsistence['referenceYear'], metrics=dict(totalHouseholdIncome=income), strengths=[], warnings=['Stima teorica e puramente indicativa, da approfondire con il consulente.'])
     except (ValueError, KeyError) as error:
         raise AuthError(str(error)) from error
 

@@ -85,3 +85,19 @@ class PublicSimulationTest(CustomerFixture):
         self.assertEqual(client.get('/cliente/simulazione',base_url=origin).status_code,401)
 
 if __name__=='__main__':unittest.main()
+
+class LegacyMaximumReportTest(CustomerFixture):
+    def test_old_max_report_gets_payment_without_bypassing_email_gate(self):
+        import json
+        from urllib.parse import urlsplit,parse_qs
+        acquired=self.customer.acquire({**self.payload(),'simulation_mode':'max','residence_city':'Comune sintetico'},ip='legacy-max')
+        guest=acquired['guest_token'];self.save(guest,{**BASE,'applicantAge':60,'monthlyIncome':3000,'monthlyDebts':200,'loanTerm':30})
+        def old_evaluate(mode,answers):
+            cleaned,result=evaluate(mode,answers);result.pop('maximumPayment');return cleaned,result
+        with patch('primoscore_server.public_simulation.calculate_subsistence',return_value=dict(status='adequate',threshold=1600,referenceYear=2024)),patch('primoscore_server.public_simulation.evaluate',side_effect=old_evaluate):
+            self.customer.complete({'revision':1},guest=guest)
+        with self.db.transaction() as c:
+            mail=c.execute("SELECT payload_encrypted FROM service_mail WHERE event_key LIKE 'report:%'").fetchone()
+        self.assertIsNone(self.customer.get(guest=guest)['result'])
+        payload=json.loads(self.auth.cipher.decrypt(mail[0].encode()));token=parse_qs(urlsplit(payload['url']).fragment)['token'][0]
+        self.assertEqual(self.customer.report(token,verify=True)['result']['maximumPayment'],1200)

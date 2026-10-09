@@ -133,11 +133,15 @@ class Customer:
         q=c.execute('SELECT * FROM questionnaires WHERE tenant_id=? AND client_id=?',(t,ident)).fetchone()
         if not q:raise AuthError('Questionario non disponibile.',404)
         result=c.execute('SELECT * FROM assessments WHERE tenant_id=? AND questionnaire_id=? AND answers_revision=? ORDER BY created_at DESC LIMIT 1',(t,q['id'],q['revision'])).fetchone()
+        decoded_result=view(result)['result'] if result else None
+        if decoded_result and decoded_result.get('simulationMode')=='max' and 'maximumPayment' not in decoded_result:
+            saved=json.loads(result['answers_json']);income=decoded_result['metrics']['totalHouseholdIncome'];debts=saved['monthlyDebts']
+            decoded_result['maximumPayment']=round(max(0,min(income*.5-debts,income-debts-decoded_result['threshold'])),2)
         attribution=c.execute('SELECT partner_label FROM customer_intakes WHERE tenant_id=? AND client_id=?',(t,ident)).fetchone()
         profile=c.execute('SELECT first_name,last_name,business_name,email,mobile FROM consultant_profiles WHERE tenant_id=?',(t,)).fetchone()
         slug=c.execute('SELECT slug FROM tenants WHERE id=?',(t,)).fetchone()[0]
         appointments=[view(r) for r in c.execute('SELECT * FROM appointments WHERE tenant_id=? AND client_id=? ORDER BY starts_at DESC',(t,ident))]
-        return dict(testing=slug==TEST_STUDIO_SLUG,client=client,questionnaire=view(q),result=(view(result)['result'] or None) if result else None,completed_at=result['created_at'] if result else None,appointments=appointments,consultant=dict(profile) if profile else {},studio=slug,partner_label=attribution[0] if attribution else 'Contatto dello studio')
+        return dict(testing=slug==TEST_STUDIO_SLUG,client=client,questionnaire=view(q),result=decoded_result or None,completed_at=result['created_at'] if result else None,appointments=appointments,consultant=dict(profile) if profile else {},studio=slug,partner_label=attribution[0] if attribution else 'Contatto dello studio')
 
     def get(self,session='',guest=''):
         with self.db.transaction() as c:

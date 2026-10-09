@@ -1,0 +1,4339 @@
+{
+  "synthetic": true,
+  "reference_commit": "fa2fc5763cc54249e890e26d770f2e3be8cfdd88",
+  "cases": [
+    {
+      "name": "base",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "creditHistory-past",
+      "answers": {
+        "creditHistory": "past",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 81,
+        "rawScore": 81,
+        "classification": "buono",
+        "areaScores": {
+          "affidabilita_creditizia": 58,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La criticità creditizia pregressa deve essere documentata e verificata.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "creditHistory-active",
+      "answers": {
+        "creditHistory": "active",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 54,
+        "rawScore": 77,
+        "classification": "critico",
+        "areaScores": {
+          "affidabilita_creditizia": 24,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "È stata dichiarata una criticità creditizia ancora attiva.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "applicantAge-35",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 35,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "applicantAge-36",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 36,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "not_eligible_blocking_rule",
+          "customerPromptAllowed": false,
+          "guaranteeType": "none",
+          "eligibleCategories": [],
+          "blockingReasons": [
+            "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+          ],
+          "explanation": "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+        }
+      }
+    },
+    {
+      "name": "applicantAge-65",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 65,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "not_eligible_blocking_rule",
+          "customerPromptAllowed": false,
+          "guaranteeType": "none",
+          "eligibleCategories": [],
+          "blockingReasons": [
+            "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+          ],
+          "explanation": "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+        }
+      }
+    },
+    {
+      "name": "monthlyIncome-500",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 500,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 74,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 40,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 70,
+          "valutazione_operazione": 68,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 210.0,
+          "totalHouseholdIncome": 500,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "monthlyIncome-1499",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 1499,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 78,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 62,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 75,
+          "valutazione_operazione": 68,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 70.1,
+          "totalHouseholdIncome": 1499,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "monthlyIncome-1500",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 1500,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 78,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 62,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 75,
+          "valutazione_operazione": 68,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 70.0,
+          "totalHouseholdIncome": 1500,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "monthlyIncome-1999",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 1999,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 80,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 76,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 75,
+          "valutazione_operazione": 68,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 52.5,
+          "totalHouseholdIncome": 1999,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "monthlyIncome-2000",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 2000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 80,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 76,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 75,
+          "valutazione_operazione": 68,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 52.5,
+          "totalHouseholdIncome": 2000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "monthlyIncome-2499",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 2499,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 80,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 76,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 75,
+          "valutazione_operazione": 68,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 42.0,
+          "totalHouseholdIncome": 2499,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "monthlyIncome-2500",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 2500,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 81,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 75,
+          "valutazione_operazione": 68,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 42.0,
+          "totalHouseholdIncome": 2500,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "monthlyIncome-30000",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 30000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 94,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto indicativo tra reddito e impegni mensili favorevole.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 3.5,
+          "totalHouseholdIncome": 30000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "jobType-self",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "self",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 83,
+        "rawScore": 83,
+        "classification": "buono",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 72,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "jobType-fixed",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "fixed",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 69,
+        "rawScore": 81,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 54,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La situazione lavorativa richiede documentazione e una valutazione prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "jobType-apprentice",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "apprentice",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 69,
+        "rawScore": 82,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 60,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La situazione lavorativa richiede documentazione e una valutazione prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "jobType-trial",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "trial",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 54,
+        "rawScore": 78,
+        "classification": "critico",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 30,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "Il periodo di prova limita la stabilità lavorativa percepita.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "jobType-pension",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "pension",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 85,
+        "rawScore": 85,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 88,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "savings-0",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 0,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 49,
+        "rawScore": 78,
+        "classification": "critico",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 25,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "Liquidità inferiore a 5.000 euro: la pratica appare fragile.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "savings-4999",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 4999,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 49,
+        "rawScore": 78,
+        "classification": "critico",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 25,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "Liquidità inferiore a 5.000 euro: la pratica appare fragile.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "savings-5000",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 5000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 80,
+        "rawScore": 80,
+        "classification": "buono",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 45,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "savings-10000",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 10000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 82,
+        "rawScore": 82,
+        "classification": "buono",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 55,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "savings-50000",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 50000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "loanAmount-175000",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 175000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 92,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 70.0,
+          "estimatedMonthlyPayment": 924,
+          "commitmentRatio": 34.1,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 924,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "loanAmount-200000",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 200000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 80.0,
+          "estimatedMonthlyPayment": 1056,
+          "commitmentRatio": 38.5,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 1056,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "loanAmount-225000",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 225000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 79,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 75,
+          "valutazione_operazione": 52,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 90.0,
+          "estimatedMonthlyPayment": 1188,
+          "commitmentRatio": 42.9,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 1188,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "elevated_80",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "loanAmount-237500",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 237500,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 77,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 75,
+          "valutazione_operazione": 34,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 95.0,
+          "estimatedMonthlyPayment": 1254,
+          "commitmentRatio": 45.1,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 1254,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "elevated_80",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "loanAmount-240000",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 240000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 77,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 75,
+          "valutazione_operazione": 34,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La richiesta supera il 95% del prezzo dell’immobile.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 96.0,
+          "estimatedMonthlyPayment": 1267,
+          "commitmentRatio": 45.6,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 1267,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "elevated_80",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "loanAmount-250001",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 250001,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 77,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 75,
+          "valutazione_operazione": 34,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La richiesta supera il 95% del prezzo dell’immobile.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 100.0,
+          "estimatedMonthlyPayment": 1320,
+          "commitmentRatio": 47.3,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 1320,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "not_eligible_blocking_rule",
+          "customerPromptAllowed": false,
+          "guaranteeType": "none",
+          "eligibleCategories": [],
+          "blockingReasons": [
+            "Importo richiesto superiore a 250.000 euro."
+          ],
+          "explanation": "Con le informazioni inserite il Fondo non viene proposto automaticamente."
+        }
+      }
+    },
+    {
+      "name": "loanTerm-10",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 10,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 81,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 75,
+          "valutazione_operazione": 68,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 1822,
+          "commitmentRatio": 64.1,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 1822,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "loanTerm-40",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 40,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto indicativo tra reddito e impegni mensili favorevole.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 752,
+          "commitmentRatio": 28.4,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 752,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "purpose-second_home",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "second_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 85,
+        "rawScore": 85,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 78,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "not_eligible_blocking_rule",
+          "customerPromptAllowed": false,
+          "guaranteeType": "none",
+          "eligibleCategories": [],
+          "blockingReasons": [
+            "Operazione diversa dall’acquisto della prima casa."
+          ],
+          "explanation": "Con le informazioni inserite il Fondo non viene proposto automaticamente."
+        }
+      }
+    },
+    {
+      "name": "purpose-renovation",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "renovation",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "not_eligible_blocking_rule",
+          "customerPromptAllowed": false,
+          "guaranteeType": "none",
+          "eligibleCategories": [],
+          "blockingReasons": [
+            "Operazione diversa dall’acquisto della prima casa."
+          ],
+          "explanation": "Con le informazioni inserite il Fondo non viene proposto automaticamente."
+        }
+      }
+    },
+    {
+      "name": "purpose-surrogation",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "surrogation",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "not_eligible_blocking_rule",
+          "customerPromptAllowed": false,
+          "guaranteeType": "none",
+          "eligibleCategories": [],
+          "blockingReasons": [
+            "Operazione diversa dall’acquisto della prima casa."
+          ],
+          "explanation": "Con le informazioni inserite il Fondo non viene proposto automaticamente."
+        }
+      }
+    },
+    {
+      "name": "otherHome-yes",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "yes",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "not_eligible_blocking_rule",
+          "customerPromptAllowed": false,
+          "guaranteeType": "none",
+          "eligibleCategories": [],
+          "blockingReasons": [
+            "Presenza dichiarata di un altro immobile abitativo."
+          ],
+          "explanation": "Con le informazioni inserite il Fondo non viene proposto automaticamente."
+        }
+      }
+    },
+    {
+      "name": "otherHome-exception",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "exception",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "iseeBand-over_40k",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "over_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "savingHabit-no",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "no",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 80,
+        "rawScore": 80,
+        "classification": "buono",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 47,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "savingHabit-some",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "some",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 83,
+        "rawScore": 83,
+        "classification": "buono",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 71,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "monthlyDebts-0",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 0,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 31.7,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "monthlyDebts-1000",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 1000,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 80,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 70,
+          "valutazione_operazione": 68,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 65.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "monthlyDebts-3000",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 3000,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 59,
+        "rawScore": 80,
+        "classification": "difficile",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 70,
+          "valutazione_operazione": 68,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 131.7,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "annualPayments-12",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 12,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "annualPayments-14",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 14,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k"
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "coapplicant-35",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 40,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "coapplicant",
+        "iseeBand": "under_or_equal_40k",
+        "supportAge": 35,
+        "supportIncome": 1800
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 90,
+        "rawScore": 90,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 94,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 88
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto indicativo tra reddito e impegni mensili favorevole.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 21.9,
+          "totalHouseholdIncome": 4800,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "coapplicant_under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "coapplicant-36",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 40,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "coapplicant",
+        "iseeBand": "under_or_equal_40k",
+        "supportAge": 36,
+        "supportIncome": 1800
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 90,
+        "rawScore": 90,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 94,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 88
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto indicativo tra reddito e impegni mensili favorevole.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 21.9,
+          "totalHouseholdIncome": 4800,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "not_eligible_blocking_rule",
+          "customerPromptAllowed": false,
+          "guaranteeType": "none",
+          "eligibleCategories": [],
+          "blockingReasons": [
+            "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+          ],
+          "explanation": "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+        }
+      }
+    },
+    {
+      "name": "coapplicant-71",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 40,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "coapplicant",
+        "iseeBand": "under_or_equal_40k",
+        "supportAge": 71,
+        "supportIncome": 1800
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 88,
+        "rawScore": 88,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 94,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 76
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto indicativo tra reddito e impegni mensili favorevole.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 21.9,
+          "totalHouseholdIncome": 4800,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "not_eligible_blocking_rule",
+          "customerPromptAllowed": false,
+          "guaranteeType": "none",
+          "eligibleCategories": [],
+          "blockingReasons": [
+            "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+          ],
+          "explanation": "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+        }
+      }
+    },
+    {
+      "name": "guarantor-35",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 40,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "guarantor",
+        "iseeBand": "under_or_equal_40k",
+        "supportAge": 35,
+        "supportIncome": 1800
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 89,
+        "rawScore": 89,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 88
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "not_eligible_blocking_rule",
+          "customerPromptAllowed": false,
+          "guaranteeType": "none",
+          "eligibleCategories": [],
+          "blockingReasons": [
+            "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+          ],
+          "explanation": "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+        }
+      }
+    },
+    {
+      "name": "guarantor-36",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 40,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "guarantor",
+        "iseeBand": "under_or_equal_40k",
+        "supportAge": 36,
+        "supportIncome": 1800
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 89,
+        "rawScore": 89,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 88
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "not_eligible_blocking_rule",
+          "customerPromptAllowed": false,
+          "guaranteeType": "none",
+          "eligibleCategories": [],
+          "blockingReasons": [
+            "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+          ],
+          "explanation": "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+        }
+      }
+    },
+    {
+      "name": "guarantor-71",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 40,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "guarantor",
+        "iseeBand": "under_or_equal_40k",
+        "supportAge": 71,
+        "supportIncome": 1800
+      },
+      "istat": "unexpected",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 87,
+        "rawScore": 87,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 76
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "not_eligible_blocking_rule",
+          "customerPromptAllowed": false,
+          "guaranteeType": "none",
+          "eligibleCategories": [],
+          "blockingReasons": [
+            "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+          ],
+          "explanation": "Il Fondo Prima Casa non viene proposto perché nessun richiedente ha meno di 36 anni."
+        }
+      }
+    },
+    {
+      "name": "istat-1000",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k",
+        "istatRegion": 1,
+        "istatMunicipalityType": "3",
+        "istatAge30to59": 2
+      },
+      "istat": 1000,
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "adequate",
+            "referenceYear": 2024,
+            "source": "ISTAT — Calcolatore soglia di povertà assoluta",
+            "threshold": 1000,
+            "postCommitmentIncome": 1950,
+            "margin": 950,
+            "ratio": 195.0
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "istat-1800",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k",
+        "istatRegion": 1,
+        "istatMunicipalityType": "3",
+        "istatAge30to59": 2
+      },
+      "istat": 1800,
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "Dopo rata stimata e impegni, il margine rispetto alla soglia ISTAT di sussistenza è contenuto."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "attention",
+            "referenceYear": 2024,
+            "source": "ISTAT — Calcolatore soglia di povertà assoluta",
+            "threshold": 1800,
+            "postCommitmentIncome": 1950,
+            "margin": 150,
+            "ratio": 108.3
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "istat-2200",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k",
+        "istatRegion": 1,
+        "istatMunicipalityType": "3",
+        "istatAge30to59": 2
+      },
+      "istat": 2200,
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "Dopo rata stimata e impegni, il reddito del nucleo risulta sotto la soglia ISTAT di sussistenza."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "below_threshold",
+            "referenceYear": 2024,
+            "source": "ISTAT — Calcolatore soglia di povertà assoluta",
+            "threshold": 2200,
+            "postCommitmentIncome": 1950,
+            "margin": -250,
+            "ratio": 88.6
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "istat-3000",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k",
+        "istatRegion": 1,
+        "istatMunicipalityType": "3",
+        "istatAge30to59": 2
+      },
+      "istat": 3000,
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "Dopo rata stimata e impegni, il reddito del nucleo risulta sotto la soglia ISTAT di sussistenza."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "below_threshold",
+            "referenceYear": 2024,
+            "source": "ISTAT — Calcolatore soglia di povertà assoluta",
+            "threshold": 3000,
+            "postCommitmentIncome": 1950,
+            "margin": -1050,
+            "ratio": 65.0
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "istat-failure",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k",
+        "istatRegion": 1,
+        "istatMunicipalityType": "3",
+        "istatAge30to59": 2
+      },
+      "istat": "failure",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    },
+    {
+      "name": "istat-malformed",
+      "answers": {
+        "creditHistory": "none",
+        "applicantAge": 32,
+        "monthlyIncome": 3000,
+        "annualPayments": 13,
+        "jobType": "permanent",
+        "householdSize": 2,
+        "children": 0,
+        "householdEarners": 2,
+        "savings": 55000,
+        "monthlyDebts": 100,
+        "savingHabit": "yes",
+        "propertyPrice": 250000,
+        "loanAmount": 180000,
+        "loanTerm": 25,
+        "purpose": "first_home",
+        "otherHome": "no",
+        "supportRole": "none",
+        "iseeBand": "under_or_equal_40k",
+        "istatRegion": 1,
+        "istatMunicipalityType": "3",
+        "istatAge30to59": 2
+      },
+      "istat": "malformed",
+      "expected": {
+        "engineVersion": "cicero-mutuoscore-1.5",
+        "totalScore": 86,
+        "rawScore": 86,
+        "classification": "top",
+        "areaScores": {
+          "affidabilita_creditizia": 94,
+          "solidita_reddituale": 88,
+          "solidita_lavorativa": 92,
+          "situazione_familiare": 82,
+          "capacita_risparmio": 88,
+          "comportamento_finanziario": 93,
+          "valutazione_operazione": 86,
+          "garanzie_supporti": 62
+        },
+        "strengths": [
+          "Storico dei pagamenti dichiarato senza criticità.",
+          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
+          "Posizione lavorativa dichiarata come stabile.",
+          "Rapporto tra mutuo richiesto e prezzo entro l’80%."
+        ],
+        "warnings": [
+          "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente."
+        ],
+        "metrics": {
+          "ltv": 72.0,
+          "estimatedMonthlyPayment": 950,
+          "commitmentRatio": 35.0,
+          "totalHouseholdIncome": 3000,
+          "subsistence": {
+            "status": "unavailable",
+            "message": "La soglia ISTAT non è temporaneamente disponibile: il MutuoScore resta calcolato, ma la sostenibilità va verificata manualmente.",
+            "referenceYear": 2024
+          },
+          "indicativePayment": {
+            "monthlyAmount": 950,
+            "annualInterestRate": 0.04,
+            "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          }
+        },
+        "consap": {
+          "accessStatus": "eligible_possible",
+          "customerPromptAllowed": true,
+          "guaranteeType": "ordinary_50",
+          "eligibleCategories": [
+            "under36"
+          ],
+          "blockingReasons": [],
+          "explanation": "Il Fondo Prima Casa potrebbe essere valutabile. La verifica finale dipende da documenti, banca e Consap."
+        }
+      }
+    }
+  ]
+}

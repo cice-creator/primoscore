@@ -6,7 +6,7 @@ The underlying score engine and thresholds are unchanged.
 from .questionnaire import QUESTION_RULES, validate_partial_step, validate_complete_answers
 from .score_engine import calculate_score
 INTAKE_VERSION='primoscore-v2-intake-1'
-EXTRAS={'propertyFound':{'yes','no'},'timeframe':{'soon','months','later','exploring'},'iseeUnknown':{'yes'}}
+EXTRAS={'supportInHousehold':{'yes','no'},'propertyFound':{'yes','no'},'timeframe':{'soon','months','later','exploring'},'iseeUnknown':{'yes'}}
 
 
 def clean_answers(incoming):
@@ -47,6 +47,14 @@ def complete_result(answers):
     if any(k.startswith('istat') for k in answers):
         if not answers.get('istatRegion') or not answers.get('istatMunicipalityType') or sum(answers.get(k,0) for k in bands)!=answers['householdSize'] or sum(answers.get(k,0) for k in bands[3:])<1:
             raise ValueError('Per la verifica ISTAT indica regione, tipologia del comune e fasce di età coerenti con il nucleo, con almeno un adulto.')
+    if any(k.startswith('istat') for k in answers):
+        def age_band(age):
+            return bands[next(i for i,limit in enumerate((3,10,17,29,59,74,200)) if age<=limit)]
+        required={age_band(answers['applicantAge']):1}
+        if answers.get('supportRole')=='coapplicant' and answers.get('supportInHousehold')=='yes':
+            band=age_band(answers['supportAge']);required[band]=required.get(band,0)+1
+        if any(answers.get(band,0)<count for band,count in required.items()):
+            raise ValueError('Le fasce di età del nucleo devono includere il richiedente e il cointestatario convivente.')
     if answers.get('propertyFound')=='no' and not all(answers.get(k) for k in ('propertyPrice','loanAmount')):
         result={'partial':True,'engineVersion':'cicero-v2-intake-1','classification':'da_approfondire','strengths':['Hai descritto il tuo progetto e la tua situazione.'],'warnings':['Per stimare la rata servono importo del mutuo e valore dell’immobile.'],'metrics':{},'consap':{'explanation':'Verifica da completare con il tuo consulente.'}}
     else:

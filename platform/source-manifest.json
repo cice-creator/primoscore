@@ -13,8 +13,8 @@
     {
       "source": "server/mutuoscore_constitution.json",
       "destination": "primoscore_core/mutuoscore_constitution.json",
-      "sha256": "89033789930ce058dfb37152f36e660ac0d64efd5deb01ce702d00c74c862f73",
-      "local_adaptation": "2026-10-08: CONSAP solo prima casa; score massimo 59 sotto la soglia ISTAT di sussistenza."
+      "sha256": "51767066f17c2d339c3c92246ba121ed9bedc82344b7f22121bd49d2bb22c196",
+      "local_adaptation": "2026-10-08: CONSAP solo prima casa; score massimo 59 sotto la soglia ISTAT di sussistenza. 2026-10-09: rata indicativa allineata al parametro interno 4%, versione 1.7."
     },
     {
       "source": "server/questionnaire.py",
