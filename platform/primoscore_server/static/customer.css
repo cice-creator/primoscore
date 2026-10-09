@@ -2,3 +2,17 @@
 
 .languages{display:flex;gap:6px;flex-wrap:wrap}.languages button{padding:7px 10px;font-size:12px}.languages [aria-pressed=true]{background:#087f8c;color:white}@media(max-width:760px){.top{flex-wrap:wrap;height:auto;gap:12px;padding:16px}.top .languages{width:100%;justify-content:center}}
 .customer-card>.button{margin:6px 6px 6px 0}
+
+/* Final mobile review: customer area, email confirmation and reports. */
+@media(max-width:850px){
+ .customer-grid,.question-layout,.result-grid{min-width:0}.customer-card,.result-side{min-width:0;padding:22px 18px;overflow-wrap:anywhere}
+ .top{gap:10px}.top>a[href="/cliente/"]{margin-left:auto;min-height:44px;display:inline-flex;align-items:center}
+ .languages button{min-height:44px;flex:1;padding:8px 5px}.languages{gap:5px}
+ .customer-card input:not([type=checkbox]):not([type=radio]),.customer-card select,.customer-card textarea{font-size:16px;min-height:48px}
+ .customer-card .actions{display:grid;grid-template-columns:1fr;align-items:stretch;gap:10px}.customer-card .actions>*{width:100%}
+ .customer-card>.button{display:flex;width:100%;margin:10px 0}.customer-card form>button{width:100%}
+ .customer-card .check{min-height:44px}.check input{width:20px;height:20px}.slot-list label{min-height:48px}.slot-list input{min-height:20px;width:20px;height:20px;flex:none}
+ .step-list li{min-height:44px}.step-list span{flex:none}.result-metrics strong{font-size:clamp(22px,7vw,30px)}
+ .result-heading{gap:18px}.customer-message{font-size:14px;overflow-wrap:anywhere}.customer-message a{display:inline-block;padding:8px 0}
+ .customer-narrow{margin:12px auto}.result-side .button{width:100%}.review-list dd{min-width:0}
+}

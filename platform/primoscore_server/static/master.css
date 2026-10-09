@@ -4,3 +4,11 @@
 .actions{display:flex;gap:10px;flex-wrap:wrap}.notice{background:#ddf4f1;border-radius:10px;padding:12px}.facts div{overflow-wrap:anywhere}label{display:block;margin:15px 0}label input{width:100%}.empty{padding:35px;text-align:center}.dialog-table{max-height:55vh;overflow:auto}#notice:empty{display:none}.pagination{display:flex;justify-content:center;align-items:center;gap:15px;margin:20px}button:disabled{opacity:.5;cursor:default}:focus-visible{outline:3px solid #087f8c;outline-offset:3px}
 
 a.button{display:inline-block;background:#087f8c;color:white;text-decoration:none;border-radius:9px;padding:11px 16px;font-weight:600}.bar span{overflow-wrap:anywhere}dialog{max-width:800px;max-height:90vh;overflow:auto}
+
+@media(max-width:850px){
+ header{flex-wrap:wrap;gap:12px}nav{overflow-x:auto;gap:20px}nav button{flex:none;min-height:48px}
+ button,a.button{min-height:44px;white-space:normal}input,select{font-size:16px;min-height:48px;max-width:100%}
+ .stats>*,.split>*,.card{min-width:0}.card{overflow-wrap:anywhere}.table-wrap{max-width:100%;overscroll-behavior-x:contain}
+ .filters>*{min-width:0;flex:1 1 140px}dialog{max-height:calc(100dvh - 24px);padding:20px 16px;overflow-y:auto}
+ .pagination{flex-wrap:wrap;gap:8px}main{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+}

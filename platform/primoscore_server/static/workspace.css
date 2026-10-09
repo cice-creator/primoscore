@@ -11,3 +11,15 @@
 .import-issue,#import-error{color:#a33333}
 
 .quick-start{margin-bottom:26px}.quick-start p{min-height:50px}.row-action{display:flex;justify-content:space-between;align-items:center;gap:15px;border-bottom:1px solid #e4ecef;padding:12px 0}.row-action p{margin:6px 0}.row-action a{white-space:nowrap}
+
+/* Mobile controls shared by the workspace and customer pages. */
+@media(max-width:850px){
+ .top{flex-wrap:wrap}.top>a,.tabs a{min-height:44px;display:inline-flex;align-items:center}
+ button,.button{min-height:44px;white-space:normal}input:not([type=checkbox]):not([type=radio]),select,textarea{font-size:16px;min-height:48px;max-width:100%}
+ .grid{grid-template-columns:minmax(0,1fr)}.grid>*,.detail-grid>*,.form-grid>*,.stats>*{min-width:0}
+ .card,article,.stat{overflow-wrap:anywhere}.table-wrap{max-width:100%;overscroll-behavior-x:contain}
+ .row-action{flex-wrap:wrap}.row-action a{min-height:44px;display:inline-flex;align-items:center}
+ dialog{max-height:calc(100dvh - 24px);overflow-y:auto;padding:20px 16px}.dialog-top{gap:10px}.dialog-top button{min-width:44px;flex:none}
+ .import-dialog #import-upload label{min-width:0;width:100%}.pagination{gap:8px;flex-wrap:wrap}.filters{min-width:0}
+ main{padding-bottom:calc(45px + env(safe-area-inset-bottom))}
+}
