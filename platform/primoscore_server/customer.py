@@ -70,9 +70,12 @@ class Customer:
         return actor,view(client)
 
     def acquire(self,d,guest='',ip=''):
-        allowed={'code','first_name','last_name','email','mobile','partner_id','partner_other','privacy_accepted','service_requested','request_id','privacy_version'}
+        allowed={'code','first_name','last_name','email','mobile','partner_id','partner_other','privacy_accepted','service_requested','request_id','privacy_version','simulation_mode','residence_city'}
         if not isinstance(d,dict) or set(d)-allowed:raise AuthError('Richiesta non valida.')
         self.auth.rate('intake-ip',ip,8,3600)
+        mode=d.get('simulation_mode','')
+        if mode not in ('','score','max'):raise AuthError('Percorso non valido.')
+        residence=string(d.get('residence_city',''),'città di residenza',100)
         first=string(d.get('first_name'),'nome',80,True);last=string(d.get('last_name'),'cognome',80,True);email=email_address(d.get('email'))
         if len(first)<2:raise AuthError('Inserisci il tuo nome completo.')
         mobile=string(d.get('mobile'),'cellulare',30,True)
@@ -110,8 +113,8 @@ class Customer:
                     if not p:raise AuthError('Seleziona il professionista nell’elenco.')
                     partner=p['id'];label=p['name']
             client=new_id();account=new_id();questionnaire=new_id()
-            c.execute('INSERT INTO clients(tenant_id,id,partner_id,lot_id,first_name,last_name,email,mobile,created_at) VALUES(?,?,?,?,?,?,?,?,?)',(t,client,partner,lot['id'],first,last,email,mobile,now()))
-            c.execute('INSERT INTO questionnaires(tenant_id,id,client_id,created_at) VALUES(?,?,?,?)',(t,questionnaire,client,now()))
+            c.execute('INSERT INTO clients(tenant_id,id,partner_id,lot_id,first_name,last_name,email,mobile,residence_city,created_at) VALUES(?,?,?,?,?,?,?,?,?,?)',(t,client,partner,lot['id'],first,last,email,mobile,residence,now()))
+            c.execute('INSERT INTO questionnaires(tenant_id,id,client_id,created_at,simulation_mode) VALUES(?,?,?,?,?)',(t,questionnaire,client,now(),mode))
             c.execute('INSERT INTO accounts VALUES(?,?,?,?,?,?,?)',(account,t,client,'customer',email,'pending',now()))
             c.execute('INSERT INTO auth_credentials(account_id,password_changed_at) VALUES(?,?)',(account,self.auth.timestamp()))
             c.execute('INSERT INTO customer_intakes(tenant_id,client_id,request_id,fingerprint,partner_label,privacy_version,privacy_url,accepted_at,source,privacy_acknowledged) VALUES(?,?,?,?,?,?,?,?,?,?)',(t,client,key,fingerprint,label,version,settings['privacy_url'],now(),'campaign_qr' if campaign else 'city_qr',int(has_notice)))
@@ -143,7 +146,7 @@ class Customer:
             data['assessment_completed']=bool(data['result'])
             row=c.execute('SELECT d.verified_at,d.email FROM customer_report_deliveries d JOIN assessments a ON a.id=d.assessment_id AND a.tenant_id=d.tenant_id WHERE d.account_id=? AND a.questionnaire_id=? AND a.answers_revision=? ORDER BY d.rowid DESC LIMIT 1',(actor['id'],data['questionnaire']['id'],data['questionnaire']['revision'])).fetchone()
             data['report_email']=row['email'] if row else client['email']
-            if (not row or row['verified_at'] is None or row['email']!=client['email']) and not (data['result'] and data['result'].get('simulationMode')=='max'):data['result']=None
+            if (not row or row['verified_at'] is None or row['email']!=client['email']):data['result']=None
             return {**data,'temporary_access':actor['status']=='pending','local':self.local}
 
     def save(self,d,session='',guest=''):
@@ -169,7 +172,14 @@ class Customer:
         if q['revision']!=revision:raise AuthError('Le risposte sono cambiate. Ricarica prima di calcolare.',409)
         self.auth.rate('customer-complete',client['tenant_id']+':'+client['id'],10,900)
         if not client['last_name'] or not client['residence_city']:raise AuthError('Completa cognome e città di residenza.')
-        try:result=complete_result(q['answers'])
+        with self.db.transaction() as c:
+            stored=c.execute('SELECT result_json FROM assessments WHERE tenant_id=? AND questionnaire_id=? AND answers_revision=? ORDER BY created_at DESC LIMIT 1',(client['tenant_id'],q['id'],revision)).fetchone()
+        try:
+            if stored:result=json.loads(stored['result_json'])
+            elif q.get('simulation_mode'):
+                from .public_simulation import evaluate
+                _,result=evaluate(q['simulation_mode'],q['answers'])
+            else:result=complete_result(q['answers'])
         except ValueError as e:raise AuthError(str(e)) from e
         with self.db.transaction() as c:
             actor,current=self._client(c,session,guest);t=current['tenant_id']

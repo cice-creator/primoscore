@@ -17,6 +17,12 @@ def register_customer(app,auth,session_token,local):
     @app.get('/cliente/')
     @app.get('/cliente/<section>')
     def customer_page(section='area'):
+        if section=='simulazione':
+            current=service.get(**credentials())
+            with auth.db.transaction() as c:
+                lot=c.execute('SELECT code FROM voucher_lots WHERE tenant_id=? AND id=?',(current['client']['tenant_id'],current['client']['lot_id'])).fetchone()
+            if not lot:return '',404
+            return render_template('simulation.html',code=lot['code'],local=local,resume=True)
         if section not in ('area','questionario','risultato','appuntamento','informativa-prova','report','report-inviato'):return '',404
         return render_template('customer.html',section=section,local=local,code='')
 
