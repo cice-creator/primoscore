@@ -30,7 +30,7 @@ class IntakeRulesTest(unittest.TestCase):
                 result=complete_result(case['answers']);result.pop('intakeVersion')
                 expected=brand(case['expected'])
                 if not expected.get('partial'):
-                    expected['engineVersion']='primoscore-mutuoscore-1.7'
+                    expected['engineVersion']='primoscore-mutuoscore-1.8'
                     if expected['metrics']['subsistence']['status']=='below_threshold':
                         expected['totalScore']=min(expected['totalScore'],59)
                         expected['classification']=score_engine.classify(score_engine.load_constitution()['classification'],expected['totalScore'])
@@ -126,7 +126,7 @@ class CustomerTest(AuthFixture):
         with self.assertRaises(AuthError):self.save(guest,revision=0)
         sent=self.customer.complete({'revision':1},guest=guest);self.assertTrue(sent['report_pending'])
         self.assertIsNone(self.customer.get(guest=guest)['result'])
-        r=self.customer.advisor(self.session,client_id=self.customer.get(guest=guest)['client']['id'])['result'];self.assertEqual(r['totalScore'],86)
+        r=self.customer.advisor(self.session,client_id=self.customer.get(guest=guest)['client']['id'])['result'];self.assertEqual(r['totalScore'],49)
         self.assertTrue(self.customer.complete({'revision':1},guest=guest)['report_pending'])
         self.save(guest,{**BASE,'savings':60000},revision=1)
         self.assertIsNone(self.customer.get(guest=guest)['result'])

@@ -27,28 +27,28 @@
         "iseeBand": "under_or_equal_40k"
       },
       "expected": {
-        "engineVersion": "cicero-mutuoscore-1.5",
-        "totalScore": 86,
-        "rawScore": 86,
-        "classification": "top",
+        "engineVersion": "primoscore-mutuoscore-1.8",
+        "totalScore": 49,
+        "rawScore": 78,
+        "classification": "critico",
         "areaScores": {
           "affidabilita_creditizia": 94,
           "solidita_reddituale": 88,
           "solidita_lavorativa": 92,
           "situazione_familiare": 82,
-          "capacita_risparmio": 88,
+          "capacita_risparmio": 25,
           "comportamento_finanziario": 93,
           "valutazione_operazione": 86,
           "garanzie_supporti": 62
         },
         "strengths": [
           "Storico dei pagamenti dichiarato senza criticità.",
-          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
           "Posizione lavorativa dichiarata come stabile.",
           "Rapporto tra mutuo richiesto e prezzo entro l’80%."
         ],
         "warnings": [
-          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con Andrea."
+          "Disponibilità economica insufficiente per saldare l’acquisto: mancano 15.000 euro rispetto al prezzo non coperto dal mutuo. Servono inoltre fondi per imposte, notaio e altre spese dell’operazione, non incluse in questo importo.",
+          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con il tuo consulente."
         ],
         "metrics": {
           "ltv": 72.0,
@@ -64,6 +64,13 @@
             "monthlyAmount": 950,
             "annualInterestRate": 0.04,
             "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          },
+          "purchaseFunding": {
+            "requiredForPrice": 70000.0,
+            "availableSavings": 55000.0,
+            "shortfall": 15000.0,
+            "availableForCosts": 0,
+            "costsIncluded": false
           }
         },
         "consap": {
@@ -101,28 +108,28 @@
         "iseeUnknown": "yes"
       },
       "expected": {
-        "engineVersion": "cicero-mutuoscore-1.5",
-        "totalScore": 86,
-        "rawScore": 86,
-        "classification": "top",
+        "engineVersion": "primoscore-mutuoscore-1.8",
+        "totalScore": 49,
+        "rawScore": 78,
+        "classification": "critico",
         "areaScores": {
           "affidabilita_creditizia": 94,
           "solidita_reddituale": 88,
           "solidita_lavorativa": 92,
           "situazione_familiare": 82,
-          "capacita_risparmio": 88,
+          "capacita_risparmio": 25,
           "comportamento_finanziario": 93,
           "valutazione_operazione": 86,
           "garanzie_supporti": 62
         },
         "strengths": [
           "Storico dei pagamenti dichiarato senza criticità.",
-          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
           "Posizione lavorativa dichiarata come stabile.",
           "Rapporto tra mutuo richiesto e prezzo entro l’80%."
         ],
         "warnings": [
-          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con Andrea."
+          "Disponibilità economica insufficiente per saldare l’acquisto: mancano 15.000 euro rispetto al prezzo non coperto dal mutuo. Servono inoltre fondi per imposte, notaio e altre spese dell’operazione, non incluse in questo importo.",
+          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con il tuo consulente."
         ],
         "metrics": {
           "ltv": 72.0,
@@ -138,11 +145,18 @@
             "monthlyAmount": 950,
             "annualInterestRate": 0.04,
             "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          },
+          "purchaseFunding": {
+            "requiredForPrice": 70000.0,
+            "availableSavings": 55000.0,
+            "shortfall": 15000.0,
+            "availableForCosts": 0,
+            "costsIncluded": false
           }
         },
         "consap": {
           "accessStatus": "manual_review",
-          "explanation": "L’accesso al Fondo dipende anche da categorie e requisiti ulteriori. Andrea verificherà la tua situazione; questa valutazione non ti esclude dal Fondo."
+          "explanation": "L’accesso al Fondo dipende anche da categorie e requisiti ulteriori. Il tuo consulente verificherà la tua situazione; questa valutazione non ti esclude dal Fondo."
         }
       }
     },
@@ -179,7 +193,7 @@
         ],
         "metrics": {},
         "consap": {
-          "explanation": "Verifica da completare con Andrea."
+          "explanation": "Verifica da completare con il tuo consulente."
         }
       }
     },
@@ -207,7 +221,7 @@
         "propertyFound": "no"
       },
       "expected": {
-        "engineVersion": "cicero-mutuoscore-1.5",
+        "engineVersion": "primoscore-mutuoscore-1.8",
         "totalScore": 86,
         "rawScore": 86,
         "classification": "top",
@@ -228,7 +242,7 @@
           "Rapporto tra mutuo richiesto e prezzo entro l’80%."
         ],
         "warnings": [
-          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con Andrea."
+          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con il tuo consulente."
         ],
         "metrics": {
           "ltv": 72.0,
@@ -244,7 +258,8 @@
             "monthlyAmount": 950,
             "annualInterestRate": 0.04,
             "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
-          }
+          },
+          "purchaseFunding": null
         },
         "consap": {
           "accessStatus": "eligible_possible",
@@ -292,7 +307,7 @@
         ],
         "metrics": {},
         "consap": {
-          "explanation": "Verifica da completare con Andrea."
+          "explanation": "Verifica da completare con il tuo consulente."
         }
       }
     },
@@ -318,28 +333,28 @@
         "supportRole": "none"
       },
       "expected": {
-        "engineVersion": "cicero-mutuoscore-1.5",
-        "totalScore": 86,
-        "rawScore": 86,
-        "classification": "top",
+        "engineVersion": "primoscore-mutuoscore-1.8",
+        "totalScore": 49,
+        "rawScore": 78,
+        "classification": "critico",
         "areaScores": {
           "affidabilita_creditizia": 94,
           "solidita_reddituale": 88,
           "solidita_lavorativa": 92,
           "situazione_familiare": 82,
-          "capacita_risparmio": 88,
+          "capacita_risparmio": 25,
           "comportamento_finanziario": 93,
           "valutazione_operazione": 86,
           "garanzie_supporti": 62
         },
         "strengths": [
           "Storico dei pagamenti dichiarato senza criticità.",
-          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
           "Posizione lavorativa dichiarata come stabile.",
           "Rapporto tra mutuo richiesto e prezzo entro l’80%."
         ],
         "warnings": [
-          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con Andrea."
+          "Disponibilità economica insufficiente per saldare l’acquisto: mancano 15.000 euro rispetto al prezzo non coperto dal mutuo. Servono inoltre fondi per imposte, notaio e altre spese dell’operazione, non incluse in questo importo.",
+          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con il tuo consulente."
         ],
         "metrics": {
           "ltv": 72.0,
@@ -355,11 +370,18 @@
             "monthlyAmount": 950,
             "annualInterestRate": 0.04,
             "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          },
+          "purchaseFunding": {
+            "requiredForPrice": 70000.0,
+            "availableSavings": 55000.0,
+            "shortfall": 15000.0,
+            "availableForCosts": 0,
+            "costsIncluded": false
           }
         },
         "consap": {
           "accessStatus": "manual_review",
-          "explanation": "L’accesso al Fondo dipende anche da categorie e requisiti ulteriori. Andrea verificherà la tua situazione; questa valutazione non ti esclude dal Fondo."
+          "explanation": "L’accesso al Fondo dipende anche da categorie e requisiti ulteriori. Il tuo consulente verificherà la tua situazione; questa valutazione non ti esclude dal Fondo."
         }
       }
     },
@@ -388,29 +410,29 @@
         "supportIncome": 1400
       },
       "expected": {
-        "engineVersion": "cicero-mutuoscore-1.5",
-        "totalScore": 88,
-        "rawScore": 88,
-        "classification": "top",
+        "engineVersion": "primoscore-mutuoscore-1.8",
+        "totalScore": 49,
+        "rawScore": 80,
+        "classification": "critico",
         "areaScores": {
           "affidabilita_creditizia": 94,
           "solidita_reddituale": 94,
           "solidita_lavorativa": 92,
           "situazione_familiare": 82,
-          "capacita_risparmio": 88,
+          "capacita_risparmio": 25,
           "comportamento_finanziario": 93,
           "valutazione_operazione": 86,
           "garanzie_supporti": 76
         },
         "strengths": [
           "Storico dei pagamenti dichiarato senza criticità.",
-          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
           "Posizione lavorativa dichiarata come stabile.",
           "Rapporto indicativo tra reddito e impegni mensili favorevole.",
           "Rapporto tra mutuo richiesto e prezzo entro l’80%."
         ],
         "warnings": [
-          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con Andrea."
+          "Disponibilità economica insufficiente per saldare l’acquisto: mancano 15.000 euro rispetto al prezzo non coperto dal mutuo. Servono inoltre fondi per imposte, notaio e altre spese dell’operazione, non incluse in questo importo.",
+          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con il tuo consulente."
         ],
         "metrics": {
           "ltv": 72.0,
@@ -426,6 +448,13 @@
             "monthlyAmount": 950,
             "annualInterestRate": 0.04,
             "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          },
+          "purchaseFunding": {
+            "requiredForPrice": 70000.0,
+            "availableSavings": 55000.0,
+            "shortfall": 15000.0,
+            "availableForCosts": 0,
+            "costsIncluded": false
           }
         },
         "consap": {
@@ -465,28 +494,28 @@
         "supportIncome": 1800
       },
       "expected": {
-        "engineVersion": "cicero-mutuoscore-1.5",
-        "totalScore": 89,
-        "rawScore": 89,
-        "classification": "top",
+        "engineVersion": "primoscore-mutuoscore-1.8",
+        "totalScore": 49,
+        "rawScore": 81,
+        "classification": "critico",
         "areaScores": {
           "affidabilita_creditizia": 94,
           "solidita_reddituale": 88,
           "solidita_lavorativa": 92,
           "situazione_familiare": 82,
-          "capacita_risparmio": 88,
+          "capacita_risparmio": 25,
           "comportamento_finanziario": 93,
           "valutazione_operazione": 86,
           "garanzie_supporti": 88
         },
         "strengths": [
           "Storico dei pagamenti dichiarato senza criticità.",
-          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
           "Posizione lavorativa dichiarata come stabile.",
           "Rapporto tra mutuo richiesto e prezzo entro l’80%."
         ],
         "warnings": [
-          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con Andrea."
+          "Disponibilità economica insufficiente per saldare l’acquisto: mancano 15.000 euro rispetto al prezzo non coperto dal mutuo. Servono inoltre fondi per imposte, notaio e altre spese dell’operazione, non incluse in questo importo.",
+          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con il tuo consulente."
         ],
         "metrics": {
           "ltv": 72.0,
@@ -502,6 +531,13 @@
             "monthlyAmount": 950,
             "annualInterestRate": 0.04,
             "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          },
+          "purchaseFunding": {
+            "requiredForPrice": 70000.0,
+            "availableSavings": 55000.0,
+            "shortfall": 15000.0,
+            "availableForCosts": 0,
+            "costsIncluded": false
           }
         },
         "consap": {
@@ -539,28 +575,28 @@
         "iseeBand": "under_or_equal_40k"
       },
       "expected": {
-        "engineVersion": "cicero-mutuoscore-1.5",
-        "totalScore": 54,
-        "rawScore": 77,
+        "engineVersion": "primoscore-mutuoscore-1.8",
+        "totalScore": 49,
+        "rawScore": 69,
         "classification": "critico",
         "areaScores": {
           "affidabilita_creditizia": 24,
           "solidita_reddituale": 88,
           "solidita_lavorativa": 92,
           "situazione_familiare": 82,
-          "capacita_risparmio": 88,
+          "capacita_risparmio": 25,
           "comportamento_finanziario": 93,
           "valutazione_operazione": 86,
           "garanzie_supporti": 62
         },
         "strengths": [
-          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
           "Posizione lavorativa dichiarata come stabile.",
           "Rapporto tra mutuo richiesto e prezzo entro l’80%."
         ],
         "warnings": [
+          "Disponibilità economica insufficiente per saldare l’acquisto: mancano 15.000 euro rispetto al prezzo non coperto dal mutuo. Servono inoltre fondi per imposte, notaio e altre spese dell’operazione, non incluse in questo importo.",
           "È stata dichiarata una criticità creditizia ancora attiva.",
-          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con Andrea."
+          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con il tuo consulente."
         ],
         "metrics": {
           "ltv": 72.0,
@@ -576,6 +612,13 @@
             "monthlyAmount": 950,
             "annualInterestRate": 0.04,
             "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          },
+          "purchaseFunding": {
+            "requiredForPrice": 70000.0,
+            "availableSavings": 55000.0,
+            "shortfall": 15000.0,
+            "availableForCosts": 0,
+            "costsIncluded": false
           }
         },
         "consap": {
@@ -612,29 +655,29 @@
         "supportRole": "none"
       },
       "expected": {
-        "engineVersion": "cicero-mutuoscore-1.5",
-        "totalScore": 59,
-        "rawScore": 81,
-        "classification": "difficile",
+        "engineVersion": "primoscore-mutuoscore-1.8",
+        "totalScore": 49,
+        "rawScore": 73,
+        "classification": "critico",
         "areaScores": {
           "affidabilita_creditizia": 94,
           "solidita_reddituale": 88,
           "solidita_lavorativa": 88,
           "situazione_familiare": 82,
-          "capacita_risparmio": 88,
+          "capacita_risparmio": 25,
           "comportamento_finanziario": 75,
           "valutazione_operazione": 68,
           "garanzie_supporti": 62
         },
         "strengths": [
           "Storico dei pagamenti dichiarato senza criticità.",
-          "Disponibilità iniziale coerente con almeno il 20% del prezzo.",
           "Posizione lavorativa dichiarata come stabile.",
           "Rapporto tra mutuo richiesto e prezzo entro l’80%."
         ],
         "warnings": [
+          "Disponibilità economica insufficiente per saldare l’acquisto: mancano 15.000 euro rispetto al prezzo non coperto dal mutuo. Servono inoltre fondi per imposte, notaio e altre spese dell’operazione, non incluse in questo importo.",
           "La somma tra rata stimata e impegni mensili supera una soglia prudenziale.",
-          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con Andrea."
+          "La verifica della sostenibilità con la soglia ISTAT richiede ulteriori dati sul nucleo, da approfondire con il tuo consulente."
         ],
         "metrics": {
           "ltv": 72.0,
@@ -650,13 +693,21 @@
             "monthlyAmount": 1331,
             "annualInterestRate": 0.04,
             "notice": "Importo orientativo puramente indicativo. Non è un’offerta, né un preventivo o una proposta di alcuna banca. Condizioni e rata reali dipendono dall’istruttoria e dal finanziatore."
+          },
+          "purchaseFunding": {
+            "requiredForPrice": 70000.0,
+            "availableSavings": 55000.0,
+            "shortfall": 15000.0,
+            "availableForCosts": 0,
+            "costsIncluded": false
           }
         },
         "consap": {
           "accessStatus": "manual_review",
-          "explanation": "L’accesso al Fondo dipende anche da categorie e requisiti ulteriori. Andrea verificherà la tua situazione; questa valutazione non ti esclude dal Fondo."
+          "explanation": "L’accesso al Fondo dipende anche da categorie e requisiti ulteriori. Il tuo consulente verificherà la tua situazione; questa valutazione non ti esclude dal Fondo."
         }
       }
     }
-  ]
+  ],
+  "local_adaptation": "Expected results updated for purchase funding rules in engine 1.8; synthetic inputs unchanged."
 }

@@ -37,7 +37,7 @@ class ExtractedCoreTest(unittest.TestCase):
                 with patch.object(score_engine, 'urlopen', side_effect=lookup):
                     actual = score_engine.calculate_score(case['answers'])
                 expected = dict(case['expected'])
-                expected['engineVersion'] = 'primoscore-mutuoscore-1.7'
+                expected['engineVersion'] = 'primoscore-mutuoscore-1.8'
                 if expected['metrics']['subsistence']['status'] == 'below_threshold':
                     expected['totalScore'] = min(expected['totalScore'], 59)
                     expected['classification'] = score_engine.classify(score_engine.load_constitution()['classification'], expected['totalScore'])

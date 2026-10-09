@@ -7,14 +7,14 @@
     {
       "source": "server/score_engine.py",
       "destination": "primoscore_core/score_engine.py",
-      "sha256": "14d15a7b8773b2a72ba5972167b7669900b311ba0c8cba54e8eeb34c559ee792",
-      "local_adaptation": "2026-10-08: CONSAP solo prima casa; score massimo 59 sotto la soglia ISTAT di sussistenza."
+      "sha256": "2aeeb56310a56e216b6c00ffaf034cfc454d897333f5adffcf4eeae1c14f11c8",
+      "local_adaptation": "2026-10-09: verifica disponibilità sul saldo prezzo; score massimo 49 con saldo scoperto, 59 senza residuo per spese; motore 1.8."
     },
     {
       "source": "server/mutuoscore_constitution.json",
       "destination": "primoscore_core/mutuoscore_constitution.json",
-      "sha256": "51767066f17c2d339c3c92246ba121ed9bedc82344b7f22121bd49d2bb22c196",
-      "local_adaptation": "2026-10-08: CONSAP solo prima casa; score massimo 59 sotto la soglia ISTAT di sussistenza. 2026-10-09: rata indicativa allineata al parametro interno 4%, versione 1.7."
+      "sha256": "b2dd615fd24dbad79f1b168552d9d08283ac80143aa40df7c809f9cf06157ea2",
+      "local_adaptation": "2026-10-09: verifica disponibilità sul saldo prezzo; score massimo 49 con saldo scoperto, 59 senza residuo per spese; motore 1.8."
     },
     {
       "source": "server/questionnaire.py",

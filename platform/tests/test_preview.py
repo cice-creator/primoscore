@@ -31,7 +31,7 @@ class PreviewTest(unittest.TestCase):
                     self.assertGreater(len(self.client.get('/api/workspace/customers',base_url=self.base).json['clients']),0)
                 if view in ('result','partial','draft'):
                     data=self.client.get('/api/customer',base_url=self.base).json
-                    if view=='result':self.assertEqual(data['result']['totalScore'],86)
+                    if view=='result':self.assertEqual(data['result']['totalScore'],49)
                     elif view=='partial':self.assertTrue(data['result']['partial'])
                     else:self.assertIsNone(data['result'])
                 if view=='master':self.assertEqual(len(self.client.get('/api/master/consultants',base_url=self.base).json['consultants']),2)

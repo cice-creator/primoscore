@@ -20,9 +20,9 @@ class ReportDeliveryTest(CustomerTest):
         payload,token=self.delivery()
         self.assertNotIn('totalScore',payload);self.assertNotIn('answers',payload)
         with self.assertRaises(AuthError):self.customer.report(token)
-        self.assertEqual(self.customer.report(token,verify=True)['result']['totalScore'],86)
-        self.assertEqual(self.customer.get(guest=guest)['result']['totalScore'],86)
-        self.assertEqual(self.customer.report(token)['result']['totalScore'],86)
+        self.assertEqual(self.customer.report(token,verify=True)['result']['totalScore'],49)
+        self.assertEqual(self.customer.get(guest=guest)['result']['totalScore'],49)
+        self.assertEqual(self.customer.report(token)['result']['totalScore'],49)
 
     def test_correction_revoke_resend_and_revision(self):
         guest=self.intake();self.save(guest);self.customer.complete({'revision':1},guest=guest)

@@ -20,9 +20,9 @@ class ReportDeliveryTest(CustomerFixture):
         payload,token=self.delivery()
         self.assertNotIn('totalScore',payload);self.assertNotIn('answers',payload)
         with self.assertRaises(AuthError):self.customer.report(token)
-        self.assertEqual(self.customer.report(token,verify=True)['result']['totalScore'],86)
-        self.assertEqual(self.customer.get(guest=guest)['result']['totalScore'],86)
-        self.assertEqual(self.customer.report(token)['result']['totalScore'],86)
+        self.assertEqual(self.customer.report(token,verify=True)['result']['totalScore'],49)
+        self.assertEqual(self.customer.get(guest=guest)['result']['totalScore'],49)
+        self.assertEqual(self.customer.report(token)['result']['totalScore'],49)
 
     def test_correction_revoke_resend_and_revision(self):
         guest=self.intake();self.save(guest);self.customer.complete({'revision':1},guest=guest)
@@ -65,6 +65,6 @@ class ReportDeliveryTest(CustomerFixture):
         csrf=client.get('/api/auth/csrf',base_url=base).json['csrf']
         response=client.post('/api/customer/report/open',base_url=base,headers={'Origin':base,'X-CSRF-Token':csrf},json={'token':token})
         self.assertEqual(response.status_code,200)
-        self.assertEqual(response.json['result']['totalScore'],86)
+        self.assertEqual(response.json['result']['totalScore'],49)
         self.assertIn('HttpOnly',response.headers['Set-Cookie'])
-        self.assertEqual(client.get('/api/customer/report',base_url=base).json['result']['totalScore'],86)
+        self.assertEqual(client.get('/api/customer/report',base_url=base).json['result']['totalScore'],49)

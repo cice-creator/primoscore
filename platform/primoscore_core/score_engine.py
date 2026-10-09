@@ -58,6 +58,19 @@ def calculate_score(answers):
     areas = {key: clamp(value) for key, value in areas.items()}
     raw_score = round(sum(areas.values()) / len(areas))
     caps, warnings, strengths = outcome_messages(rules, answers, savings, price, ltv, commitment, support_role)
+    funding = purchase_funding(rules, answers, savings, price, loan)
+    if funding:
+        if funding['shortfall'] > 0:
+            caps.append(rules['purchase_funding']['shortfall_score_cap'])
+            areas['capacita_risparmio'] = min(areas['capacita_risparmio'], 25)
+            raw_score = round(sum(areas.values()) / len(areas))
+            amount = f"{funding['shortfall']:,.0f}".replace(',', '.')
+            warnings.insert(0, f"Disponibilità economica insufficiente per saldare l’acquisto: mancano {amount} euro rispetto al prezzo non coperto dal mutuo. Servono inoltre fondi per imposte, notaio e altre spese dell’operazione, non incluse in questo importo.")
+        elif funding['availableForCosts'] == 0:
+            caps.append(rules['purchase_funding']['no_cost_reserve_score_cap'])
+            warnings.insert(0, "I risparmi coprono soltanto la quota del prezzo non finanziata dal mutuo: non rimane disponibilità per imposte, notaio e altre spese dell’operazione. Occorrono ulteriori fondi da quantificare con il consulente.")
+        if funding['shortfall'] > 0:
+            strengths = [message for message in strengths if message != "Disponibilità iniziale coerente con almeno il 20% del prezzo."]
     subsistence = calculate_subsistence(rules["istat_sussistenza"], answers, total_income, debts, payment)
     if subsistence["status"] == "below_threshold":
         caps.append(rules["istat_sussistenza"]["below_threshold_score_cap"])
@@ -71,8 +84,18 @@ def calculate_score(answers):
     return {"engineVersion": rules["version"], "totalScore": final_score, "rawScore": raw_score,
             "classification": classify(rules["classification"], final_score), "areaScores": areas,
             "strengths": unique(strengths)[:5], "warnings": unique(warnings)[:6],
-            "metrics": {"ltv": round(ltv, 1), "estimatedMonthlyPayment": round(payment), "commitmentRatio": round(commitment, 1), "totalHouseholdIncome": round(total_income), "subsistence": subsistence, "indicativePayment": indicative_payment},
+            "metrics": {"ltv": round(ltv, 1), "estimatedMonthlyPayment": round(payment), "commitmentRatio": round(commitment, 1), "totalHouseholdIncome": round(total_income), "subsistence": subsistence, "indicativePayment": indicative_payment, "purchaseFunding": funding},
             "consap": evaluate_consap(rules["consap"], answers, ltv)}
+
+
+def purchase_funding(rules, answers, savings, price, loan):
+    """Confronta i risparmi con il saldo del prezzo, senza inventare spese accessorie."""
+    if answers.get('purpose') not in rules['purchase_funding']['purposes'] or price <= 0 or loan <= 0 or answers.get('propertyFound') == 'no':
+        return None
+    own_funds = max(0, price - loan)
+    return {'requiredForPrice': round(own_funds, 2), 'availableSavings': round(savings, 2),
+            'shortfall': round(max(0, own_funds - savings), 2),
+            'availableForCosts': round(max(0, savings - own_funds), 2), 'costsIncluded': False}
 
 
 def calculate_indicative_payment(rule, loan, term):

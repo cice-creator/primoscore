@@ -6,7 +6,7 @@ from test_consap_purpose import BASE
 class IstatScoreTest(unittest.TestCase):
     def score(self,status,answers=None):
         with patch.object(score_engine,'calculate_subsistence',return_value={'status':status,'message':'Verifica da completare.'}):
-            return score_engine.calculate_score(answers or BASE)
+            return score_engine.calculate_score(answers or {**BASE, 'savings': 80000})
 
     def test_below_threshold_limits_otherwise_good_score(self):
         good=self.score('adequate'); low=self.score('below_threshold')
